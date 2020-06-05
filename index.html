@@ -10,12 +10,34 @@
 
     <title>Rasmus Nielsen</title>
     <style>
-      .card {
-        background: url("/img/TestSecond.jpg") no-repeat;
+      .img {
+        position: relative;
+        height: 200px;
+        width: 257px;
         margin: 50px;
       }
-      .card:hover {
-        background: url("/img/TestFirst.jpg") no-repeat;
+
+      .img__description {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.72);
+        color: #fff;
+        visibility: hidden;
+        opacity: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        /* transition effect. not necessary */
+        transition: opacity .2s, visibility .2s;
+      }
+      
+      .img:hover .img__description {
+        visibility: visible;
+        opacity: 1;
       }
     </style>
       
@@ -23,7 +45,10 @@
   <body>
     <h1>Hello, world!</h1>
 
-    <div class="card"></div>
+    <div class="img">
+      <img class="img__img" src="/img/TestFirst.jpg" alt="Bachelor project">
+      <p class="img__description">Bachelor project</p>
+    </div>
     
     <!-- jQuery first, then Tether, then Bootstrap JS. -->
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
