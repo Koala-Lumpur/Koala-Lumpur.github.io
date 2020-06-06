@@ -30,27 +30,33 @@
         height: auto;
       }
 
-      .img__description {
+      .overlay {
         position: absolute;
         top: 0;
         bottom: 0;
         left: 0;
         right: 0;
-        background: rgba(0, 0, 0, 0.72);
-        color: #fff;
-        visibility: hidden;
+        height: 100%;
+        width: 100%;
         opacity: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        /* transition effect. not necessary */
-        transition: opacity .2s, visibility .2s;
+        transition: .5s ease;
+        background: rgba(0, 0, 0, 0.72);
       }
       
-      .img:hover .img__description {
-        visibility: visible;
+      .container:hover .overlay {
         opacity: 1;
+      }
+
+      .text {
+        color: white;
+        font-size: 20px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        text-align: center;
       }
     </style>
       
@@ -65,9 +71,9 @@
     </div>
 
     <div class="container">
-      <div class="img">
-        <img src="/img/6th.png" alt="Bachelor project" class="img" style="width:100%">
-        <p class="img__description">Bachelor project</p>
+      <img src="/img/6th.png" alt="Bachelor project" class="img">
+      <div class="overlay">
+        <div class="text">Bachelor project</div>
       </div>
     </div>
       
@@ -75,15 +81,14 @@
       
       <div class="row">
         <div class="col-md-6 col-lg-3">
-          <div class="img">
-            <img src="/img/6th.png" alt="Bachelor project" class="img" style="width:100%">
-            <p class="img__description">Bachelor project</p>
+          <img src="/img/6th.png" alt="Bachelor project" class="img">
+          <div class="overlay">
+            <div class="text">Bachelor project</div>
           </div>
-        </div>
         <div class="col-md-6 col-lg-3">
-          <div class="img">
-            <img class="img__img" src="/img/5th.png" alt="5th semester project" style="width:100%">
-            <p class="img__description">5th semester project</p>
+          <img class="img__img" src="/img/5th.png" alt="5th semester project">
+          <div class="overlay">
+            <div class="text">Bachelor project</div>
           </div>
         </div>
       </div>
