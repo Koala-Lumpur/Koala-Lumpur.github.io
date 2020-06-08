@@ -207,6 +207,32 @@
       fitText(document.getElementById('fittext4'), 1.2);
     </script>
 
+    <script>
+      $('#proj1Carousel').hide(0);
+      $('#closeButton').hide(0);
+      var toggle = false;
+      $('.toggle-item').click(function(event) {
+        $('#closeButton').show(300);
+        if(event.target.id == 'fittext1') {
+          $('#proj1Desc').collapse('toggle');
+          $('#fittext1').hide(0); $('#proj1Carousel').show(300); $('#proj1').hide(0);
+          $("#project2").hide(300); $("#project3").hide(300); $("#project4").hide(300);
+        } else if(event.target.id == 'fittext2') {
+          $("#project1").hide(300); $("#project3").hide(300); $("#project4").hide(300);
+        } else if(event.target.id == 'fittext3') {
+          $("#project1").hide(300); $("#project2").hide(300); $("#project4").hide(300);
+        } else if(event.target.id == 'fittext4') {
+          $("#project1").hide(300); $("#project2").hide(300); $("#project3").hide(300);
+        }
+      });
+
+      $('.close-item').click(function() {
+        $('#proj1Desc').collapse('toggle');
+        $('#fittext1').show(0); $('#proj1Carousel').hide(0); $('#closeButton').hide(0); $('#proj1').show(0);
+        $("#project1").show(300); $("#project2").show(300); $("#project3").show(300); $("#project4").show(300);
+      });
+    </script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
       $(document).ready(function(){
@@ -235,31 +261,7 @@
       });
     </script>
   
-    <script>
-      $('#proj1Carousel').hide(0);
-      $('#closeButton').hide(0);
-      var toggle = false;
-      $('.toggle-item').click(function(event) {
-        $('#closeButton').show(300);
-        if(event.target.id == 'fittext1') {
-          $('#proj1Desc').collapse('toggle');
-          $('#fittext1').hide(0); $('#proj1Carousel').show(300); $('#proj1').hide(0);
-          $("#project2").hide(300); $("#project3").hide(300); $("#project4").hide(300);
-        } else if(event.target.id == 'fittext2') {
-          $("#project1").hide(300); $("#project3").hide(300); $("#project4").hide(300);
-        } else if(event.target.id == 'fittext3') {
-          $("#project1").hide(300); $("#project2").hide(300); $("#project4").hide(300);
-        } else if(event.target.id == 'fittext4') {
-          $("#project1").hide(300); $("#project2").hide(300); $("#project3").hide(300);
-        }
-      });
-      
-      $('.close-item').click(function() {
-        $('#proj1Desc').collapse('toggle');
-        $('#fittext1').show(0); $('#proj1Carousel').hide(0); $('#closeButton').hide(0); $('#proj1').show(0);
-        $("#project1").show(300); $("#project2").show(300); $("#project3").show(300); $("#project4").show(300);
-      });
-    </script>
+    
     
   </body>
 </html>
