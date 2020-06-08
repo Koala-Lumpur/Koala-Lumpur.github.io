@@ -10,6 +10,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/../P5_Unity_Backup/UdpToOsc/Assets/5_Scripts/ScreenRaycaster.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
@@ -42,7 +45,8 @@
       <updated>1591443932399</updated>
       <workItem from="1591443935828" duration="16940000" />
       <workItem from="1591541960442" duration="599000" />
-      <workItem from="1591563227656" duration="6114000" />
+      <workItem from="1591563227656" duration="6397000" />
+      <workItem from="1591628966052" duration="1513000" />
     </task>
     <servers />
   </component>
