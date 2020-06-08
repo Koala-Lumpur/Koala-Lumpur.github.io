@@ -114,13 +114,13 @@
       <div class="row">
         <div class="col-lg" id="project1" data-toggle="collapse" data-target="#proj1Desc" style="padding: 10px">
           <div class="img toggle-item">
-            <img src="/img/P6_1.png" alt="Verdant City" class="img-fluid">
-            <p class="img__description text-center" id="fittext1" style="user-select: none;">Verdant City</p>
+            <img src="/img/P6_1.png" alt="Verdant City" class="img-fluid" style="user-select: none;">
+            <p class="img__description text-center" id="fittext1">Verdant City</p>
           </div>
         </div>
         <div class="col-lg" id="project2" data-toggle="collapse" data-target="#proj2Desc" style="padding: 10px">
           <div class="img toggle-item">
-            <img src="/img/P5_1.png" alt="Interface for Spatial Audio Mixing in Virtual Reality" class="img-fluid">
+            <img src="/img/P5_1.png" alt="Interface for Spatial Audio Mixing in Virtual Reality" class="img-fluid" style="user-select: none;">
             <p class="img__description text-center" id="fittext2" style="user-select: none;">Interface for Spatial Audio Mixing in Virtual Reality</p>
           </div>
         </div>
@@ -129,14 +129,14 @@
       <div class="row" >
         <div class="col-lg" id="project3" data-toggle="collapse" data-target="#proj3Desc" style="padding: 10px">
           <div class="img toggle-item">
-            <img src="/img/P2_1.JPG" alt="Imitation of Natural Settings in Virtual Reality for Relaxation" class="img-fluid">
+            <img src="/img/P2_1.JPG" alt="Imitation of Natural Settings in Virtual Reality for Relaxation" class="img-fluid" style="user-select: none;">
             <p class="img__description text-center" id="fittext3" style="user-select: none;">Imitation of Natural Settings in Virtual Reality for Relaxation</p>
           </div>
         </div>
 
         <div class="col-lg" id="project4" data-toggle="collapse" data-target="#proj4Desc" style="padding: 10px">
           <div class="img toggle-item">
-            <img src="/img/AIP_1.png" alt="Puzzle Solving Machine Learning Agent" class="img-fluid">
+            <img src="/img/AIP_1.png" alt="Puzzle Solving Machine Learning Agent" class="img-fluid" style="user-select: none;">
             <p class="img__description text-center" id="fittext4" style="user-select: none;">Puzzle Solving Machine Learning Agent</p>
           </div>
         </div>
@@ -213,6 +213,7 @@
         if(toggle) {
           
           if(event.target.id == 'fittext1') {
+            $('#fittext1').hide(300);
             $("#project2").hide(300); $("#project3").hide(300); $("#project4").hide(300);
           } else if(event.target.id == 'fittext2') {
             $("#project1").hide(300); $("#project3").hide(300); $("#project4").hide(300);
@@ -222,6 +223,7 @@
             $("#project1").hide(300); $("#project2").hide(300); $("#project3").hide(300);
           }
         } else {
+          $('#fittext1').show(300);
           $("#project1").show(300); $("#project2").show(300); $("#project3").show(300); $("#project4").show(300);
         }
         
