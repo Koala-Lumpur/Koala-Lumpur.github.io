@@ -242,7 +242,7 @@
       $('.toggle-item').click(function(event) {
         $('#closeButton').show(300);
         if(event.target.id == 'fittext1') {
-          $('#proj1Desc').collapse('toggle').promise().done();
+          $('#proj1Desc').collapse('toggle');
           $('#fittext1').hide(0); $('#proj1Carousel').show(300); $('#proj1').hide(0);
           $("#project2").hide(300); $("#project3").hide(300); $("#project4").hide(300);
         } else if(event.target.id == 'fittext2') {
