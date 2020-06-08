@@ -242,7 +242,6 @@
       $('.toggle-item').click(function(event) {
         $('#closeButton').show(300);
         if(event.target.id == 'fittext1') {
-          $('#proj1Desc').collapse('show');
           $('#fittext1').hide(0); $('#proj1Carousel').show(300); $('#proj1').hide(0);
           $("#project2").hide(300); $("#project3").hide(300); $("#project4").hide(300);
         } else if(event.target.id == 'fittext2') {
@@ -255,7 +254,6 @@
       });
       
       $('.close-item').click(function() {
-        $('#proj1Desc').collapse('hide');
         $('#fittext1').show(0); $('#proj1Carousel').hide(0); $('#closeButton').hide(0); $('#proj1').show(0);
         $("#project1").show(300); $("#project2").show(300); $("#project3").show(300); $("#project4").show(300);
       });
