@@ -114,7 +114,7 @@
       <div class="row">
         <div class="col-lg" id="project1" data-toggle="collapse" data-target="#proj1Desc" style="padding: 10px">
           <div class="img toggle-item">
-            <img src="/img/P6_1.png" alt="Verdant City" class="img-fluid" style="user-select: none;">
+            <img src="/img/P6_1.png" alt="Verdant City" class="img-fluid" id="proj1" style="user-select: none;">
             <p class="img__description text-center" id="fittext1">Verdant City</p>
             <div id="proj1Carousel" class="carousel slide" data-ride="carousel">
               <div class="carousel-inner">
@@ -236,7 +236,7 @@
         if(toggle) {
           
           if(event.target.id == 'fittext1') {
-            $('#fittext1').hide(0); $('#proj1Carousel').show(300);
+            $('#fittext1').hide(0); $('#proj1Carousel').show(300); $('#proj1').hide(0);
             $("#project2").hide(300); $("#project3").hide(300); $("#project4").hide(300);
           } else if(event.target.id == 'fittext2') {
             $("#project1").hide(300); $("#project3").hide(300); $("#project4").hide(300);
