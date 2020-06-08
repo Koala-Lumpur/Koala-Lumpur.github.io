@@ -113,13 +113,13 @@
 
       <div class="row">
         <div class="col-lg" id="project1" style="padding: 10px">
-          <div class="img">
+          <div class="img toggle-item">
             <img src="/img/P6_1.png" alt="Verdant City" class="img-fluid">
             <p class="img__description text-center" id="fittext1" style="user-select: none;">Verdant City</p>
           </div>
         </div>
         <div class="col-lg" id="project2" style="padding: 10px">
-          <div class="img">
+          <div class="img toggle-item">
             <img src="/img/P5_1.png" alt="Interface for Spatial Audio Mixing in Virtual Reality" class="img-fluid">
             <p class="img__description text-center" id="fittext2" style="user-select: none;">Interface for Spatial Audio Mixing in Virtual Reality</p>
           </div>
@@ -128,14 +128,14 @@
 
       <div class="row" >
         <div class="col-lg" id="project3" style="padding: 10px">
-          <div class="img">
+          <div class="img toggle-item">
             <img src="/img/P2_1.JPG" alt="Imitation of Natural Settings in Virtual Reality for Relaxation" class="img-fluid">
             <p class="img__description text-center" id="fittext3" style="user-select: none;">Imitation of Natural Settings in Virtual Reality for Relaxation</p>
           </div>
         </div>
 
         <div class="col-lg" id="project4" style="padding: 10px">
-          <div class="img">
+          <div class="img toggle-item">
             <img src="/img/AIP_1.png" alt="Puzzle Solving Machine Learning Agent" class="img-fluid">
             <p class="img__description text-center" id="fittext4" style="user-select: none;">Puzzle Solving Machine Learning Agent</p>
           </div>
@@ -191,8 +191,10 @@
     </script>
   
     <script>
-      $(function() {
-        $('#project1').hide(1000);
+      $('.toggle-item').click(function() {
+        var item = ['#project1', '#project2', '#project3', '#project4'];
+        var id = $(this).attr("id");
+        alert(id);
       });
     </script>
     
