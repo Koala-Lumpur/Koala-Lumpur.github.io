@@ -191,10 +191,9 @@
     </script>
   
     <script>
-      $('.toggle-item').click(function() {
+      $('.toggle-item').click(function(event) {
         var item = ['#project1', '#project2', '#project3', '#project4'];
-        var id = $(this).attr("id");
-        alert(id);
+        alert(event.target.id);
       });
     </script>
     
