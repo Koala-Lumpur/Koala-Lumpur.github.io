@@ -194,7 +194,7 @@
 
             <div id="proj3Carousel" class="carousel slide" data-ride="carousel">
               <div class="carousel-inner">
-                <div class="carousel-item">
+                <div class="carousel-item active">
                   <img class="d-block w-100" src="/img/P2_1.JPG" alt="First slide">
                 </div>
                 <div class="carousel-item">
@@ -227,7 +227,7 @@
 
             <div id="proj4Carousel" class="carousel slide" data-ride="carousel">
               <div class="carousel-inner">
-                <div class="carousel-item">
+                <div class="carousel-item active">
                   <img class="d-block w-100" src="/img/AIP_1.png" alt="First slide">
                 </div>
                 <div class="carousel-item">
@@ -288,6 +288,7 @@
       $('#closeButton').hide(0);
       $('.toggle-item').click(function(event) {
         $('#closeButton').show(300);
+        alert(event.target.id);
         if(event.target.id == 'fittext1') {
           $("#proj1Desc").collapse('show');
           $('#fittext1').hide(0); $('#proj1Carousel').show(0); $('#proj1').hide(0);
