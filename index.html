@@ -191,6 +191,32 @@
           <div class="img toggle-item">
             <img src="/img/P2_1.JPG" alt="Imitation of Natural Settings in Virtual Reality for Relaxation" class="img-fluid" id="proj3" style="user-select: none;">
             <p class="img__description text-center" id="fittext3" style="user-select: none;">Imitation of Natural Settings in Virtual Reality for Relaxation</p>
+
+            <div id="proj3Carousel" class="carousel slide" data-ride="carousel">
+              <div class="carousel-inner">
+                <div class="carousel-item">
+                  <img class="d-block w-100" src="/img/P2_1.JPG" alt="First slide">
+                </div>
+                <div class="carousel-item">
+                  <img class="d-block w-100" src="/img/P2_2.JPG" alt="Second slide">
+                </div>
+                <div class="carousel-item">
+                  <img class="d-block w-100" src="/img/P2_3.JPG" alt="Third slide">
+                </div>
+                <div class="carousel-item">
+                  <img class="d-block w-100" src="/img/P2_4.JPG" alt="Fourth slide">
+                </div>
+              </div>
+              <a class="carousel-control-prev" href="#proj3Carousel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next" href="#proj3Carousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+            
           </div>
         </div>
 
@@ -198,6 +224,29 @@
           <div class="img toggle-item">
             <img src="/img/AIP_1.png" alt="Puzzle Solving Machine Learning Agent" class="img-fluid" id="proj4" style="user-select: none;">
             <p class="img__description text-center" id="fittext4" style="user-select: none;">Puzzle Solving Machine Learning Agent</p>
+
+            <div id="proj4Carousel" class="carousel slide" data-ride="carousel">
+              <div class="carousel-inner">
+                <div class="carousel-item">
+                  <img class="d-block w-100" src="/img/AIP_1.png" alt="First slide">
+                </div>
+                <div class="carousel-item">
+                  <img class="d-block w-100" src="/img/AIP_2.png" alt="Second slide">
+                </div>
+                <div class="carousel-item">
+                  <img class="d-block w-100" src="/img/AIP_3.png" alt="Third slide">
+                </div>
+              </div>
+              <a class="carousel-control-prev" href="#proj4Carousel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next" href="#proj4Carousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+            
           </div>
         </div>
       </div>
@@ -235,6 +284,7 @@
     <script>
       $('#proj1Carousel').hide(0);
       $('#proj2Carousel').hide(0);
+      $('#proj3Carousel').hide(0);
       $('#closeButton').hide(0);
       var toggle = false;
       $('.toggle-item').click(function(event) {
@@ -248,8 +298,12 @@
           $('#fittext2').hide(0); $('#proj2Carousel').show(0); $('#proj2').hide(0);
           $("#project1").hide(300); $("#project3").hide(300); $("#project4").hide(300);
         } else if(event.target.id == 'fittext3') {
+          $("#proj3Desc").collapse('show');
+          $('#fittext3').hide(0); $('#proj3Carousel').show(0); $('#proj3').hide(0);
           $("#project1").hide(300); $("#project2").hide(300); $("#project4").hide(300);
         } else if(event.target.id == 'fittext4') {
+          $("#proj4Desc").collapse('show');
+          $('#fittext4').hide(0); $('#proj4Carousel').show(0); $('#proj4').hide(0);
           $("#project1").hide(300); $("#project2").hide(300); $("#project3").hide(300);
         }
       });
@@ -259,6 +313,8 @@
         $('#closeButton').hide(0);
         $('#fittext1').show(0); $('#proj1Carousel').hide(0); $('#proj1').show(0);
         $('#fittext2').show(0); $('#proj2Carousel').hide(0); $('#proj2').show(0);
+        $('#fittext3').show(0); $('#proj3Carousel').hide(0); $('#proj3').show(0);
+        $('#fittext4').show(0); $('#proj4Carousel').hide(0); $('#proj4').show(0);
         $("#project1").show(300); $("#project2").show(300); $("#project3").show(300); $("#project4").show(300);
       });
     </script>
