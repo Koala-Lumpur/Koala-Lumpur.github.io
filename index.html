@@ -8,9 +8,83 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="bootstrap-social.css" rel="stylesheet" >
 
+    <!-- Load the Paper.js library -->
+    <script type="text/javascript" src="Paper/paper-full.js"></script>
+    <!-- Define inlined PaperScript associate it with myCanvas -->
+    <script type="text/paperscript" canvas="canvas">
+      var count = 300;
+      
+      var path = new Path.Circle({
+        center: [0, 0],
+        radius: 10,
+        fillColor: 'white',
+        strokeColor: 'black'
+      });
+
+      var click = false;
+      var symbol = new Symbol(path);
+      
+      for (var i = 0; i < count; i++) {
+        var center = Point.random() * view.size;
+        var placedSymbol = symbol.place(center);
+        placedSymbol.scale(i / count);
+      }
+      
+      function onFrame(event) {
+
+        for (var i = 0; i < count; i++) {
+          var item = project.activeLayer.children[i];
+
+          item.position.y += item.bounds.height / 20;
+          
+          if (item.bounds.top > view.size.height) {
+            item.position.y = -item.bounds.height;
+          }
+        }
+      }
+      
+      function onMouseMove(event) {
+        if(!click) {
+          for (var i = 0; i < count; i++) {
+            var item = project.activeLayer.children[i];
+            var distance = item.position.getDistance(event.point);
+            if(distance < 100) {
+              var d = item.position - event.point;
+              item.position += d * 0.1;
+            }
+          }
+        }
+      }
+
+      function onMouseDrag(event) {
+        click = true;
+        for (var i = 0; i < count; i++) {
+          var item = project.activeLayer.children[i];
+          var distance = item.position.getDistance(event.point);
+          if(distance < 100) {
+            var d = item.position - event.point;
+            item.position -= d * 0.1;
+          }
+        }
+      }
+
+      function onMouseUp(event) {click = false;}
+    </script>
+
     <title>Rasmus Nielsen</title>
     
     <style>
+      canvas {
+        width: 100%;
+        background: black;
+      }
+
+      .centered {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
 
       * {
         margin: 0;
@@ -57,9 +131,21 @@
       
   </head>
   <body id="home">
+
+    <div class="container" style="margin: 0; padding: 0; width: 100%;">
+      <canvas id="canvas" resize hidpi="off" style="filter:blur(5px)"></canvas>
+      <div class="centered">
+        <div class="jumbotron jumbotron-fluid bg-faded text-white text-center" style="background:rgba(66,66,66,.5); pointer-events: none;">
+          <div class="container">
+            <h1 class="display-1" style="user-select: none; pointer-events: none;">Rasmus Nielsen</h1>
+            <p class="lead" style="user-select: none; pointer-events: none;">Programmer & Game Developer</p>
+          </div>
+        </div>
+      </div>
+    </div>
   
     <nav class="navbar navbar-toggleable-sm navbar-inverse sticky-top" style="background-color:#333">
-      <div class="container">
+      <div class="container" style="padding:0; margin:0;">
         <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNav">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -73,13 +159,6 @@
         </div>
       </div>
     </nav>
-  
-    <div class="jumbotron jumbotron-fluid bg-faded text-white text-center" style="background:#333;">
-      <div class="container">
-        <h1 class="display-1">Rasmus Nielsen</h1>
-        <p class="lead">Programmer & Game Developer</p>
-      </div>
-    </div>
 
     <div id="about" class="container">
       <h2 class="display-4 text-center py-5 my-4">About me</h2>
@@ -274,7 +353,7 @@
                 dynamic, depending on the amount of health the player has, new instruments are introduced to the simple 
                 music loop for every 25% decrease in health. </p>
             </div>
-            <div class="col-lg" style="margin-right: 50px; margin-left: 50px">
+            <div class="col-md col-lg" style="margin-right: 50px; margin-left: 50px">
               <h6>Technologies</h6>
               <ul>
                 <li>C#</li>
@@ -294,7 +373,7 @@
         <div class="card card-body">
           <h2 class="text-center py-4">Interface for Spatial Audio Mixing in Virtual Reality</h2>
           <div class="row">
-            <div class="col-lg" style="margin-right: 50px; margin-left: 50px">
+            <div class="col-md col-lg" style="margin-right: 50px; margin-left: 50px">
               <h6>Description</h6>
               <p>This is a VR interface for spatial audio mixing. It was developed in a group of five, I was mostly 
                 working as the Unity developer. This interface, integrates Unity with Max for Live, which we can then 
@@ -307,7 +386,7 @@
                 data through a set of Head-Related Impulse Responses, where finally it will output the appropriate sound 
                 for that azimuth.</p>
             </div>
-            <div class="col-lg" style="margin-right: 50px; margin-left: 50px">
+            <div class="col-md col-lg" style="margin-right: 50px; margin-left: 50px">
               <h6>Technologies</h6>
               <ul>
                 <li>C#</li>
@@ -329,7 +408,7 @@
         <div class="card card-body">
           <h2 class="text-center py-4">Imitation of Natural Settings in Virtual Reality for Relaxation</h2>
           <div class="row">
-            <div class="col-lg" style="margin-right: 50px; margin-left: 50px">
+            <div class="col-md col-lg" style="margin-right: 50px; margin-left: 50px">
               <h6>Description</h6>
               <p>This was developed in a group of five people, where I was mainly the programmer and level designer. 
                 The purpose of the project was to develop a VR experience, that would relieve a person's stress, by 
@@ -358,7 +437,7 @@
         <div class="card card-body">
           <h2 class="text-center py-4">Puzzle Solving Machine Learning Agent</h2>
           <div class="row">
-            <div class="col-lg" style="margin-right: 50px; margin-left: 50px">
+            <div class="col-md col-lg" style="margin-right: 50px; margin-left: 50px">
               <h6>Description</h6>
               <p>This was a solo project of mine. Here I taught Artificial Intelligence (AI) agents to solve a puzzle. 
                 The task of the agent is to reach the goal, but the goal is only reachable once a pressure plate is 
@@ -370,7 +449,7 @@
                 <a href="https://github.com/Unity-Technologies/ml-agents">Unity ML Agents</a> package, which depends 
                 on the Machine Learning library, TensorFlow.</p>
             </div>
-            <div class="col-lg" style="margin-right: 50px; margin-left: 50px">
+            <div class="col-md col-lg" style="margin-right: 50px; margin-left: 50px">
               <h6>Technologies</h6>
               <ul>
                 <li>C#</li>
