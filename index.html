@@ -22,8 +22,8 @@
       });
 
       var click = false;
-      var symbol = new Symbol(path);
       
+      var symbol = new Symbol(path);
       for (var i = 0; i < count; i++) {
         var center = Point.random() * view.size;
         var placedSymbol = symbol.place(center);
@@ -31,12 +31,9 @@
       }
       
       function onFrame(event) {
-
         for (var i = 0; i < count; i++) {
           var item = project.activeLayer.children[i];
-
           item.position.y += item.bounds.height / 20;
-          
           if (item.bounds.top > view.size.height) {
             item.position.y = -item.bounds.height;
           }
@@ -135,7 +132,7 @@
     <div class="container" style="margin: 0; padding: 0; width: 100%;">
       <canvas id="canvas" resize hidpi="off" style="filter:blur(5px)"></canvas>
       <div class="centered">
-        <div class="jumbotron jumbotron-fluid bg-faded text-white text-center" style="background:rgba(66,66,66,.5); pointer-events: none;">
+        <div class="jumbotron text-white text-center" style="background:rgba(66,66,66,.5); pointer-events: none;">
           <div class="container">
             <h1 class="display-1" style="user-select: none; pointer-events: none;">Rasmus Nielsen</h1>
             <p class="lead" style="user-select: none; pointer-events: none;">Programmer & Game Developer</p>
