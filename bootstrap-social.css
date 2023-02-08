@@ -145,3 +145,9 @@
 .btn-yahoo:active,.btn-yahoo.active,.open>.dropdown-toggle.btn-yahoo{background-image:none}
 .btn-yahoo.disabled:hover,.btn-yahoo[disabled]:hover,fieldset[disabled] .btn-yahoo:hover,.btn-yahoo.disabled:focus,.btn-yahoo[disabled]:focus,fieldset[disabled] .btn-yahoo:focus,.btn-yahoo.disabled.focus,.btn-yahoo[disabled].focus,fieldset[disabled] .btn-yahoo.focus{background-color:#720e9e;border-color:rgba(0,0,0,0.2)}
 .btn-yahoo .badge{color:#720e9e;background-color:#fff}
+.btn-itch-io{color:#fff;background-color:#fa5c5c;border-color:rgba(0,0,0,0.2)}.btn-itch-io:focus,.btn-itch-io.focus{color:#fff;background-color:#bb4646;border-color:rgba(0,0,0,0.2)}
+.btn-itch-io:hover{color:#fff;background-color:#bb4646;border-color:rgba(0,0,0,0.2)}
+.btn-itch-io:active,.btn-itch-io.active,.open>.dropdown-toggle.btn-itch-io{color:#fff;background-color:#bb4646;border-color:rgba(0,0,0,0.2)}.btn-itch-io:active:hover,.btn-itch-io.active:hover,.open>.dropdown-toggle.btn-itch-io:hover,.btn-itch-io:active:focus,.btn-itch-io.active:focus,.open>.dropdown-toggle.btn-itch-io:focus,.btn-itch-io:active.focus,.btn-itch-io.active.focus,.open>.dropdown-toggle.btn-itch-io.focus{color:#fff;background-color:#7a2121;border-color:rgba(0,0,0,0.2)}
+.btn-itch-io:active,.btn-itch-io.active,.open>.dropdown-toggle.btn-itch-io{background-image:none}
+.btn-itch-io.disabled:hover,.btn-itch-io[disabled]:hover,fieldset[disabled] .btn-itch-io:hover,.btn-itch-io.disabled:focus,.btn-itch-io[disabled]:focus,fieldset[disabled] .btn-itch-io:focus,.btn-itch-io.disabled.focus,.btn-itch-io[disabled].focus,fieldset[disabled] .btn-itch-io.focus{background-color:#fa5c5c;border-color:rgba(0,0,0,0.2)}
+.btn-itch-io .badge{color:#fa5c5c;background-color:#fff}

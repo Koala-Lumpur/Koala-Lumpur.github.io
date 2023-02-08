@@ -165,25 +165,29 @@
       <div class="row">
         <div class="col-lg" style="margin-right: 50px; margin-left: 50px">
           <h4>Background</h4>
-          <p>My name is Rasmus Nielsen. I have a Bachelor's degree of Science (BSc) in Medialogy. 
-            I tend to have most interest in programming, and it is by far my strong point. I have always had an interest in programming, 
-            even starting to get a grip of it in primary school. I have also worked extensively with the Unity game engine. However, I 
-            just finished <a href="https://www.udemy.com/course/unrealcourse/" target="_blank">this course</a> on the Unreal Engine on Udemy, 
-            which focusses on C++ implementation, rather than the engine's blueprint system</p>
+          <p>My name is Rasmus Nielsen. I have a Bachelor's degree of Science (BSc) in Medialogy. I have always had an interest in programming, 
+            even starting to get a grip of it in primary school. Through my programming journey, I have worked mostly within game development. 
+            I have by far the most experience with Unity, and know my way around with most of the systems such as: scripting, materials, lighting, 
+            audio and much more. I have also been using the Unreal Engine, where I am currently spending time getting to grips with the engine and 
+            their blueprint system, along with C++ programming. In my early days I also worked with GameMaker Studio and RPG Maker, both of which 
+            are less programming-focused. I have also released a couple of mods for Paradox Interactive games Heart of Iron IV and Imperator: Rome, 
+            latter of which, became one of the most popular mods for the game and later, a similar system was officially added to the game by the 
+            developers. 
+            <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=1732101158" target="_blank">You can find this mod here</a>. 
+          </p>
         </div>
         <div class="col-lg" style="margin-right: 50px; margin-left: 50px">
           <h4>Technical skills</h4>
           <ul>
-            <li>Python</li>
-            <li>Java</li>
-            <li>C# with the Unity game engine</li>
+            <li>C#</li>
             <li>C++</li>
+            <li>Java</li>
+            <li>Python</li>
             <li>MATLAB</li>
             <li>HTML</li>
             <li>CSS</li>
             <li>Javascript</li>
-            <li>Max</li>
-            <li>Pure Data</li>
+            <li>PHP</li>
           </ul>
         </div>
       </div>
@@ -197,14 +201,50 @@
       <button type="button" class="close pull-right close-item" id="closeButton" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
+      <div class="row">
+        <div name="projectDiv" class="col-lg" id="project1" style="padding: 10px">
+          <div class="img toggle-item">
+            <img name="projectImg" src="/img/Tectonicus_1.jpg" alt="Tectonicus: On the Edge of War" class="img-fluid" id="proj1" style="user-select: none;">
+            <p name="projectTitle" class="img__description text-center" id="fittext1" style="user-select: none;">Tectonicus: On the Edge of War</p>
+
+            <div name="projectCarousel" id="proj1Carousel" class="carousel slide" data-ride="carousel">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img class="d-block w-100" src="/img/Tectonicus_1.jpg" alt="First slide">
+                </div>
+                <div class="carousel-item">
+                  <img class="d-block w-100" src="/img/Tectonicus_2.png" alt="Second slide">
+                </div>
+                <div class="carousel-item">
+                  <img class="d-block w-100" src="/img/Tectonicus_3.png" alt="Third slide">
+                </div>
+                <div class="carousel-item">
+                  <img class="d-block w-100" src="/img/Tectonicus_4.png" alt="Fourth slide">
+                </div>
+                <div class="carousel-item">
+                  <img class="d-block w-100" src="/img/Tectonicus_5.png" alt="Third slide">
+                </div>
+              </div>
+              <a class="carousel-control-prev" href="#proj1Carousel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next" href="#proj1Carousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="row">
-        <div class="col-lg" id="project1" style="padding: 10px">
+        <div name="projectDiv" class="col-lg" id="project2" style="padding: 10px">
           <div class="img toggle-item">
-            <img src="/img/P6_1.png" alt="Verdant City" class="img-fluid" id="proj1" style="user-select: none;">
-            <p class="img__description text-center" id="fittext1">Verdant City</p>
+            <img name="projectImg" src="/img/P6_1.png" alt="Verdant City" class="img-fluid" id="proj2" style="user-select: none;">
+            <p name="projectTitle" class="img__description text-center" id="fittext2">Verdant City</p>
             
-            <div id="proj1Carousel" class="carousel slide" data-ride="carousel">
+            <div name="projectCarousel" id="proj2Carousel" class="carousel slide" data-ride="carousel">
               <div class="carousel-inner">
                 <div class="carousel-item embed-responsive embed-responsive-16by9 active ">
                   <iframe src="https://www.youtube.com/embed/f46rihWG0Vc?rel=0&amp;enablejsapi=1&version=3&playerapiid=ytplayer" allowfullscreen></iframe>
@@ -222,24 +262,24 @@
                   <img class="d-block w-100" src="/img/P6_4.png" alt="Fifth slide">
                 </div>
               </div>
-              <a class="carousel-control-prev" href="#proj1Carousel" role="button" data-slide="prev">
+              <a class="carousel-control-prev" href="#proj2Carousel" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="sr-only">Previous</span>
               </a>
-              <a class="carousel-control-next" href="#proj1Carousel" role="button" data-slide="next">
+              <a class="carousel-control-next" href="#proj2Carousel" role="button" data-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="sr-only">Next</span>
               </a>
             </div>
-            
           </div>
         </div>
-        <div class="col-lg" id="project2" style="padding: 10px">
-          <div class="img toggle-item">
-            <img src="/img/P5_1.png" alt="Interface for Spatial Audio Mixing in Virtual Reality" class="img-fluid" id="proj2" style="user-select: none;">
-            <p class="img__description text-center" id="fittext2" style="user-select: none;">Interface for Spatial Audio Mixing in Virtual Reality</p>
 
-            <div id="proj2Carousel" class="carousel slide" data-ride="carousel">
+        <div name="projectDiv" class="col-lg" id="project3" style="padding: 10px">
+          <div class="img toggle-item">
+            <img name="projectImg" src="/img/P5_1.png" alt="Interface for Spatial Audio Mixing in Virtual Reality" class="img-fluid" id="proj3" style="user-select: none;">
+            <p name="projectTitle" class="img__description text-center" id="fittext3" style="user-select: none;">Interface for Spatial Audio Mixing in Virtual Reality</p>
+
+            <div name="projectCarousel" id="proj3Carousel" class="carousel slide" data-ride="carousel">
               <div class="carousel-inner">
                 <div class="carousel-item embed-responsive embed-responsive-16by9 active">
                   <video src="/img/P5_PresentationVideo.mp4" controls autostart="false"></video>
@@ -254,11 +294,11 @@
                   <img class="d-block w-100" src="/img/P5_3.png" alt="Fourth slide">
                 </div>
               </div>
-              <a class="carousel-control-prev" href="#proj2Carousel" role="button" data-slide="prev">
+              <a class="carousel-control-prev" href="#proj3Carousel" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="sr-only">Previous</span>
               </a>
-              <a class="carousel-control-next" href="#proj2Carousel" role="button" data-slide="next">
+              <a class="carousel-control-next" href="#proj3Carousel" role="button" data-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="sr-only">Next</span>
               </a>
@@ -268,13 +308,13 @@
         </div>
       </div>
 
-      <div class="row" >
-        <div class="col-lg" id="project3" style="padding: 10px">
+      <div class="row">
+        <div name="projectDiv" class="col-lg" id="project4" style="padding: 10px">
           <div class="img toggle-item">
-            <img src="/img/P2_1.JPG" alt="Imitation of Natural Settings in Virtual Reality for Relaxation" class="img-fluid" id="proj3" style="user-select: none;">
-            <p class="img__description text-center" id="fittext3" style="user-select: none;">Imitation of Natural Settings in Virtual Reality for Relaxation</p>
+            <img name="projectImg" src="/img/P2_1.JPG" alt="Imitation of Natural Settings in Virtual Reality for Relaxation" class="img-fluid" id="proj4" style="user-select: none;">
+            <p name="projectTitle" class="img__description text-center" id="fittext4" style="user-select: none;">Imitation of Natural Settings in Virtual Reality for Relaxation</p>
 
-            <div id="proj3Carousel" class="carousel slide" data-ride="carousel">
+            <div name="projectCarousel" id="proj4Carousel" class="carousel slide" data-ride="carousel">
               <div class="carousel-inner">
                 <div class="carousel-item active">
                   <img class="d-block w-100" src="/img/P2_1.JPG" alt="First slide">
@@ -289,36 +329,6 @@
                   <img class="d-block w-100" src="/img/P2_4.JPG" alt="Fourth slide">
                 </div>
               </div>
-              <a class="carousel-control-prev" href="#proj3Carousel" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-              </a>
-              <a class="carousel-control-next" href="#proj3Carousel" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-              </a>
-            </div>
-            
-          </div>
-        </div>
-
-        <div class="col-lg" id="project4" style="padding: 10px">
-          <div class="img toggle-item">
-            <img src="/img/AIP_1.png" alt="Puzzle Solving Machine Learning Agent" class="img-fluid" id="proj4" style="user-select: none;">
-            <p class="img__description text-center" id="fittext4" style="user-select: none;">Puzzle Solving Machine Learning Agent</p>
-
-            <div id="proj4Carousel" class="carousel slide" data-ride="carousel">
-              <div class="carousel-inner">
-                <div class="carousel-item active">
-                  <img class="d-block w-100" src="/img/AIP_1.png" alt="First slide">
-                </div>
-                <div class="carousel-item">
-                  <img class="d-block w-100" src="/img/AIP_2.png" alt="Second slide">
-                </div>
-                <div class="carousel-item">
-                  <img class="d-block w-100" src="/img/AIP_3.png" alt="Third slide">
-                </div>
-              </div>
               <a class="carousel-control-prev" href="#proj4Carousel" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="sr-only">Previous</span>
@@ -331,11 +341,84 @@
             
           </div>
         </div>
+
+        <div name="projectDiv" class="col-lg" id="project5" style="padding: 10px">
+          <div class="img toggle-item">
+            <img name="projectImg" src="/img/AIP_1.png" alt="Puzzle Solving Machine Learning Agent" class="img-fluid" id="proj5" style="user-select: none;">
+            <p name="projectTitle" class="img__description text-center" id="fittext5" style="user-select: none;">Puzzle Solving Machine Learning Agent</p>
+
+            <div name="projectCarousel" id="proj5Carousel" class="carousel slide" data-ride="carousel">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img class="d-block w-100" src="/img/AIP_1.png" alt="First slide">
+                </div>
+                <div class="carousel-item">
+                  <img class="d-block w-100" src="/img/AIP_2.png" alt="Second slide">
+                </div>
+                <div class="carousel-item">
+                  <img class="d-block w-100" src="/img/AIP_3.png" alt="Third slide">
+                </div>
+              </div>
+              <a class="carousel-control-prev" href="#proj5Carousel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next" href="#proj5Carousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+            
+          </div>
+        </div>
       </div>
     </div>
-
+    
     <div class="container">
-      <div class="collapse" id="proj1Desc">
+      <div name="projDesc" class="collapse" id="proj1Desc">
+        <div class="card card-body">
+          <h2 class="text-center py-4">Tectonicus: On the Edge of War</h2>
+          <div class="row">
+            <div class="col-md col-lg" style="margin-right: 50px; margin-left: 50px">
+              <h6>Description</h6>
+              <p>Tectonicus: On the Edge of War is a game currently in development by Gamucatex. Tectonicus is a Card-Based Auto Battler Game.
+                The game has a major focus on history, achieving historical accuracy and narration to the point where the player will after 
+                each session have a better understanding of history, i.e. Meaningful Gaming. During my time working with the game (2½ years), I was 
+                placed as Lead Developer, at the very beginning of the project. With no other or previous developer lead, I got the opportunity 
+                to implement work methodologies, where I went for a Scrum approach, with daily meetings and code reviews, ensuring the best possible 
+                implementation of new features. The development team was quite small, and in many instances I was the only one, and with this I 
+                created most of the foundational code base, with a SOLID OOP approach, to make sure the code base was easy to work with and expand 
+                upon. Since Gamucatex also had other departments, it was important to ensure that these departments could go into the project in Unity 
+                and create for example new cards without having to deal with a single line of code. So creating designer-friendly tools was extremely 
+                important. During my time at Gamucatex, some of the systems I am especially proud of having developed include:
+                <ul>
+                  <li>Localization system</li>
+                  <li>Sound Management system</li>
+                  <li>Card Ability system/li>
+                  <li>Multiple designer-friendly tools, such as creating cards, card abilities, scenarios and more</li>
+                  <li>State system</li>
+                  <li>Among many others...</li>
+                </ul>
+              </p>
+            </div>
+            <div class="col-md col-lg" style="margin-right: 50px; margin-left: 50px">
+              <h6>Technologies</h6>
+              <ul>
+                <li>C#</li>
+                <li>Unity</li>
+                <li>FMOD</li>
+                <li>Photon</li>
+                <li>Azure PlayFab</li>
+              </ul>
+              <a class="btn btn-block btn-social btn-itch-io" style="color:white;" href="https://gamucatex.itch.io/tectonicus" target="_blank">
+                <span class="fa fa-itch-io" style="color:white"></span> Playable on Itch.io
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div name="projDesc" class="collapse" id="proj2Desc">
         <div class="card card-body">
           <h2 class="text-center py-4">Verdant City</h2>
           <div class="row">
@@ -358,7 +441,9 @@
                 <li>Unity</li>
                 <li>Wwise</li>
               </ul>
-              <a class="my-4" href="https://peterbabo.itch.io/ses">Playable build on Itch.io</a>
+              <a class="btn btn-block btn-social btn-itch-io" style="color:white;" href="https://peterbabo.itch.io/ses" target="_blank">
+                <span class="fa fa-itch-io" style="color:white"></span> Playable on Itch.io
+              </a>
               <a class="btn btn-block btn-social btn-github" style="color:white;" href="https://github.com/Koala-Lumpur/Verdant-City" target="_blank">
                 <span class="fa fa-github" style="color:white"></span> View source on Github
               </a>
@@ -367,7 +452,7 @@
         </div>
       </div>
 
-      <div class="collapse" id="proj2Desc">
+      <div name="projDesc" class="collapse" id="proj3Desc">
         <div class="card card-body">
           <h2 class="text-center py-4">Interface for Spatial Audio Mixing in Virtual Reality</h2>
           <div class="row">
@@ -402,7 +487,7 @@
         </div>
       </div>
 
-      <div class="collapse" id="proj3Desc">
+      <div name="projDesc" class="collapse" id="proj4Desc">
         <div class="card card-body">
           <h2 class="text-center py-4">Imitation of Natural Settings in Virtual Reality for Relaxation</h2>
           <div class="row">
@@ -431,7 +516,7 @@
         </div>
       </div>
 
-      <div class="collapse" id="proj4Desc">
+      <div name="projDesc" class="collapse" id="proj5Desc">
         <div class="card card-body">
           <h2 class="text-center py-4">Puzzle Solving Machine Learning Agent</h2>
           <div class="row">
@@ -496,40 +581,92 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <script>
-      $('#proj1Carousel').hide(0);
-      $('#proj2Carousel').hide(0);
-      $('#proj3Carousel').hide(0);
-      $('#proj4Carousel').hide(0);
-      $('#closeButton').hide(0);
+      class Project {
+        constructor(projDiv, projImg, projText, projCarousel, projDescription) {
+          this.projDiv = projDiv;
+          this.projImg = projImg;
+          this.projText = projText;
+          this.projCarousel = projCarousel;
+          this.projDescription = projDescription
+        }
+      }
+      
+      let projects = [];
+
+      function PopulateProjects() {
+        var projectsDivs = document.getElementsByName("projectDiv");
+        var projectImgs = document.getElementsByName("projectImg");
+        var projectTitles = document.getElementsByName("projectTitle");
+        var projectCarousels = document.getElementsByName("projectCarousel");
+        var projectDescriptions = document.getElementsByName("projDesc"); 
+
+        for(let i = 0; i < projectsDivs.length; i++) {
+          projects.push(new Project(projectsDivs[i], projectImgs[i], projectTitles[i], projectCarousels[i], projectDescriptions[i]))
+        }
+      }
+
+      function HideProject(projectNumber) {
+        $(projects[projectNumber].projDiv).hide(300);
+      }
+
+      function HideAllProjects(projectToNotHide) {
+        for(let i = 0; i < projects.length; i++) {
+          if(i == projectToNotHide) continue;
+          HideProject(i);
+        }
+      }
+
+      function HideAllCarousels() {
+        for(let i = 0; i < projects.length; i++) {
+          $(projects[i].projCarousel).hide(0);
+        }
+        $('#closeButton').hide(0);
+      }
+
+      
+      function ExpandProject(projectNumber) {
+        $(projects[projectNumber].projDescription).collapse('show');
+        $(projects[projectNumber].projText).hide(0); 
+        $(projects[projectNumber].projCarousel).show(0); 
+        $(projects[projectNumber].projImg).hide(0);
+        HideAllProjects(projectNumber);
+      }
+
+      function ShowProject(projectNumber) {
+        $(projects[projectNumber].projDescription).collapse('hide');
+        $(projects[projectNumber].projText).show(0); 
+        $(projects[projectNumber].projCarousel).hide(0); 
+        $(projects[projectNumber].projImg).show(0);
+        $(projects[projectNumber].projDiv).show(300);
+      }
+
+      function ShowAllProjects() {
+        $('#closeButton').hide(0);
+        for(let i = 0; i < projects.length; i++) {
+          ShowProject(i);
+        }
+      }
+
+      PopulateProjects();
+      HideAllCarousels();
+
       $('.toggle-item').click(function(event) {
         $('#closeButton').show(300);
         if(event.target.id == 'fittext1') {
-          $("#proj1Desc").collapse('show');
-          $('#fittext1').hide(0); $('#proj1Carousel').show(0); $('#proj1').hide(0);
-          $("#project2").hide(300); $("#project3").hide(300); $("#project4").hide(300);
+          ExpandProject(0);
         } else if(event.target.id == 'fittext2') {
-          $("#proj2Desc").collapse('show');
-          $('#fittext2').hide(0); $('#proj2Carousel').show(0); $('#proj2').hide(0);
-          $("#project1").hide(300); $("#project3").hide(300); $("#project4").hide(300);
+          ExpandProject(1);
         } else if(event.target.id == 'fittext3') {
-          $("#proj3Desc").collapse('show');
-          $('#fittext3').hide(0); $('#proj3Carousel').show(0); $('#proj3').hide(0);
-          $("#project1").hide(300); $("#project2").hide(300); $("#project4").hide(300);
+          ExpandProject(2);
         } else if(event.target.id == 'fittext4') {
-          $("#proj4Desc").collapse('show');
-          $('#fittext4').hide(0); $('#proj4Carousel').show(0); $('#proj4').hide(0);
-          $("#project1").hide(300); $("#project2").hide(300); $("#project3").hide(300);
+          ExpandProject(3);
+        } else if(event.target.id == 'fittext5') {
+          ExpandProject(4);
         }
       });
 
       $('.close-item').click(function() {
-        $("#proj1Desc").collapse('hide'); $("#proj2Desc").collapse('hide'); $("#proj3Desc").collapse('hide'); $("#proj4Desc").collapse('hide');
-        $('#closeButton').hide(0);
-        $('#fittext1').show(0); $('#proj1Carousel').hide(0); $('#proj1').show(0);
-        $('#fittext2').show(0); $('#proj2Carousel').hide(0); $('#proj2').show(0);
-        $('#fittext3').show(0); $('#proj3Carousel').hide(0); $('#proj3').show(0);
-        $('#fittext4').show(0); $('#proj4Carousel').hide(0); $('#proj4').show(0);
-        $("#project1").show(300); $("#project2").show(300); $("#project3").show(300); $("#project4").show(300);
+        ShowAllProjects();
       });
     </script>
     
@@ -539,6 +676,7 @@
       fitText(document.getElementById('fittext2'), 1.2);
       fitText(document.getElementById('fittext3'), 1.2);
       fitText(document.getElementById('fittext4'), 1.2);
+      fitText(document.getElementById('fittext5'), 1.2);
     </script>
     
     <script>
