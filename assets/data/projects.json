@@ -1,0 +1,98 @@
+{
+  "projects": [
+    {
+      "id": "tectonicus",
+      "title": "Tectonicus: On the Edge of War",
+      "thumbnail": "/assets/img/projects/tectonicus/Tectonicus_1.jpg",
+      "description": "Tectonicus: On the Edge of War is a Card-Based Auto Battler Game with a major focus on historical accuracy and meaningful gaming.",
+      "fullDescription": "Tectonicus: On the Edge of War is a game currently in development by Gamucatex. Tectonicus is a Card-Based Auto Battler Game. The game has a major focus on history, achieving historical accuracy and narration to the point where the player will after each session have a better understanding of history, i.e. Meaningful Gaming. During my time working with the game (2½ years), I was placed as Lead Developer, at the very beginning of the project.",
+      "technologies": ["C#", "Unity", "FMOD", "Photon", "Azure PlayFab"],
+      "features": [
+        "Localization system",
+        "Sound Management system",
+        "Card Ability system",
+        "Multiple designer-friendly tools",
+        "State system"
+      ],
+      "images": [
+        "Tectonicus_1.jpg",
+        "Tectonicus_2.png",
+        "Tectonicus_3.png",
+        "Tectonicus_4.png",
+        "Tectonicus_5.png"
+      ],
+      "links": {
+        "itch": "https://gamucatex.itch.io/tectonicus"
+      }
+    },
+    {
+      "id": "verdant-city",
+      "title": "Verdant City",
+      "thumbnail": "/assets/img/projects/verdant-city/P6_1.png",
+      "description": "A survival game where you play as a robot saving a polluted city through sustainable solutions.",
+      "fullDescription": "This game was my bachelor's project, I was the main programmer for this project. You are playing as a robot, with a constantly draining battery. You have to keep yourself alive, and save a heavily polluted uninhabitable city by building certain sustainable solutions.",
+      "technologies": ["C#", "Unity", "Wwise"],
+      "images": [
+        "P6_1.png",
+        "P6_2.png",
+        "P6_3.png",
+        "P6_4.png"
+      ],
+      "video": "https://www.youtube.com/embed/f46rihWG0Vc",
+      "links": {
+        "itch": "https://peterbabo.itch.io/ses",
+        "github": "https://github.com/Koala-Lumpur/Verdant-City"
+      }
+    },
+    {
+      "id": "spatial-audio",
+      "title": "Interface for Spatial Audio Mixing in Virtual Reality",
+      "thumbnail": "/assets/img/projects/spatial-audio/P5_1.png",
+      "description": "VR interface for spatial audio mixing that integrates Unity with Max for Live and Ableton Live.",
+      "fullDescription": "This is a VR interface for spatial audio mixing. It was developed in a group of five, I was mostly working as the Unity developer. This interface, integrates Unity with Max for Live, which we can then use to communicate to the Digital Audio Workstation (DAW): Ableton Live.",
+      "technologies": ["C#", "Unity", "Max", "UDP/OSC", "Ableton Live", "Virtual Reality"],
+      "images": [
+        "P5_1.png",
+        "P5_2.png",
+        "P5_3.png"
+      ],
+      "video": "/assets/img/projects/spatial-audio/P5_PresentationVideo.mp4",
+      "links": {
+        "github": "https://github.com/Koala-Lumpur/3D-Sound-VR-Interface"
+      }
+    },
+    {
+      "id": "vr-relaxation",
+      "title": "Imitation of Natural Settings in Virtual Reality for Relaxation",
+      "thumbnail": "/assets/img/projects/vr-relaxation/P2_1.JPG",
+      "description": "VR experience designed to relieve stress by immersing users in relaxing natural environments.",
+      "fullDescription": "This was developed in a group of five people, where I was mainly the programmer and level designer. The purpose of the project was to develop a VR experience, that would relieve a person's stress, by putting them into one of two relaxing environments.",
+      "technologies": ["C#", "Unity", "Virtual Reality"],
+      "images": [
+        "P2_1.JPG",
+        "P2_2.JPG",
+        "P2_3.JPG",
+        "P2_4.JPG"
+      ],
+      "links": {
+        "github": "https://github.com/Koala-Lumpur/P2_Group204"
+      }
+    },
+    {
+      "id": "ml-puzzle",
+      "title": "Puzzle Solving Machine Learning Agent",
+      "thumbnail": "/assets/img/projects/ml-puzzle/AIP_1.png",
+      "description": "AI agents trained to solve puzzles using Unity ML Agents and TensorFlow.",
+      "fullDescription": "This was a solo project of mine. Here I taught Artificial Intelligence (AI) agents to solve a puzzle. The task of the agent is to reach the goal, but the goal is only reachable once a pressure plate is being pressed at the same time.",
+      "technologies": ["C#", "Unity", "Unity ML Agents", "Python", "TensorFlow"],
+      "images": [
+        "AIP_1.png",
+        "AIP_2.png",
+        "AIP_3.png"
+      ],
+      "links": {
+        "github": "https://github.com/Koala-Lumpur/AIP-ML"
+      }
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+/* Contact Section Styles */
+.contact-section {
+  background-color: #f8f9fa;
+  padding: 4rem 0;
+}
+
+.contact-info {
+  margin-bottom: 2rem;
+}
+
+.contact-info h4 {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.contact-info a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.contact-info a:hover {
+  text-decoration: underline;
+}
+
+/* Social Buttons */
+.social-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.social-buttons .btn-social-icon {
+  transition: transform 0.3s ease;
+}
+
+.social-buttons .btn-social-icon:hover {
+  transform: scale(1.1);
+}
