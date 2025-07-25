@@ -16,13 +16,49 @@
   overflow: hidden;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
   transform-origin: center;
+  transform-style: preserve-3d;
+  will-change: transform, box-shadow;
 }
 
-.project-item:hover {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+/* Smooth transition on mouse leave */
+.project-item.resetting {
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+              box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+/* Inner content optimization for 3D effect */
+.project-item .toggle-item {
+  position: relative;
+  backface-visibility: hidden;
+}
+
+/* Enhance images for 3D effect */
+.project-item .project-image {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Dynamic shadow for 3D effect */
+.project-item::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 5%;
+  right: 5%;
+  height: 20px;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.3) 0%, transparent 70%);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
+  filter: blur(15px);
+}
+
+.project-item:hover::after {
+  opacity: 1;
+  bottom: -25px;
 }
 
 .project-image {
@@ -52,11 +88,14 @@
   cursor: pointer;
   text-align: center;
   user-select: none;
+  transform: translateZ(20px);
+  pointer-events: none;
 }
 
 .project-item:hover .project-overlay {
   visibility: visible;
   opacity: 1;
+  pointer-events: auto;
 }
 
 .project-title {

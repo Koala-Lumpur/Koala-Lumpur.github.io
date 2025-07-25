@@ -53,6 +53,11 @@ class ProjectGallery {
         description: projectDescriptions[i]
       });
     }
+
+    // Setup 3D tilt effect after projects are loaded
+    setTimeout(() => {
+      this.setup3DTiltEffect();
+    }, 100);
   }
 
   setupEventListeners() {
@@ -73,6 +78,78 @@ class ProjectGallery {
     if (closeButton) {
       closeButton.addEventListener('click', () => this.showAllProjects());
     }
+  }
+
+  setup3DTiltEffect() {
+    const projectItems = document.querySelectorAll('.project-item');
+    
+    projectItems.forEach(item => {
+      item.addEventListener('mouseenter', () => {
+        item.classList.remove('resetting');
+      });
+
+      item.addEventListener('mousemove', (e) => {
+        // Don't apply tilt if project is expanding/hiding
+        if (item.classList.contains('expanding') || item.classList.contains('hiding')) return;
+        
+        const rect = item.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        // Calculate rotation values based on mouse position
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        // Maximum rotation angle (in degrees)
+        const maxRotation = 12;
+        
+        // Calculate rotation based on mouse position relative to center
+        const rotateY = ((x - centerX) / centerX) * maxRotation;
+        const rotateX = -((y - centerY) / centerY) * maxRotation;
+        
+        // Apply 3D transformation to the entire item
+        item.style.transform = `
+          perspective(1000px)
+          rotateX(${rotateX}deg) 
+          rotateY(${rotateY}deg) 
+          translateZ(20px)
+        `;
+        
+        // More intense dynamic shadow based on tilt
+        const shadowX = -rotateY * 2;
+        const shadowY = rotateX * 2;
+        const shadowBlur = 20 + Math.abs(rotateX) + Math.abs(rotateY);
+        const shadowSpread = 5;
+        
+        // Use requestAnimationFrame for smoother shadow updates
+        requestAnimationFrame(() => {
+          item.style.boxShadow = `
+            ${shadowX}px ${shadowY}px ${shadowBlur}px ${shadowSpread}px rgba(0, 0, 0, 0.3),
+            0 10px 30px rgba(0, 0, 0, 0.2)
+          `;
+        });
+      });
+
+      item.addEventListener('mouseleave', () => {
+        // Add class for smooth reset transition
+        item.classList.add('resetting');
+        
+        // Reset transformation smoothly
+        item.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+        item.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+      });
+
+      // Prevent tilt effect when clicking
+      item.addEventListener('mousedown', () => {
+        item.style.transition = 'transform 0.05s ease-out';
+        item.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0) scale(0.98)';
+      });
+
+      item.addEventListener('mouseup', () => {
+        item.style.transition = 'transform 0.1s ease-out';
+        item.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+      });
+    });
   }
 
   hideProject(projectIndex) {
