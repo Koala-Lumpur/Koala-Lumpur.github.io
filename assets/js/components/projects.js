@@ -43,7 +43,6 @@ class ProjectGallery {
     const projectDivs = document.querySelectorAll('[name="projectDiv"]');
     const projectImgs = document.querySelectorAll('[name="projectImg"]');
     const projectTitles = document.querySelectorAll('[name="projectTitle"]');
-    const projectCarousels = document.querySelectorAll('[name="projectCarousel"]');
     const projectDescriptions = document.querySelectorAll('[name="projDesc"]');
 
     for (let i = 0; i < projectDivs.length; i++) {
@@ -51,12 +50,9 @@ class ProjectGallery {
         div: projectDivs[i],
         img: projectImgs[i],
         title: projectTitles[i],
-        carousel: projectCarousels[i],
         description: projectDescriptions[i]
       });
     }
-
-    this.hideAllCarousels();
   }
 
   setupEventListeners() {
@@ -82,7 +78,13 @@ class ProjectGallery {
   hideProject(projectIndex) {
     const project = this.projects[projectIndex];
     if (project && project.div) {
-      $(project.div).hide(300);
+      // Add hiding animation class
+      $(project.div).addClass('hiding');
+      // Remove element after animation completes
+      setTimeout(() => {
+        $(project.div).hide();
+        $(project.div).removeClass('hiding');
+      }, 300);
     }
   }
 
@@ -95,13 +97,7 @@ class ProjectGallery {
   }
 
   hideAllCarousels() {
-    for (let i = 0; i < this.projects.length; i++) {
-      const project = this.projects[i];
-      if (project.carousel) {
-        $(project.carousel).hide(0);
-      }
-    }
-    $('.close-button, .close-item').hide(0);
+    $('.close-button, .close-item').hide();
   }
 
   expandProject(projectIndex) {
@@ -109,22 +105,41 @@ class ProjectGallery {
     if (!project) return;
 
     this.currentProject = projectIndex;
-    $('.close-button, .close-item').show(300);
     
-    // Show the project details container
-    $('.project-details').addClass('active');
+    // Add expanding animation to clicked project
+    if (project.div) {
+      $(project.div).addClass('expanding');
+      setTimeout(() => {
+        $(project.div).removeClass('expanding');
+      }, 500);
+    }
+    
+    // Smooth transitions
+    $('.close-button, .close-item').fadeIn(300);
+    
+    // Show the project details container with animation
+    setTimeout(() => {
+      $('.project-details').addClass('active');
+    }, 200);
 
     if (project.description) {
-      $(project.description).collapse('show');
+      setTimeout(() => {
+        $(project.description).collapse('show');
+        // Smooth scroll to top of project details container after animation
+        setTimeout(() => {
+          $('html, body').animate({
+            scrollTop: $('.project-details').offset().top - 80
+          }, 500);
+        }, 400);
+      }, 300);
     }
+    
     if (project.title) {
-      $(project.title).hide(0);
+      $(project.title).fadeOut(200);
     }
-    if (project.carousel) {
-      $(project.carousel).show(0);
-    }
+    
     if (project.img) {
-      $(project.img).hide(0);
+      $(project.img).fadeOut(200);
     }
 
     this.hideAllProjects(projectIndex);
@@ -137,28 +152,34 @@ class ProjectGallery {
     if (project.description) {
       $(project.description).collapse('hide');
     }
-    if (project.title) {
-      $(project.title).show(0);
-    }
-    if (project.carousel) {
-      $(project.carousel).hide(0);
-    }
-    if (project.img) {
-      $(project.img).show(0);
-    }
+    
     if (project.div) {
-      $(project.div).show(300);
+      $(project.div).show();
+      $(project.div).css({opacity: 0, transform: 'scale(0.95)'});
+      $(project.div).animate({opacity: 1}, 300);
+      $(project.div).css({transform: 'scale(1)'});
+    }
+    
+    if (project.title) {
+      $(project.title).fadeIn(200);
+    }
+    
+    if (project.img) {
+      $(project.img).fadeIn(200);
     }
   }
 
   showAllProjects() {
-    $('.close-button, .close-item').hide(0);
+    $('.close-button, .close-item').fadeOut(200);
     
-    // Hide the project details container
+    // Hide the project details container with animation
     $('.project-details').removeClass('active');
     
+    // Stagger the projects appearing
     for (let i = 0; i < this.projects.length; i++) {
-      this.showProject(i);
+      setTimeout(() => {
+        this.showProject(i);
+      }, i * 50); // 50ms delay between each project
     }
   }
 }
