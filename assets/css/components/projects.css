@@ -157,20 +157,12 @@
 }
 
 
-/* Project carousel specific animation */
+/* Project carousel styling */
 .project-carousel {
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   margin-bottom: 2rem;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-}
-
-.collapse.show .project-carousel {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 /* Prevent duplicate animations on collapse content */
@@ -178,20 +170,3 @@
   transition: height 0.35s ease;
 }
 
-/* Card body fade in after collapse */
-.collapse.show .card-body > *:not(.project-carousel) {
-  animation: contentFadeIn 0.6s ease-out;
-  animation-delay: 0.2s;
-  animation-fill-mode: both;
-}
-
-@keyframes contentFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
