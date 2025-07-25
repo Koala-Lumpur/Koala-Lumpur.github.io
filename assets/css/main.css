@@ -1,14 +1,22 @@
-/* Main Styles */
+/* Import component styles - must be first! */
+@import 'components/hero.css';
+@import 'components/navigation.css';
+@import 'components/projects.css';
+@import 'components/contact.css';
+
 * {
   margin: 0;
   padding: 0;
   border: 0;
 }
 
+/* Main Styles */
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   line-height: 1.6;
   color: #333;
+  margin: 0;
+  padding: 0;
 }
 
 /* Canvas Background */
@@ -25,9 +33,3 @@ canvas {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-
-/* Import component styles */
-@import 'components/hero.css';
-@import 'components/navigation.css';
-@import 'components/projects.css';
-@import 'components/contact.css';
