@@ -74,6 +74,11 @@
   border-radius: 8px;
   padding: 2rem;
   margin-top: 1rem;
+  display: none; /* Hidden by default */
+}
+
+.project-details.active {
+  display: block; /* Show when active */
 }
 
 .project-carousel .carousel-inner > .item > img,
@@ -97,3 +102,5 @@
 .close-button:hover {
   color: #000;
 }
+
+/* Container for project descriptions - removed since we'll use .project-details */

@@ -110,6 +110,9 @@ class ProjectGallery {
 
     this.currentProject = projectIndex;
     $('.close-button, .close-item').show(300);
+    
+    // Show the project details container
+    $('.project-details').addClass('active');
 
     if (project.description) {
       $(project.description).collapse('show');
@@ -150,6 +153,10 @@ class ProjectGallery {
 
   showAllProjects() {
     $('.close-button, .close-item').hide(0);
+    
+    // Hide the project details container
+    $('.project-details').removeClass('active');
+    
     for (let i = 0; i < this.projects.length; i++) {
       this.showProject(i);
     }
