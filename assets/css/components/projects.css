@@ -44,8 +44,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 1.5rem;
   transition: opacity 0.2s, visibility 0.2s;
   cursor: pointer;
+  text-align: center;
   user-select: none;
 }
 
@@ -58,6 +60,12 @@
   font-size: 1.5rem;
   text-align: center;
   padding: 1rem;
+}
+
+.img:hover .img__description {
+  cursor: pointer;
+  visibility: visible;
+  opacity: 1;
 }
 
 /* Project Details */
