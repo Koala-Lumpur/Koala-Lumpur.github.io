@@ -103,8 +103,13 @@ function initBackgroundAnimation() {
   const sparkPool = [];
   const activeSparks = [];
   
+  // Create container for spark lights (behind sparks)
+  const sparkLightsContainer = new PIXI.Container();
+  app.stage.addChildAt(sparkLightsContainer, 1); // Add between background and skills
+  
   // Pre-create spark textures
   const sparkTexture = createSparkTexture();
+  const lightTexture = createLightTexture();
   
   function createSparkTexture() {
     const graphics = new PIXI.Graphics();
@@ -113,15 +118,42 @@ function initBackgroundAnimation() {
     graphics.endFill();
     return app.renderer.generateTexture(graphics);
   }
+  
+  function createLightTexture() {
+    const graphics = new PIXI.Graphics();
+    // Create gradient-like light effect (much smaller)
+    graphics.beginFill(0xffffff, 0.4);
+    graphics.drawCircle(0, 0, 12);
+    graphics.endFill();
+    graphics.beginFill(0xffffff, 0.2);
+    graphics.drawCircle(0, 0, 20);
+    graphics.endFill();
+    graphics.beginFill(0xffffff, 0.1);
+    graphics.drawCircle(0, 0, 30);
+    graphics.endFill();
+    return app.renderer.generateTexture(graphics);
+  }
 
-  // Create spark pool
+  // Create spark pool with light sprites
+  const sparkLightPool = [];
   for (let i = 0; i < 100; i++) {
     const spark = new PIXI.Sprite(sparkTexture);
     spark.anchor.set(0.5);
     spark.visible = false;
     spark.tint = config.baseColor;
     sparksContainer.addChild(spark);
+    
+    // Create light sprite for each spark
+    const light = new PIXI.Sprite(lightTexture);
+    light.anchor.set(0.5);
+    light.visible = false;
+    light.tint = config.baseColor;
+    light.blendMode = PIXI.BLEND_MODES.ADD;
+    light.filters = [blurFilter];
+    sparkLightsContainer.addChild(light);
+    
     sparkPool.push(spark);
+    sparkLightPool.push(light);
   }
 
   // Mouse state
@@ -141,7 +173,8 @@ function initBackgroundAnimation() {
   function createSparks(x, y, count = 5) {
     for (let i = 0; i < count && sparkPool.length > 0; i++) {
       const spark = sparkPool.pop();
-      if (!spark) continue;
+      const light = sparkLightPool.pop();
+      if (!spark || !light) continue;
       
       const angle = Math.random() * Math.PI * 2;
       const speed = 4 + Math.random() * 6;
@@ -152,8 +185,16 @@ function initBackgroundAnimation() {
       spark.alpha = 1;
       spark.scale.set(1);
       
+      // Setup light
+      light.x = x;
+      light.y = y;
+      light.visible = true;
+      light.alpha = 0.6;
+      light.scale.set(0.8);
+      
       activeSparks.push({
         sprite: spark,
+        light: light,
         velocity: {
           x: Math.cos(angle) * speed,
           y: Math.sin(angle) * speed
@@ -172,15 +213,23 @@ function initBackgroundAnimation() {
       
       spark.sprite.x += spark.velocity.x * delta;
       spark.sprite.y += spark.velocity.y * delta;
+      spark.light.x = spark.sprite.x;
+      spark.light.y = spark.sprite.y;
       spark.velocity.y += 0.5 * delta; // Gravity
       
       spark.life -= spark.decay * delta;
       spark.sprite.alpha = spark.life;
       spark.sprite.scale.set(spark.life);
       
+      // Light fades and expands as spark dies
+      spark.light.alpha = spark.life * 0.5;
+      spark.light.scale.set(0.8 + (1 - spark.life) * 0.5); // Light expands slightly as it fades
+      
       if (spark.life <= 0) {
         spark.sprite.visible = false;
+        spark.light.visible = false;
         sparkPool.push(spark.sprite);
+        sparkLightPool.push(spark.light);
         activeSparks.splice(i, 1);
       }
     }
