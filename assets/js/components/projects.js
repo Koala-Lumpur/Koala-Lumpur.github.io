@@ -61,14 +61,18 @@ class ProjectGallery {
   }
 
   setupEventListeners() {
-    // Click handler for project items
+    // Click handler for project containers
     document.addEventListener('click', (e) => {
-      const projectItem = e.target.closest('.project-item, .toggle-item');
-      if (projectItem) {
-        const projectId = projectItem.dataset.projectId || 
-                         Array.from(document.querySelectorAll('.toggle-item')).indexOf(projectItem);
-        if (projectId !== -1) {
-          this.expandProject(projectId);
+      const container = e.target.closest('.project-item-container');
+      if (container) {
+        const projectItem = container.querySelector('.project-item');
+        if (projectItem && projectItem.dataset.animationComplete === 'true') {
+          // Find the index of this project
+          const allContainers = Array.from(document.querySelectorAll('.project-item-container'));
+          const projectId = allContainers.indexOf(container);
+          if (projectId !== -1) {
+            this.expandProject(projectId);
+          }
         }
       }
     });
@@ -81,28 +85,24 @@ class ProjectGallery {
   }
 
   setup3DTiltEffect() {
+    const containers = document.querySelectorAll('.project-item-container');
     const projectItems = document.querySelectorAll('.project-item');
     
+    // Initialize card states
     projectItems.forEach(item => {
-      // Add a data attribute to track if animation is complete
       item.dataset.animationComplete = 'false';
+    });
+    
+    // Set up hover for each container
+    containers.forEach((container, index) => {
+      const card = container.querySelector('.project-item');
+      if (!card) return;
       
-      item.addEventListener('mouseenter', (e) => {
-        // Only allow hover if animation is complete
-        if (item.dataset.animationComplete !== 'true') return;
+      container.addEventListener('mousemove', (e) => {
+        // Only apply effect if card animation is complete
+        if (card.dataset.animationComplete !== 'true') return;
         
-        // Kill any ongoing animations
-        gsap.killTweensOf(item);
-      });
-
-      item.addEventListener('mousemove', (e) => {
-        // Only allow hover if animation is complete
-        if (item.dataset.animationComplete !== 'true') return;
-        
-        // Don't apply tilt if project is expanding/hiding
-        if (item.classList.contains('expanding') || item.classList.contains('hiding')) return;
-        
-        const rect = item.getBoundingClientRect();
+        const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
         
@@ -124,7 +124,7 @@ class ProjectGallery {
         const shadowSpread = 5;
         
         // Use GSAP for all transformations
-        gsap.to(item, {
+        gsap.to(card, {
           rotationX: rotateX,
           rotationY: rotateY,
           z: 20,
@@ -134,71 +134,75 @@ class ProjectGallery {
           overwrite: 'auto'
         });
       });
-
-      item.addEventListener('mouseleave', () => {
-        // Only reset if animation is complete
-        if (item.dataset.animationComplete !== 'true') return;
+      
+      container.addEventListener('mouseleave', () => {
+        // Only reset if card animation is complete
+        if (card.dataset.animationComplete !== 'true') return;
         
-        // Use GSAP for smooth reset with dynamic shadow that fades out
-        gsap.to(item, {
-          rotationX: 0,
-          rotationY: 0,
-          z: 0,
-          scale: 1,
-          duration: 0.4,
-          ease: 'power2.out',
-          onUpdate: function() {
-            // Get current rotation values during animation
-            const currentRotationX = gsap.getProperty(item, 'rotationX');
-            const currentRotationY = gsap.getProperty(item, 'rotationY');
-            
-            // Calculate shadow based on current rotation
-            const shadowX = -currentRotationY * 2;
-            const shadowY = currentRotationX * 2;
-            const shadowBlur = 20 + Math.abs(currentRotationX) + Math.abs(currentRotationY);
-            const shadowSpread = 5;
-            
-            // Calculate opacity based on rotation (fade out as it approaches 0)
-            const maxRotation = 12;
-            const rotationProgress = Math.max(Math.abs(currentRotationX), Math.abs(currentRotationY)) / maxRotation;
-            const shadowOpacity = rotationProgress * 0.3;
-            
-            // Apply dynamic shadow
-            gsap.set(item, {
-              boxShadow: rotationProgress > 0.01 
-                ? `${shadowX}px ${shadowY}px ${shadowBlur}px ${shadowSpread}px rgba(0, 0, 0, ${shadowOpacity}), 0 10px 30px rgba(0, 0, 0, ${shadowOpacity * 0.67})`
-                : 'none'
-            });
-          },
-          onComplete: () => {
-            gsap.set(item, { 
-              clearProps: 'transform',
-              boxShadow: 'none'  // Ensure shadow is completely removed
-            });
-          }
-        });
+        this.resetCard(card);
       });
-
-      // Prevent tilt effect when clicking
-      item.addEventListener('mousedown', () => {
-        if (item.dataset.animationComplete !== 'true') return;
+      
+      // Click handlers
+      card.addEventListener('mousedown', () => {
+        if (card.dataset.animationComplete !== 'true') return;
         
-        gsap.to(item, {
+        gsap.to(card, {
           scale: 0.98,
           duration: 0.05,
           ease: 'power2.out'
         });
       });
 
-      item.addEventListener('mouseup', () => {
-        if (item.dataset.animationComplete !== 'true') return;
+      card.addEventListener('mouseup', () => {
+        if (card.dataset.animationComplete !== 'true') return;
         
-        gsap.to(item, {
+        gsap.to(card, {
           scale: 1,
           duration: 0.1,
           ease: 'power2.out'
         });
       });
+    });
+  }
+  
+  // Helper method to reset a card
+  resetCard(card) {
+    gsap.to(card, {
+      rotationX: 0,
+      rotationY: 0,
+      z: 0,
+      scale: 1,
+      duration: 0.4,
+      ease: 'power2.out',
+      onUpdate: function() {
+        // Get current rotation values during animation
+        const currentRotationX = gsap.getProperty(card, 'rotationX');
+        const currentRotationY = gsap.getProperty(card, 'rotationY');
+        
+        // Calculate shadow based on current rotation
+        const shadowX = -currentRotationY * 2;
+        const shadowY = currentRotationX * 2;
+        const shadowBlur = 20 + Math.abs(currentRotationX) + Math.abs(currentRotationY);
+        const shadowSpread = 5;
+        
+        // Calculate opacity based on rotation (fade out as it approaches 0)
+        const maxRotation = 12;
+        const rotationProgress = Math.max(Math.abs(currentRotationX), Math.abs(currentRotationY)) / maxRotation;
+        const shadowOpacity = rotationProgress * 0.3;
+        
+        // Apply dynamic shadow
+        gsap.set(card, {
+          boxShadow: rotationProgress > 0.01 
+            ? `${shadowX}px ${shadowY}px ${shadowBlur}px ${shadowSpread}px rgba(0, 0, 0, ${shadowOpacity}), 0 10px 30px rgba(0, 0, 0, ${shadowOpacity * 0.67})`
+            : 'none'
+        });
+      },
+      onComplete: () => {
+        gsap.set(card, { 
+          clearProps: 'transform',
+          boxShadow: 'none'
+        });
+      }
     });
   }
 

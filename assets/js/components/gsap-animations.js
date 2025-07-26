@@ -224,13 +224,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Project hover enhancement with GSAP
-  const projectItems = document.querySelectorAll('.project-item');
-  projectItems.forEach(item => {
+  // Project hover enhancement with GSAP - moved to container-based
+  const projectContainers = document.querySelectorAll('.project-item-container');
+  projectContainers.forEach(container => {
+    const item = container.querySelector('.project-item');
+    if (!item) return;
+    
     const overlay = item.querySelector('.project-overlay');
     const image = item.querySelector('.project-image');
     
-    item.addEventListener('mouseenter', () => {
+    container.addEventListener('mouseenter', () => {
+      // Only apply effect if animation is complete
+      if (item.dataset.animationComplete !== 'true') return;
+      
       gsap.to(image, {
         scale: 1.1,
         duration: 0.4,
@@ -243,7 +249,10 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
 
-    item.addEventListener('mouseleave', () => {
+    container.addEventListener('mouseleave', () => {
+      // Only reset if animation is complete
+      if (item.dataset.animationComplete !== 'true') return;
+      
       gsap.to(image, {
         scale: 1,
         duration: 0.4,

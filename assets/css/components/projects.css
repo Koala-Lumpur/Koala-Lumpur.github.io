@@ -12,6 +12,14 @@
   /* Removed transition - GSAP handles animations */
 }
 
+/* Container for each project item */
+.project-item-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
 .project-item {
   position: relative;
   overflow: hidden;
@@ -87,7 +95,7 @@
   /* Removed transition - GSAP handles animations */
 }
 
-.project-item[data-animation-complete="true"]:hover .project-overlay {
+.project-item-container:hover .project-item[data-animation-complete="true"] .project-overlay {
   visibility: visible;
   opacity: 1;
   pointer-events: auto;
