@@ -59,6 +59,7 @@ body {
   pointer-events: auto; /* Keep pointer events for mouse interaction */
   transform: none !important; /* Prevent any transform inheritance */
   backface-visibility: hidden; /* Prevent rendering issues */
+  z-index: 0; /* Base layer */
 }
 
 /* Utility Classes */
@@ -68,6 +69,7 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1;
+  pointer-events: none; /* Allow clicks to pass through to canvas */
 }
 
 /* GSAP Animation Classes */
@@ -130,6 +132,26 @@ section:nth-child(even) {
 /* Bootstrap overrides */
 .jumbotron {
   background-color: transparent;
+  pointer-events: none; /* Allow clicks through */
+}
+
+/* Allow pointer events only on actual interactive elements */
+.jumbotron a,
+.jumbotron button,
+.jumbotron input,
+.jumbotron select,
+.jumbotron textarea {
+  pointer-events: auto;
+}
+
+/* Ensure container in hero doesn't block */
+.hero-container .container {
+  pointer-events: none;
+}
+
+.hero-container .container a,
+.hero-container .container button {
+  pointer-events: auto;
 }
 
 .text-white {
@@ -138,6 +160,12 @@ section:nth-child(even) {
 
 .display-1, .display-2, .display-3, .display-4 {
   color: var(--text-primary);
+}
+
+/* Ensure hero text doesn't block canvas */
+.hero-container h1,
+.hero-container p {
+  pointer-events: none;
 }
 
 /* Smooth scroll behavior */
