@@ -84,11 +84,21 @@ class ProjectGallery {
     const projectItems = document.querySelectorAll('.project-item');
     
     projectItems.forEach(item => {
-      item.addEventListener('mouseenter', () => {
-        item.classList.remove('resetting');
+      // Add a data attribute to track if animation is complete
+      item.dataset.animationComplete = 'false';
+      
+      item.addEventListener('mouseenter', (e) => {
+        // Only allow hover if animation is complete
+        if (item.dataset.animationComplete !== 'true') return;
+        
+        // Kill any ongoing animations
+        gsap.killTweensOf(item);
       });
 
       item.addEventListener('mousemove', (e) => {
+        // Only allow hover if animation is complete
+        if (item.dataset.animationComplete !== 'true') return;
+        
         // Don't apply tilt if project is expanding/hiding
         if (item.classList.contains('expanding') || item.classList.contains('hiding')) return;
         
@@ -107,47 +117,87 @@ class ProjectGallery {
         const rotateY = ((x - centerX) / centerX) * maxRotation;
         const rotateX = -((y - centerY) / centerY) * maxRotation;
         
-        // Apply 3D transformation to the entire item
-        item.style.transform = `
-          perspective(1000px)
-          rotateX(${rotateX}deg) 
-          rotateY(${rotateY}deg) 
-          translateZ(20px)
-        `;
-        
         // More intense dynamic shadow based on tilt
         const shadowX = -rotateY * 2;
         const shadowY = rotateX * 2;
         const shadowBlur = 20 + Math.abs(rotateX) + Math.abs(rotateY);
         const shadowSpread = 5;
         
-        // Use requestAnimationFrame for smoother shadow updates
-        requestAnimationFrame(() => {
-          item.style.boxShadow = `
-            ${shadowX}px ${shadowY}px ${shadowBlur}px ${shadowSpread}px rgba(0, 0, 0, 0.3),
-            0 10px 30px rgba(0, 0, 0, 0.2)
-          `;
+        // Use GSAP for all transformations
+        gsap.to(item, {
+          rotationX: rotateX,
+          rotationY: rotateY,
+          z: 20,
+          boxShadow: `${shadowX}px ${shadowY}px ${shadowBlur}px ${shadowSpread}px rgba(0, 0, 0, 0.3), 0 10px 30px rgba(0, 0, 0, 0.2)`,
+          duration: 0.1,
+          ease: 'power2.out',
+          overwrite: 'auto'
         });
       });
 
       item.addEventListener('mouseleave', () => {
-        // Add class for smooth reset transition
-        item.classList.add('resetting');
+        // Only reset if animation is complete
+        if (item.dataset.animationComplete !== 'true') return;
         
-        // Reset transformation smoothly
-        item.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
-        item.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+        // Use GSAP for smooth reset with dynamic shadow that fades out
+        gsap.to(item, {
+          rotationX: 0,
+          rotationY: 0,
+          z: 0,
+          scale: 1,
+          duration: 0.4,
+          ease: 'power2.out',
+          onUpdate: function() {
+            // Get current rotation values during animation
+            const currentRotationX = gsap.getProperty(item, 'rotationX');
+            const currentRotationY = gsap.getProperty(item, 'rotationY');
+            
+            // Calculate shadow based on current rotation
+            const shadowX = -currentRotationY * 2;
+            const shadowY = currentRotationX * 2;
+            const shadowBlur = 20 + Math.abs(currentRotationX) + Math.abs(currentRotationY);
+            const shadowSpread = 5;
+            
+            // Calculate opacity based on rotation (fade out as it approaches 0)
+            const maxRotation = 12;
+            const rotationProgress = Math.max(Math.abs(currentRotationX), Math.abs(currentRotationY)) / maxRotation;
+            const shadowOpacity = rotationProgress * 0.3;
+            
+            // Apply dynamic shadow
+            gsap.set(item, {
+              boxShadow: rotationProgress > 0.01 
+                ? `${shadowX}px ${shadowY}px ${shadowBlur}px ${shadowSpread}px rgba(0, 0, 0, ${shadowOpacity}), 0 10px 30px rgba(0, 0, 0, ${shadowOpacity * 0.67})`
+                : 'none'
+            });
+          },
+          onComplete: () => {
+            gsap.set(item, { 
+              clearProps: 'transform',
+              boxShadow: 'none'  // Ensure shadow is completely removed
+            });
+          }
+        });
       });
 
       // Prevent tilt effect when clicking
       item.addEventListener('mousedown', () => {
-        item.style.transition = 'transform 0.05s ease-out';
-        item.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0) scale(0.98)';
+        if (item.dataset.animationComplete !== 'true') return;
+        
+        gsap.to(item, {
+          scale: 0.98,
+          duration: 0.05,
+          ease: 'power2.out'
+        });
       });
 
       item.addEventListener('mouseup', () => {
-        item.style.transition = 'transform 0.1s ease-out';
-        item.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+        if (item.dataset.animationComplete !== 'true') return;
+        
+        gsap.to(item, {
+          scale: 1,
+          duration: 0.1,
+          ease: 'power2.out'
+        });
       });
     });
   }
@@ -155,6 +205,9 @@ class ProjectGallery {
   hideProject(projectIndex) {
     const project = this.projects[projectIndex];
     if (project && project.div) {
+      // Disable hover while hiding
+      project.div.dataset.animationComplete = 'false';
+      
       // GSAP animation for hiding projects
       gsap.to(project.div, {
         opacity: 0,
@@ -224,45 +277,8 @@ class ProjectGallery {
   }
 
   showProject(projectIndex) {
-    const project = this.projects[projectIndex];
-    if (!project) return;
-
-    if (project.description) {
-      $(project.description).collapse('hide');
-    }
-    
-    if (project.div) {
-      gsap.set(project.div, { display: 'block' });
-      gsap.fromTo(project.div,
-        { opacity: 0, scale: 0.9, y: 20 },
-        { 
-          opacity: 1, 
-          scale: 1, 
-          y: 0,
-          duration: 0.4,
-          ease: 'back.out(1.4)'
-        }
-      );
-    }
-    
-    if (project.title) {
-      gsap.to(project.title, {
-        opacity: 1,
-        duration: 0.3,
-        delay: 0.1,
-        ease: 'power2.out'
-      });
-    }
-    
-    if (project.img) {
-      gsap.to(project.img, {
-        opacity: 1,
-        scale: 1,
-        duration: 0.3,
-        delay: 0.1,
-        ease: 'power2.out'
-      });
-    }
+    // REMOVED - No longer needed since we handle animations in the timeline
+    return;
   }
 
   showAllProjects() {
@@ -275,18 +291,79 @@ class ProjectGallery {
       }
     });
     
-    // Hide the project details container with animation
-    $('.project-details').removeClass('active');
+    // First, set all projects to block but invisible to maintain grid structure
+    this.projects.forEach((project) => {
+      if (project.div) {
+        // Reset animation complete flag
+        project.div.dataset.animationComplete = 'false';
+        
+        gsap.set(project.div, {
+          display: 'block',
+          visibility: 'hidden',
+          opacity: 0,
+          scale: 0.5,
+          rotationY: -90,
+          rotationX: 45,
+          z: -200,
+          transformOrigin: '50% 50%'
+        });
+      }
+    });
     
-    // Stagger the projects appearing with GSAP
-    this.projects.forEach((project, i) => {
-      gsap.delayedCall(i * 0.05, () => {
-        this.showProject(i);
+    // Wait for details to start closing, then show projects
+    gsap.delayedCall(0.2, () => {
+      // Hide the project details container
+      $('.project-details').removeClass('active');
+      
+      // After grid has stabilized, create a timeline for consistent stagger
+      gsap.delayedCall(0.4, () => {
+        const tl = gsap.timeline();
+        
+        this.projects.forEach((project, i) => {
+          if (project.div) {
+            // Add each animation to the timeline with proper timing
+            tl.to(project.div, {
+              visibility: 'visible',
+              opacity: 1,
+              scale: 1,
+              rotationY: 0,
+              rotationX: 0,
+              z: 0,
+              duration: 0.8,
+              ease: 'expo.out',
+              onComplete: function() {
+                // Clear props and enable hover for THIS card individually
+                gsap.set(this.targets()[0], { 
+                  clearProps: 'transform,transformOrigin,visibility'
+                });
+                this.targets()[0].dataset.animationComplete = 'true';
+              }
+            }, i * 0.15); // Absolute position in timeline
+            
+            // Animate title and image
+            if (project.title) {
+              tl.to(project.title, {
+                opacity: 1,
+                duration: 0.3,
+                ease: 'power2.out'
+              }, i * 0.15 + 0.1);
+            }
+            
+            if (project.img) {
+              tl.to(project.img, {
+                opacity: 1,
+                scale: 1,
+                duration: 0.3,
+                ease: 'power2.out'
+              }, i * 0.15 + 0.1);
+            }
+          }
+        });
       });
     });
     
     // Smooth scroll back to projects section
-    gsap.delayedCall(0.3, () => {
+    gsap.delayedCall(0.5, () => {
       gsap.to(window, {
         duration: 0.8,
         scrollTo: {

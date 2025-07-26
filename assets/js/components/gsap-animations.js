@@ -101,8 +101,12 @@ document.addEventListener('DOMContentLoaded', function() {
           delay: 0.3,
           onComplete: function() {
             // Reset transform for normal 3D tilt effect
-            gsap.set(this.targets(), { 
-              clearProps: 'transform,transformOrigin'
+            this.targets().forEach(item => {
+              gsap.set(item, { 
+                clearProps: 'transform,transformOrigin'
+              });
+              // Mark animation as complete to enable hover
+              item.dataset.animationComplete = 'true';
             });
           }
         }
@@ -253,55 +257,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Reveal animation for project details
-  const observer = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      if (mutation.target.classList.contains('show')) {
-        const carousel = mutation.target.querySelector('.project-carousel');
-        const content = mutation.target.querySelectorAll('h6, p, a');
-        const techItems = mutation.target.querySelectorAll('ul li');
-        
-        gsap.fromTo(carousel,
-          { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }
-        );
-        
-        gsap.fromTo(content,
-          { opacity: 0, y: 20 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.6,
-            stagger: 0.1,
-            ease: 'power2.out',
-            delay: 0.3
-          }
-        );
-        
-        // Animate technology badges
-        gsap.fromTo(techItems,
-          { opacity: 0, scale: 0, y: 10 },
-          {
-            opacity: 1,
-            scale: 1,
-            y: 0,
-            duration: 0.4,
-            stagger: 0.05,
-            ease: 'back.out(1.7)',
-            delay: 0.6
-          }
-        );
-      }
-    });
-  });
-
-  // Observe all project descriptions
-  document.querySelectorAll('[name="projDesc"]').forEach(desc => {
-    observer.observe(desc, {
-      attributes: true,
-      attributeFilter: ['class']
-    });
-  });
+  // Simplified animation handling for project details
 });
 
 // Magnetic effect for social buttons
