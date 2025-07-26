@@ -48,12 +48,17 @@ body {
 
 /* Canvas Background */
 #canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   background: var(--bg-primary);
-  filter: blur(1px);
   display: block;
   opacity: 1;
+  pointer-events: auto; /* Keep pointer events for mouse interaction */
+  transform: none !important; /* Prevent any transform inheritance */
+  backface-visibility: hidden; /* Prevent rendering issues */
 }
 
 /* Utility Classes */
@@ -62,6 +67,7 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 1;
 }
 
 /* GSAP Animation Classes */
@@ -114,6 +120,7 @@ a:hover {
 section {
   background-color: var(--bg-primary);
   color: var(--text-primary);
+  position: relative;
 }
 
 section:nth-child(even) {

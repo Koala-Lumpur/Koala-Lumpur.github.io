@@ -4,8 +4,10 @@
   padding: 0;
   width: 100%;
   position: relative;
-  height: auto;
+  height: 100vh;
   overflow: hidden;
+  background: transparent; /* Show canvas through */
+  transform: none; /* Ensure no transform */
 }
 
 .hero-content {

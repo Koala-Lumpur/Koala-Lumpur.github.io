@@ -6,12 +6,15 @@ function initBackgroundAnimation() {
   // Create PixiJS Application
   const app = new PIXI.Application({
     view: canvas,
-    width: window.innerWidth,
-    height: window.innerHeight,
+    width: canvas.offsetWidth,
+    height: canvas.offsetHeight,
     backgroundColor: 0x0a0a0a,
     resolution: window.devicePixelRatio || 1,
     autoDensity: true,
-    antialias: true
+    antialias: true,
+    resizeTo: canvas, // Resize to canvas element, not window
+    autoStart: true,
+    forceCanvas: false
   });
 
   // Skills array
@@ -323,10 +326,14 @@ function initBackgroundAnimation() {
 
   // Mouse event handlers
   app.stage.interactive = true;
-  app.stage.hitArea = app.screen;
+  app.stage.hitArea = new PIXI.Rectangle(0, 0, app.screen.width, app.screen.height);
 
   app.stage.on('pointermove', (event) => {
-    mousePosition = event.data.global;
+    // Get position relative to the canvas
+    const rect = canvas.getBoundingClientRect();
+    const x = event.data.global.x;
+    const y = event.data.global.y;
+    mousePosition = { x, y };
     
     if (!mouseDown) {
       // Reset all scales first
@@ -378,10 +385,16 @@ function initBackgroundAnimation() {
     });
   });
 
-  // Handle window resize
-  window.addEventListener('resize', () => {
-    app.renderer.resize(window.innerWidth, window.innerHeight);
+  // Handle canvas resize
+  const resizeObserver = new ResizeObserver(entries => {
+    for (let entry of entries) {
+      const { width, height } = entry.contentRect;
+      app.renderer.resize(width, height);
+      app.stage.hitArea = new PIXI.Rectangle(0, 0, width, height);
+    }
   });
+  
+  resizeObserver.observe(canvas);
 }
 
 // Initialize on DOM load
