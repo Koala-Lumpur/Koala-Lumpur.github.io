@@ -360,7 +360,9 @@ function initBackgroundAnimation() {
     mouseDown = true;
   });
 
-  app.stage.on('pointerup', () => {
+  const handlePointerUp = () => {
+    if (!mouseDown) return; // Only process if mouse was actually down
+    
     mouseDown = false;
     
     // Explosion effect
@@ -383,7 +385,23 @@ function initBackgroundAnimation() {
         skill.attractionStrength = 0;
       }
     });
-  });
+  };
+
+  app.stage.on('pointerup', handlePointerUp);
+  
+  // Also listen for mouse up on window to catch releases outside canvas
+  window.addEventListener('mouseup', handlePointerUp);
+  window.addEventListener('touchend', handlePointerUp);
+  
+  // Handle mouse leaving the hero area
+  const heroContainer = document.querySelector('.hero-container');
+  if (heroContainer) {
+    heroContainer.addEventListener('mouseleave', () => {
+      if (mouseDown) {
+        handlePointerUp();
+      }
+    });
+  }
 
   // Handle canvas resize
   const resizeObserver = new ResizeObserver(entries => {
