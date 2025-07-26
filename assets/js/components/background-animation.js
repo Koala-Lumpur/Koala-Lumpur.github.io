@@ -28,6 +28,7 @@ function initBackgroundAnimation() {
   let click = false;
   let lastMousePoint = null;
   const floatingSkills = [];
+  const sparkParticles = [];
 
   // Create floating skill texts
   for (let i = 0; i < skillCount; i++) {
@@ -75,8 +76,99 @@ function initBackgroundAnimation() {
     });
   }
 
+  // Function to create spark particles
+  function createSpark(position, baseColor) {
+    const sparkCount = 3 + Math.floor(Math.random() * 3); // 3-5 sparks per skill (reduced for performance)
+    
+    for (let i = 0; i < sparkCount; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 4 + Math.random() * 6;
+      const velocity = new paper.Point(
+        Math.cos(angle) * speed,
+        Math.sin(angle) * speed
+      );
+      
+      // Create color variation (less than text - tighter blue range)
+      const hueVariation = Math.random() * 0.03 - 0.015; // Half the variation of text
+      const sparkColor = new paper.Color({
+        hue: 210 + (hueVariation * 360), // Base blue with minimal variation
+        saturation: 0.8 + Math.random() * 0.1, // 80-90% saturation
+        brightness: 0.9 + Math.random() * 0.1  // 90-100% brightness
+      });
+      
+      // Create spark with blue color
+      const sparkRadius = 3 + Math.random() * 3;
+      const spark = new paper.Path.Circle({
+        center: position,
+        radius: sparkRadius,
+        fillColor: new paper.Color(sparkColor.red, sparkColor.green, sparkColor.blue, 0.95), // Blue spark
+        shadowColor: new paper.Color(sparkColor.red, sparkColor.green, sparkColor.blue),
+        shadowBlur: 25, // Strong blue glow
+        shadowOffset: new paper.Point(0, 0)
+      });
+      
+      // Single subtle background glow (bigger but still subtle)
+      const lightEmission = new paper.Path.Circle({
+        center: position,
+        radius: 30 + Math.random() * 20, // Bigger light area
+        fillColor: new paper.Color(sparkColor.red, sparkColor.green, sparkColor.blue, 0.15),
+        blendMode: 'add'
+      });
+      lightEmission.sendToBack();
+      
+      sparkParticles.push({
+        path: spark,
+        light: lightEmission,
+        velocity: velocity,
+        life: 1.0,
+        lifespan: 0.6 + Math.random() * 0.4, // Random lifespan 0.6-1.0
+        decay: 0.01 + Math.random() * 0.025 // More varied decay rate
+      });
+    }
+  }
+
   // Animation frame handler
   paper.view.onFrame = function(event) {
+    // Update spark particles
+    for (let i = sparkParticles.length - 1; i >= 0; i--) {
+      const spark = sparkParticles[i];
+      
+      // Update position
+      spark.path.position = spark.path.position.add(spark.velocity);
+      spark.light.position = spark.path.position; // Move light emission with spark
+      
+      // Apply gravity
+      spark.velocity.y += 0.3;
+      
+      // Decay
+      spark.life -= spark.decay;
+      
+      // Calculate fade effect - starts fading when life drops below 40%
+      const fadeThreshold = spark.lifespan * 0.4;
+      let opacity = 1;
+      if (spark.life < fadeThreshold) {
+        opacity = spark.life / fadeThreshold;
+      }
+      
+      // Apply opacity with fade
+      spark.path.opacity = opacity;
+      spark.light.opacity = opacity * 0.25; // Very subtle light that also fades
+      
+      // Make spark stand out more with stronger shadow blur when bright
+      spark.path.shadowBlur = 20 + (opacity * 10);
+      
+      // Scale down
+      spark.path.scale(0.96);
+      spark.light.scale(0.98); // Light scales slower to maintain area
+      
+      // Remove dead particles
+      if (spark.life <= 0 || spark.path.bounds.width < 0.5) {
+        spark.path.remove();
+        spark.light.remove();
+        sparkParticles.splice(i, 1);
+      }
+    }
+    
     floatingSkills.forEach(skill => {
       // Apply continuous attraction when mouse is held down
       if (click && lastMousePoint) {
@@ -231,6 +323,11 @@ function initBackgroundAnimation() {
         
         // Apply shake based on attraction strength
         skill.shakeAmount = skill.attractionStrength * 10;
+        
+        // Create spark particles at explosion point (with cap)
+        if (skill.attractionStrength > 0.3 && sparkParticles.length < 50) { // Max 50 sparks total
+          createSpark(skill.text.position, skill.baseColor);
+        }
       }
       
       // Reset visual properties
