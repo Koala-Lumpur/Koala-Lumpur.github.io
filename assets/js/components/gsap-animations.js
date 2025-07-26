@@ -2,10 +2,7 @@
 gsap.registerPlugin(ScrollTrigger);
 
 document.addEventListener('DOMContentLoaded', function() {
-  // Set initial states for animations
-  gsap.set('.hero-title', { opacity: 0, y: 50 });
-  gsap.set('.hero-subtitle', { opacity: 0, y: 30 });
-  gsap.set('.navbar', { opacity: 0, y: -100 });
+  // Initial states are now set in CSS to prevent flash of content
   
   // Hero Section Animations
   const heroTimeline = gsap.timeline({
@@ -13,37 +10,29 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   heroTimeline
-    .to('.hero-title', {
-      opacity: 1,
-      y: 0,
-      duration: 1.2,
-      delay: 0.5
-    })
-    .to('.hero-subtitle', {
-      opacity: 1,
-      y: 0,
-      duration: 1,
-      delay: -0.6
-    })
-    .to('.navbar', {
-      opacity: 1,
-      y: 0,
-      duration: 0.8,
-      delay: -0.4
-    });
+    .fromTo('.hero-title', 
+      { opacity: 0, y: 50 },
+      { opacity: 1, y: 0, duration: 1.2, delay: 0.5 }
+    )
+    .fromTo('.hero-subtitle', 
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 1, delay: -0.6 }
+    )
+    .fromTo('.navbar', 
+      { opacity: 0, y: -100 },
+      { opacity: 1, y: 0, duration: 0.8, delay: -0.4 }
+    );
 
   // About Section Animations
   ScrollTrigger.create({
     trigger: '#about',
     start: 'top 80%',
     onEnter: () => {
-      gsap.fromTo('#about h2', 
-        { opacity: 0, y: 30 },
+      gsap.to('#about h2', 
         { opacity: 1, y: 0, duration: 1, ease: 'power2.out' }
       );
       
-      gsap.fromTo('#about .col-lg',
-        { opacity: 0, x: -50 },
+      gsap.to('#about .col-lg',
         { 
           opacity: 1, 
           x: 0, 
@@ -55,8 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
       );
 
       // Animate skills list items
-      gsap.fromTo('.skills-list li',
-        { opacity: 0, x: -20 },
+      gsap.to('.skills-list li',
         {
           opacity: 1,
           x: 0,
@@ -75,18 +63,12 @@ document.addEventListener('DOMContentLoaded', function() {
     trigger: '#projects',
     start: 'top 80%',
     onEnter: () => {
-      gsap.fromTo('#projects h2',
-        { opacity: 0, y: 30 },
+      gsap.to('#projects h2',
         { opacity: 1, y: 0, duration: 1, ease: 'power2.out' }
       );
 
       // Stagger project items animation
-      gsap.fromTo('.project-item',
-        { 
-          opacity: 0,
-          scale: 0.8,
-          y: 50
-        },
+      gsap.to('.project-item',
         {
           opacity: 1,
           scale: 1,
@@ -109,13 +91,11 @@ document.addEventListener('DOMContentLoaded', function() {
     trigger: '#contact',
     start: 'top 80%',
     onEnter: () => {
-      gsap.fromTo('#contact h2',
-        { opacity: 0, y: 30 },
+      gsap.to('#contact h2',
         { opacity: 1, y: 0, duration: 1, ease: 'power2.out' }
       );
 
-      gsap.fromTo('.contact-info',
-        { opacity: 0, y: 30 },
+      gsap.to('.contact-info',
         {
           opacity: 1,
           y: 0,
@@ -126,8 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       );
 
-      gsap.fromTo('.social-buttons a',
-        { opacity: 0, scale: 0 },
+      gsap.to('.social-buttons a',
         {
           opacity: 1,
           scale: 1,

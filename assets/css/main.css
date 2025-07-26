@@ -69,3 +69,26 @@ section {
   opacity: 0;
   visibility: hidden;
 }
+
+/* Initial hidden states for GSAP animations */
+.hero-title,
+.hero-subtitle {
+  opacity: 0;
+}
+
+/* Hide elements that animate on scroll until they're in view */
+#about h2,
+#about .col-lg,
+.skills-list li,
+#projects h2,
+.project-item,
+#contact h2,
+.contact-info,
+.social-buttons a {
+  opacity: 0;
+}
+
+/* Special handling for navbar to prevent layout shift */
+.navbar {
+  opacity: 0;
+}
