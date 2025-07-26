@@ -67,19 +67,37 @@ document.addEventListener('DOMContentLoaded', function() {
         { opacity: 1, y: 0, duration: 1, ease: 'power2.out' }
       );
 
-      // Stagger project items animation
-      gsap.to('.project-item',
+      // Exciting 3D stagger animation for project cards with shadows
+      gsap.set('.project-grid', { perspective: 1000 });
+      
+      gsap.fromTo('.project-item',
+        {
+          opacity: 0,
+          scale: 0.5,
+          rotationY: -90,
+          rotationX: 45,
+          z: -200,
+          transformOrigin: '50% 50%',
+          boxShadow: '0 0 0 rgba(0, 0, 0, 0)'
+        },
         {
           opacity: 1,
           scale: 1,
-          y: 0,
-          duration: 0.6,
-          stagger: {
-            amount: 0.8,
-            from: 'start'
-          },
-          ease: 'back.out(1.7)',
-          delay: 0.3
+          rotationY: 0,
+          rotationX: 0,
+          z: 0,
+          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)',
+          duration: 0.8,
+          stagger: 0.15, // Sequential one-by-one animation
+          ease: 'expo.out',
+          delay: 0.3,
+          onComplete: function() {
+            // Reset transform for normal 3D tilt effect but keep shadow
+            gsap.set(this.targets(), { 
+              clearProps: 'transform,transformOrigin',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' 
+            });
+          }
         }
       );
     },
