@@ -155,13 +155,17 @@ class ProjectGallery {
   hideProject(projectIndex) {
     const project = this.projects[projectIndex];
     if (project && project.div) {
-      // Add hiding animation class
-      $(project.div).addClass('hiding');
-      // Remove element after animation completes
-      setTimeout(() => {
-        $(project.div).hide();
-        $(project.div).removeClass('hiding');
-      }, 300);
+      // GSAP animation for hiding projects
+      gsap.to(project.div, {
+        opacity: 0,
+        scale: 0.9,
+        y: 20,
+        duration: 0.3,
+        ease: 'power2.in',
+        onComplete: () => {
+          gsap.set(project.div, { display: 'none' });
+        }
+      });
     }
   }
 
@@ -183,40 +187,65 @@ class ProjectGallery {
 
     this.currentProject = projectIndex;
     
-    // Add expanding animation to clicked project
+    // Add expanding animation to clicked project with GSAP
     if (project.div) {
-      $(project.div).addClass('expanding');
-      setTimeout(() => {
-        $(project.div).removeClass('expanding');
-      }, 500);
+      gsap.to(project.div, {
+        scale: 1.05,
+        duration: 0.3,
+        ease: 'power2.out',
+        yoyo: true,
+        repeat: 1,
+        onComplete: () => {
+          gsap.set(project.div, { scale: 1 });
+        }
+      });
     }
     
-    // Smooth transitions
-    $('.close-button, .close-item').fadeIn(300);
+    // Smooth transitions with GSAP
+    gsap.to('.close-button, .close-item', {
+      opacity: 1,
+      display: 'block',
+      duration: 0.3,
+      ease: 'power2.out'
+    });
     
     // Show the project details container with animation
-    setTimeout(() => {
+    gsap.delayedCall(0.2, () => {
       $('.project-details').addClass('active');
-    }, 200);
+    });
 
     if (project.description) {
-      setTimeout(() => {
+      gsap.delayedCall(0.3, () => {
         $(project.description).collapse('show');
-        // Smooth scroll to top of project details container after animation
-        setTimeout(() => {
-          $('html, body').animate({
-            scrollTop: $('.project-details').offset().top - 80
-          }, 500);
-        }, 400);
-      }, 300);
+        // Smooth scroll using GSAP ScrollTo plugin
+        gsap.delayedCall(0.4, () => {
+          gsap.to(window, {
+            duration: 0.8,
+            scrollTo: {
+              y: $('.project-details').offset().top - 80,
+              autoKill: false
+            },
+            ease: 'power2.inOut'
+          });
+        });
+      });
     }
     
     if (project.title) {
-      $(project.title).fadeOut(200);
+      gsap.to(project.title, {
+        opacity: 0,
+        duration: 0.2,
+        ease: 'power2.out'
+      });
     }
     
     if (project.img) {
-      $(project.img).fadeOut(200);
+      gsap.to(project.img, {
+        opacity: 0,
+        scale: 0.95,
+        duration: 0.2,
+        ease: 'power2.out'
+      });
     }
 
     this.hideAllProjects(projectIndex);
@@ -231,33 +260,70 @@ class ProjectGallery {
     }
     
     if (project.div) {
-      $(project.div).show();
-      $(project.div).css({opacity: 0, transform: 'scale(0.95)'});
-      $(project.div).animate({opacity: 1}, 300);
-      $(project.div).css({transform: 'scale(1)'});
+      gsap.set(project.div, { display: 'block' });
+      gsap.fromTo(project.div,
+        { opacity: 0, scale: 0.9, y: 20 },
+        { 
+          opacity: 1, 
+          scale: 1, 
+          y: 0,
+          duration: 0.4,
+          ease: 'back.out(1.4)'
+        }
+      );
     }
     
     if (project.title) {
-      $(project.title).fadeIn(200);
+      gsap.to(project.title, {
+        opacity: 1,
+        duration: 0.3,
+        delay: 0.1,
+        ease: 'power2.out'
+      });
     }
     
     if (project.img) {
-      $(project.img).fadeIn(200);
+      gsap.to(project.img, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.3,
+        delay: 0.1,
+        ease: 'power2.out'
+      });
     }
   }
 
   showAllProjects() {
-    $('.close-button, .close-item').fadeOut(200);
+    gsap.to('.close-button, .close-item', {
+      opacity: 0,
+      duration: 0.2,
+      ease: 'power2.out',
+      onComplete: () => {
+        gsap.set('.close-button, .close-item', { display: 'none' });
+      }
+    });
     
     // Hide the project details container with animation
     $('.project-details').removeClass('active');
     
-    // Stagger the projects appearing
-    for (let i = 0; i < this.projects.length; i++) {
-      setTimeout(() => {
+    // Stagger the projects appearing with GSAP
+    this.projects.forEach((project, i) => {
+      gsap.delayedCall(i * 0.05, () => {
         this.showProject(i);
-      }, i * 50); // 50ms delay between each project
-    }
+      });
+    });
+    
+    // Smooth scroll back to projects section
+    gsap.delayedCall(0.3, () => {
+      gsap.to(window, {
+        duration: 0.8,
+        scrollTo: {
+          y: '#projects',
+          offsetY: 80
+        },
+        ease: 'power2.inOut'
+      });
+    });
   }
 }
 

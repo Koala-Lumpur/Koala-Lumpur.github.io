@@ -29,3 +29,43 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+/* GSAP Animation Classes */
+.skills-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.skills-list li {
+  background: #007bff;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.skills-list li:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Enhanced section spacing */
+section {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Loading state for animations */
+.loading {
+  opacity: 0;
+  visibility: hidden;
+}
