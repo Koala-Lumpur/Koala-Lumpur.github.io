@@ -301,6 +301,10 @@ class ProjectGallery {
         // Reset animation complete flag
         project.div.dataset.animationComplete = 'false';
         
+        // Clear any existing transforms first
+        gsap.set(project.div, { clearProps: 'all' });
+        
+        // Then set up for animation
         gsap.set(project.div, {
           display: 'block',
           visibility: 'hidden',
@@ -336,11 +340,12 @@ class ProjectGallery {
               duration: 0.8,
               ease: 'expo.out',
               onComplete: function() {
-                // Clear props and enable hover for THIS card individually
-                gsap.set(this.targets()[0], { 
+                // Clear only transform props, keep display and opacity
+                const target = this.targets()[0];
+                gsap.set(target, { 
                   clearProps: 'transform,transformOrigin,visibility'
                 });
-                this.targets()[0].dataset.animationComplete = 'true';
+                target.dataset.animationComplete = 'true';
               }
             }, i * 0.15); // Absolute position in timeline
             

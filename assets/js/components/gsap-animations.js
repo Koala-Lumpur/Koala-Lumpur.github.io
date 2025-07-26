@@ -77,8 +77,11 @@ document.addEventListener('DOMContentLoaded', function() {
         { opacity: 1, y: 0, duration: 1, ease: 'power2.out' }
       );
 
-      // Exciting 3D stagger animation for project cards
+      // Exciting 3D stagger animation for project cards with performance optimization
       gsap.set('.project-grid', { perspective: 1000 });
+      
+      // Use will-change for better performance
+      gsap.set('.project-item', { willChange: 'transform, opacity' });
       
       gsap.fromTo('.project-item',
         {
@@ -95,15 +98,16 @@ document.addEventListener('DOMContentLoaded', function() {
           rotationY: 0,
           rotationX: 0,
           z: 0,
-          duration: 0.8,
-          stagger: 0.15, // Sequential one-by-one animation
-          ease: 'expo.out',
-          delay: 0.3,
+          duration: 0.6, // Slightly faster for better performance
+          stagger: 0.12, // Slightly faster stagger
+          ease: 'power3.out', // Less complex easing for better performance
+          delay: 0.2,
           onComplete: function() {
             // Reset transform for normal 3D tilt effect
             this.targets().forEach(item => {
               gsap.set(item, { 
-                clearProps: 'transform,transformOrigin'
+                clearProps: 'transform,transformOrigin',
+                willChange: 'auto' // Remove will-change after animation
               });
               // Mark animation as complete to enable hover
               item.dataset.animationComplete = 'true';
