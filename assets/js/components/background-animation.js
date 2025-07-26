@@ -26,6 +26,7 @@ function initBackgroundAnimation() {
   const maxSpeed = 2;
 
   let click = false;
+  let lastMousePoint = null;
   const floatingSkills = [];
 
   // Create floating skill texts
@@ -67,20 +68,47 @@ function initBackgroundAnimation() {
       text: text,
       speed: speed,
       originalOpacity: opacity,
-      baseColor: baseColor
+      baseColor: baseColor,
+      velocity: new paper.Point(0, 0),
+      shakeAmount: 0,
+      attractionStrength: 0
     });
   }
 
   // Animation frame handler
   paper.view.onFrame = function(event) {
     floatingSkills.forEach(skill => {
-      // Move skill down
+      // Apply velocity from explosion effect
+      if (skill.velocity.length > 0.1) {
+        skill.text.position = skill.text.position.add(skill.velocity);
+        skill.velocity = skill.velocity.multiply(0.95); // Damping
+      }
+      
+      // Apply shake effect
+      if (skill.shakeAmount > 0.1) {
+        const shakeX = (Math.random() - 0.5) * skill.shakeAmount;
+        const shakeY = (Math.random() - 0.5) * skill.shakeAmount;
+        skill.text.position.x += shakeX;
+        skill.text.position.y += shakeY;
+        skill.shakeAmount *= 0.9; // Decay shake
+      }
+      
+      // Move skill down (normal gravity)
       skill.text.position.y += skill.speed;
+      
+      // Wrap around screen edges horizontally
+      if (skill.text.bounds.right < 0) {
+        skill.text.position.x = paper.view.size.width + skill.text.bounds.width;
+      } else if (skill.text.bounds.left > paper.view.size.width) {
+        skill.text.position.x = -skill.text.bounds.width;
+      }
       
       // Reset position if it goes below viewport
       if (skill.text.bounds.top > paper.view.size.height) {
         skill.text.position.y = -50;
         skill.text.position.x = Math.random() * paper.view.size.width;
+        skill.velocity = new paper.Point(0, 0);
+        skill.shakeAmount = 0;
         
         // Randomly pick a new skill text
         skill.text.content = skills[Math.floor(Math.random() * skills.length)];
@@ -125,6 +153,8 @@ function initBackgroundAnimation() {
 
   paper.view.onMouseDrag = function(event) {
     click = true;
+    lastMousePoint = event.point;
+    
     // Attract skills to cursor while dragging
     floatingSkills.forEach(skill => {
       const distance = skill.text.position.getDistance(event.point);
@@ -133,21 +163,63 @@ function initBackgroundAnimation() {
         const d = skill.text.position.subtract(event.point);
         skill.text.position = skill.text.position.subtract(d.multiply(0.05));
         
+        // Track how strongly this skill is being attracted
+        const attractionIntensity = 1 - (distance / 200);
+        skill.attractionStrength = Math.max(skill.attractionStrength, attractionIntensity);
+        
         // Increase glow effect based on proximity
-        const glowIntensity = 1 - (distance / 200);
-        skill.text.fillColor.alpha = Math.min(skill.originalOpacity + (0.4 * glowIntensity), 1);
-        skill.text.shadowBlur = 8 + (12 * glowIntensity);
+        skill.text.fillColor.alpha = Math.min(skill.originalOpacity + (0.4 * attractionIntensity), 1);
+        skill.text.shadowBlur = 8 + (12 * attractionIntensity);
       }
     });
   };
 
   paper.view.onMouseUp = function(event) {
     click = false;
-    // Reset glow effect
+    
+    // Apply explosion effect to attracted skills
     floatingSkills.forEach(skill => {
+      if (skill.attractionStrength > 0.1) {
+        // Calculate explosion direction (away from cursor)
+        const direction = skill.text.position.subtract(lastMousePoint || event.point);
+        const distance = direction.length;
+        
+        // Normalize direction and add some randomness
+        let explosionDir;
+        if (distance > 0) {
+          explosionDir = direction.normalize();
+        } else {
+          // If skill is exactly at cursor, use random direction
+          const angle = Math.random() * Math.PI * 2;
+          explosionDir = new paper.Point(Math.cos(angle), Math.sin(angle));
+        }
+        
+        // Add random perpendicular component for more natural scatter
+        const perpAngle = Math.atan2(explosionDir.y, explosionDir.x) + Math.PI / 2;
+        const perpComponent = new paper.Point(
+          Math.cos(perpAngle) * (Math.random() - 0.5) * 0.5,
+          Math.sin(perpAngle) * (Math.random() - 0.5) * 0.5
+        );
+        explosionDir = explosionDir.add(perpComponent).normalize();
+        
+        // Calculate explosion force based on how strongly it was attracted
+        const baseForce = 15;
+        const force = baseForce * skill.attractionStrength * (0.8 + Math.random() * 0.4);
+        
+        // Apply velocity
+        skill.velocity = explosionDir.multiply(force);
+        
+        // Apply shake based on attraction strength
+        skill.shakeAmount = skill.attractionStrength * 10;
+      }
+      
+      // Reset visual properties
       skill.text.fillColor = new paper.Color(skill.baseColor.red, skill.baseColor.green, skill.baseColor.blue, skill.originalOpacity);
       skill.text.shadowColor = new paper.Color(skill.baseColor.red, skill.baseColor.green, skill.baseColor.blue, skill.originalOpacity * 0.8);
       skill.text.shadowBlur = 8;
+      
+      // Reset attraction strength for next interaction
+      skill.attractionStrength = 0;
     });
   };
 }
