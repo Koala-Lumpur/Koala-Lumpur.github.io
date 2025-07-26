@@ -78,6 +78,24 @@ function initBackgroundAnimation() {
   // Animation frame handler
   paper.view.onFrame = function(event) {
     floatingSkills.forEach(skill => {
+      // Apply continuous attraction when mouse is held down
+      if (click && lastMousePoint) {
+        const distance = skill.text.position.getDistance(lastMousePoint);
+        if (distance < 200) {
+          // Pull text toward mouse
+          const d = skill.text.position.subtract(lastMousePoint);
+          skill.text.position = skill.text.position.subtract(d.multiply(0.05));
+          
+          // Track how strongly this skill is being attracted
+          const attractionIntensity = 1 - (distance / 200);
+          skill.attractionStrength = Math.max(skill.attractionStrength, attractionIntensity);
+          
+          // Increase glow effect based on proximity
+          skill.text.fillColor.alpha = Math.min(skill.originalOpacity + (0.4 * attractionIntensity), 1);
+          skill.text.shadowBlur = 8 + (12 * attractionIntensity);
+        }
+      }
+      
       // Apply velocity from explosion effect
       if (skill.velocity.length > 0.1) {
         skill.text.position = skill.text.position.add(skill.velocity);
@@ -140,6 +158,8 @@ function initBackgroundAnimation() {
 
   paper.view.onMouseDown = function(event) {
     click = true;
+    lastMousePoint = event.point;
+    
     // On click, make nearby skills glow brighter
     floatingSkills.forEach(skill => {
       const distance = skill.text.position.getDistance(event.point);
