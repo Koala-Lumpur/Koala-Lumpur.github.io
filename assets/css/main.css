@@ -4,11 +4,44 @@
 @import 'components/projects.css';
 @import 'components/contact.css';
 
+/* Dark Theme Variables */
+:root {
+  /* Background colors */
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #141414;
+  --bg-surface: #1a1a1a;
+  --bg-elevated: #1f1f1f;
+  
+  /* Text colors */
+  --text-primary: #e0e0e0;
+  --text-secondary: #b0b0b0;
+  --text-muted: #808080;
+  
+  /* Accent colors */
+  --accent-primary: #4a9eff;
+  --accent-hover: #6bb2ff;
+  --accent-active: #357abd;
+  
+  /* Semantic colors */
+  --success: #8b5cf6;
+  --success-hover: #a78bfa;
+  
+  /* Border and divider colors */
+  --border-color: #2a2a2a;
+  --divider-color: #333333;
+  
+  /* Shadow colors */
+  --shadow-sm: rgba(0, 0, 0, 0.5);
+  --shadow-md: rgba(0, 0, 0, 0.7);
+  --shadow-lg: rgba(0, 0, 0, 0.9);
+}
+
 /* Main Styles */
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   line-height: 1.6;
-  color: #333;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
   margin: 0;
   padding: 0;
 }
@@ -17,9 +50,10 @@ body {
 #canvas {
   width: 100%;
   height: 100vh;
-  background: black;
-  filter: blur(5px);
+  background: var(--bg-primary);
+  filter: blur(2px);
   display: block;
+  opacity: 0.8;
 }
 
 /* Utility Classes */
@@ -40,17 +74,63 @@ body {
 }
 
 .skills-list li {
-  background: #007bff;
-  color: white;
+  background: var(--success);
+  color: var(--bg-primary);
   padding: 0.5rem 1rem;
   border-radius: 25px;
   font-size: 0.9rem;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid transparent;
 }
 
 .skills-list li:hover {
   transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+  box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3);
+  background: var(--success-hover);
+  border-color: var(--success);
+}
+
+/* Headings and Typography */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+}
+
+p {
+  color: var(--text-secondary);
+}
+
+a {
+  color: var(--accent-primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--accent-hover);
+  text-decoration: none;
+}
+
+/* Section styling */
+section {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+section:nth-child(even) {
+  background-color: var(--bg-secondary);
+}
+
+/* Bootstrap overrides */
+.jumbotron {
+  background-color: transparent;
+}
+
+.text-white {
+  color: var(--text-primary) !important;
+}
+
+.display-1, .display-2, .display-3, .display-4 {
+  color: var(--text-primary);
 }
 
 /* Smooth scroll behavior */
@@ -91,4 +171,57 @@ section {
 /* Special handling for navbar to prevent layout shift */
 .navbar {
   transform: translateX(-100%);
+}
+
+/* Carousel controls for dark theme */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(1);
+}
+
+.carousel-indicators li {
+  background-color: var(--text-muted);
+}
+
+.carousel-indicators .active {
+  background-color: var(--accent-primary);
+}
+
+/* Card styles for dark theme */
+.card {
+  background-color: var(--bg-surface);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.card-header {
+  background-color: var(--bg-elevated);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+/* Modal styles for dark theme */
+.modal-content {
+  background-color: var(--bg-surface);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.modal-header {
+  border-color: var(--border-color);
+}
+
+.modal-footer {
+  border-color: var(--border-color);
+}
+
+/* Close button styles */
+.close {
+  color: var(--text-primary);
+  opacity: 0.8;
+}
+
+.close:hover {
+  color: var(--accent-primary);
+  opacity: 1;
 }

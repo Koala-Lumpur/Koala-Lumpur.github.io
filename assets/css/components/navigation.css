@@ -1,19 +1,40 @@
 /* Navigation Styles */
 .main-nav {
-  background-color: #333;
+  background-color: var(--bg-secondary);
   position: sticky;
   top: 0;
   z-index: 1000;
+  border-bottom: 1px solid var(--border-color);
+  backdrop-filter: blur(10px);
+  background-color: rgba(20, 20, 20, 0.95);
 }
 
 .main-nav .navbar-nav .nav-link {
-  color: #fff;
+  color: var(--text-primary);
   padding: 0.5rem 1rem;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  position: relative;
 }
 
 .main-nav .navbar-nav .nav-link:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--accent-primary);
+  background-color: rgba(74, 158, 255, 0.1);
+}
+
+.main-nav .navbar-nav .nav-link:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--accent-primary);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.main-nav .navbar-nav .nav-link:hover:after {
+  width: 80%;
 }
 
 @media (max-width: 576px) {

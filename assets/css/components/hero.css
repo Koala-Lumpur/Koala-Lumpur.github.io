@@ -9,12 +9,13 @@
 }
 
 .hero-content {
-  background: rgba(66, 66, 66, 0.5);
+  background: rgba(20, 20, 20, 0.7);
   backdrop-filter: blur(10px);
   pointer-events: none;
   padding: 3rem;
   border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 30px var(--shadow-lg);
+  border: 1px solid var(--border-color);
   will-change: transform, opacity;
 }
 

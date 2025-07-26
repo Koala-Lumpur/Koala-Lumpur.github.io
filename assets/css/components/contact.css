@@ -1,7 +1,8 @@
 /* Contact Section Styles */
 .contact-section {
-  background-color: #f8f9fa;
+  background-color: var(--bg-secondary);
   padding: 4rem 0;
+  border-top: 1px solid var(--border-color);
 }
 
 .contact-info {
@@ -9,16 +10,18 @@
 }
 
 .contact-info h4 {
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 1rem;
 }
 
 .contact-info a {
-  color: #0066cc;
+  color: var(--accent-primary);
   text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 .contact-info a:hover {
+  color: var(--accent-hover);
   text-decoration: underline;
 }
 

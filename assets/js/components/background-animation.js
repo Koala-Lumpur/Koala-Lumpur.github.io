@@ -10,12 +10,12 @@ function initBackgroundAnimation() {
   const count = 100;
   let click = false;
 
-  // Create circle path
+  // Create circle path with dark theme colors
   const path = new paper.Path.Circle({
     center: [0, 0],
     radius: 10,
-    fillColor: 'white',
-    strokeColor: 'black'
+    fillColor: new paper.Color(74/255, 158/255, 255/255, 0.3), // Accent blue with opacity
+    strokeColor: new paper.Color(74/255, 158/255, 255/255, 0.5)
   });
 
   // Create symbol and place instances
