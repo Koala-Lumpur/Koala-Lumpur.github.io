@@ -116,7 +116,9 @@ function initBackgroundAnimation() {
     graphics.beginFill(0xffffff);
     graphics.drawCircle(0, 0, 4);
     graphics.endFill();
-    return app.renderer.generateTexture(graphics);
+    const texture = app.renderer.generateTexture(graphics);
+    graphics.destroy(); // Clean up graphics object
+    return texture;
   }
   
   function createLightTexture() {
@@ -131,7 +133,9 @@ function initBackgroundAnimation() {
     graphics.beginFill(0xffffff, 0.1);
     graphics.drawCircle(0, 0, 30);
     graphics.endFill();
-    return app.renderer.generateTexture(graphics);
+    const texture = app.renderer.generateTexture(graphics);
+    graphics.destroy(); // Clean up graphics object
+    return texture;
   }
 
   // Create spark pool with light sprites
@@ -140,6 +144,7 @@ function initBackgroundAnimation() {
     const spark = new PIXI.Sprite(sparkTexture);
     spark.anchor.set(0.5);
     spark.visible = false;
+    spark.position.set(-100, -100); // Position off-screen
     spark.tint = config.baseColor;
     sparksContainer.addChild(spark);
     
@@ -147,6 +152,7 @@ function initBackgroundAnimation() {
     const light = new PIXI.Sprite(lightTexture);
     light.anchor.set(0.5);
     light.visible = false;
+    light.position.set(-100, -100); // Position off-screen
     light.tint = config.baseColor;
     light.blendMode = PIXI.BLEND_MODES.ADD;
     light.filters = [blurFilter];
