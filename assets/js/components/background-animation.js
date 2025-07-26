@@ -123,13 +123,31 @@ function initBackgroundAnimation() {
     });
   };
 
+  paper.view.onMouseDrag = function(event) {
+    click = true;
+    // Attract skills to cursor while dragging
+    floatingSkills.forEach(skill => {
+      const distance = skill.text.position.getDistance(event.point);
+      if (distance < 200) {
+        // Pull text toward mouse
+        const d = skill.text.position.subtract(event.point);
+        skill.text.position = skill.text.position.subtract(d.multiply(0.05));
+        
+        // Increase glow effect based on proximity
+        const glowIntensity = 1 - (distance / 200);
+        skill.text.fillColor.alpha = Math.min(skill.originalOpacity + (0.4 * glowIntensity), 1);
+        skill.text.shadowBlur = 8 + (12 * glowIntensity);
+      }
+    });
+  };
+
   paper.view.onMouseUp = function(event) {
     click = false;
     // Reset glow effect
     floatingSkills.forEach(skill => {
-      skill.text.fillColor = new paper.Color(74/255, 158/255, 255/255, skill.originalOpacity);
-      skill.text.shadowColor = null;
-      skill.text.shadowBlur = 0;
+      skill.text.fillColor = new paper.Color(skill.baseColor.red, skill.baseColor.green, skill.baseColor.blue, skill.originalOpacity);
+      skill.text.shadowColor = new paper.Color(skill.baseColor.red, skill.baseColor.green, skill.baseColor.blue, skill.originalOpacity * 0.8);
+      skill.text.shadowBlur = 8;
     });
   };
 }
