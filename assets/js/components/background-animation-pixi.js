@@ -51,21 +51,22 @@ function initBackgroundAnimation() {
   // Create skill particles
   const floatingSkills = [];
   
-  // Create a single filter for all glowing elements (much more performant)
-  const glowFilter = new PIXI.filters.BlurFilter();
-  glowFilter.blur = 1; // Reduced from 4 for better readability
-  glowFilter.quality = 2;
+  // Create blur filter for glow effect
+  const blurFilter = new PIXI.filters.BlurFilter();
+  blurFilter.blur = 8;
+  blurFilter.quality = 1;
   
   // Text style template
   const baseTextStyle = {
     fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
     fontWeight: 500,
-    fill: [config.baseColor],
+    fill: config.baseColor,
     dropShadow: true,
     dropShadowColor: config.baseColor,
-    dropShadowBlur: 2, // Reduced for better text clarity
+    dropShadowBlur: 8, // Increased for more glow
     dropShadowAngle: 0,
-    dropShadowDistance: 0
+    dropShadowDistance: 0,
+    dropShadowAlpha: 0.6
   };
 
   // Create floating skills
@@ -86,19 +87,14 @@ function initBackgroundAnimation() {
     text.alpha = opacity;
     text.anchor.set(0.5);
     
-    // Only add filters to texts that will be visible
-    if (opacity > 0.6) {
-      text.filters = [glowFilter];
-    }
-    
     skillsContainer.addChild(text);
     
     floatingSkills.push({
       text: text,
+      glow: null, // Temporarily disable glow
       speed: speed,
       originalOpacity: opacity,
       velocity: { x: 0, y: 0 },
-      shakeAmount: 0,
       attractionStrength: 0
     });
   }
@@ -225,27 +221,46 @@ function initBackgroundAnimation() {
         skill.velocity.y *= dampingFactor;
       }
       
-      // Apply shake
-      if (skill.shakeAmount > 0.1) {
-        skill.text.x += (Math.random() - 0.5) * skill.shakeAmount;
-        skill.text.y += (Math.random() - 0.5) * skill.shakeAmount;
-        skill.shakeAmount *= 0.9;
+      // Update glow position to follow text (if glow exists)
+      if (skill.glow) {
+        skill.glow.x = skill.text.x;
+        skill.glow.y = skill.text.y;
+        skill.glow.scale.set(skill.text.scale.x); // Match text scale
+        
+        // Enhanced glow during attraction
+        if (skill.attractionStrength > 0) {
+          skill.glow.alpha = skill.originalOpacity * 0.15 + (skill.attractionStrength * 0.2);
+        } else {
+          skill.glow.alpha = skill.originalOpacity * 0.15;
+        }
       }
       
       // Normal falling motion
       skill.text.y += skill.speed * delta;
+      if (skill.glow) {
+        skill.glow.y += skill.speed * delta;
+      }
       
       // Wrap around edges
-      if (skill.text.x < -50) skill.text.x = app.screen.width + 50;
-      if (skill.text.x > app.screen.width + 50) skill.text.x = -50;
+      if (skill.text.x < -50) {
+        skill.text.x = app.screen.width + 50;
+        if (skill.glow) skill.glow.x = skill.text.x;
+      }
+      if (skill.text.x > app.screen.width + 50) {
+        skill.text.x = -50;
+        if (skill.glow) skill.glow.x = skill.text.x;
+      }
       
       // Reset when below screen
       if (skill.text.y > app.screen.height + 50) {
         skill.text.y = -50;
         skill.text.x = Math.random() * app.screen.width;
+        if (skill.glow) {
+          skill.glow.x = skill.text.x;
+          skill.glow.y = skill.text.y;
+        }
         skill.velocity.x = 0;
         skill.velocity.y = 0;
-        skill.shakeAmount = 0;
         skill.text.text = skills[Math.floor(Math.random() * skills.length)];
       }
     });
@@ -297,7 +312,6 @@ function initBackgroundAnimation() {
           const force = skill.attractionStrength * 25; // Increased explosion force from 15 to 25
           skill.velocity.x = (dx / distance) * force;
           skill.velocity.y = (dy / distance) * force;
-          skill.shakeAmount = skill.attractionStrength * 15; // Increased shake from 10 to 15
           
           if (skill.attractionStrength > 0.3) {
             createSparks(skill.text.x, skill.text.y);
