@@ -90,5 +90,5 @@ section {
 
 /* Special handling for navbar to prevent layout shift */
 .navbar {
-  opacity: 0;
+  transform: translateX(-100%);
 }
