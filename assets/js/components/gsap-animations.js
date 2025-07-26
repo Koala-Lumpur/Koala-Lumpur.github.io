@@ -77,44 +77,66 @@ document.addEventListener('DOMContentLoaded', function() {
         { opacity: 1, y: 0, duration: 1, ease: 'power2.out' }
       );
 
-      // Exciting 3D stagger animation for project cards with performance optimization
-      gsap.set('.project-grid', { perspective: 1000 });
-      
-      // Use will-change for better performance
-      gsap.set('.project-item', { willChange: 'transform, opacity' });
-      
-      gsap.fromTo('.project-item',
-        {
-          opacity: 0,
-          scale: 0.5,
-          rotationY: -90,
-          rotationX: 45,
-          z: -200,
-          transformOrigin: '50% 50%'
-        },
-        {
-          opacity: 1,
-          scale: 1,
-          rotationY: 0,
-          rotationX: 0,
-          z: 0,
-          duration: 0.6, // Slightly faster for better performance
-          stagger: 0.12, // Slightly faster stagger
-          ease: 'power3.out', // Less complex easing for better performance
-          delay: 0.2,
-          onComplete: function() {
-            // Reset transform for normal 3D tilt effect
-            this.targets().forEach(item => {
-              gsap.set(item, { 
-                clearProps: 'transform,transformOrigin',
-                willChange: 'auto' // Remove will-change after animation
+      // Function to run animations
+      const runProjectAnimations = () => {
+        // Exciting 3D stagger animation for project cards with performance optimization
+        gsap.set('.project-grid', { perspective: 1000 });
+        
+        // Use will-change and force3D for better performance
+        gsap.set('.project-item', { 
+          willChange: 'transform, opacity',
+          force3D: true
+        });
+        
+        gsap.fromTo('.project-item',
+          {
+            opacity: 0,
+            scale: 0.8,
+            rotationY: -45,
+            rotationX: 20,
+            z: -100,
+            transformOrigin: '50% 50%',
+            force3D: true
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            rotationY: 0,
+            rotationX: 0,
+            z: 0,
+            duration: 0.6,
+            stagger: 0.08,
+            ease: 'power3.out',
+            delay: 0.2,
+            onComplete: function() {
+              // Reset transform for normal 3D tilt effect
+              this.targets().forEach(item => {
+                gsap.set(item, { 
+                  clearProps: 'transform,transformOrigin,willChange',
+                  force3D: false
+                });
+                // Mark animation as complete to enable hover
+                item.dataset.animationComplete = 'true';
               });
-              // Mark animation as complete to enable hover
-              item.dataset.animationComplete = 'true';
-            });
+            }
           }
-        }
-      );
+        );
+      };
+
+      // Check if images are already loaded
+      if (document.body.classList.contains('images-loaded')) {
+        runProjectAnimations();
+      } else {
+        // Wait for images to load with a timeout
+        let checkCount = 0;
+        const checkImages = setInterval(() => {
+          if (document.body.classList.contains('images-loaded') || checkCount > 20) {
+            clearInterval(checkImages);
+            runProjectAnimations();
+          }
+          checkCount++;
+        }, 50);
+      }
     },
     once: true
   });

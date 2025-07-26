@@ -16,6 +16,13 @@
   <link href="assets/css/vendor/bootstrap-social.css" rel="stylesheet">
   <link href="assets/css/main.css" rel="stylesheet">
   
+  <!-- Preload critical project images -->
+  <link rel="preload" as="image" href="assets/img/projects/tectonicus/Tectonicus_1.jpg">
+  <link rel="preload" as="image" href="assets/img/projects/verdant-city/P6_1.png">
+  <link rel="preload" as="image" href="assets/img/projects/spatial-audio/P5_1.png">
+  <link rel="preload" as="image" href="assets/img/projects/vr-relaxation/P2_1.JPG">
+  <link rel="preload" as="image" href="assets/img/projects/ml-puzzle/AIP_1.png">
+  
   <!-- Paper.js -->
   <script type="text/javascript" src="Paper/paper-full.js"></script>
 </head>
@@ -483,6 +490,33 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+  
+  <!-- Preload critical images immediately -->
+  <script>
+    (function() {
+      const images = document.querySelectorAll('[name="projectImg"]');
+      let loadedCount = 0;
+      const totalImages = images.length;
+      
+      function checkAllLoaded() {
+        loadedCount++;
+        if (loadedCount >= totalImages) {
+          document.body.classList.add('images-loaded');
+        }
+      }
+      
+      images.forEach(img => {
+        if (img.complete) {
+          checkAllLoaded();
+        } else {
+          img.addEventListener('load', checkAllLoaded);
+          img.addEventListener('error', checkAllLoaded);
+        }
+        // Force browser to start loading
+        img.loading = 'eager';
+      });
+    })();
+  </script>
   
   <!-- Local Scripts -->
   <script src="assets/js/vendor/fittext.js"></script>

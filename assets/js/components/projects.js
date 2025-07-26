@@ -123,7 +123,7 @@ class ProjectGallery {
         const shadowBlur = 20 + Math.abs(rotateX) + Math.abs(rotateY);
         const shadowSpread = 5;
         
-        // Use GSAP for all transformations
+        // Use GSAP for all transformations with force3D
         gsap.to(card, {
           rotationX: rotateX,
           rotationY: rotateY,
@@ -131,7 +131,8 @@ class ProjectGallery {
           boxShadow: `${shadowX}px ${shadowY}px ${shadowBlur}px ${shadowSpread}px rgba(0, 0, 0, 0.3), 0 10px 30px rgba(0, 0, 0, 0.2)`,
           duration: 0.1,
           ease: 'power2.out',
-          overwrite: 'auto'
+          overwrite: 'auto',
+          force3D: true
         });
       });
       

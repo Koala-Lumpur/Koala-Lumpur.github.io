@@ -27,7 +27,11 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transform-origin: center;
   transform-style: preserve-3d;
-  will-change: transform, box-shadow;
+  /* Aspect ratio to prevent layout shift */
+  aspect-ratio: 16 / 9;
+  background-color: #f8f8f8;
+  /* Hide initially to prevent FOUC */
+  opacity: 0;
   /* Removed all transitions - GSAP will handle everything */
 }
 
@@ -69,6 +73,7 @@
   height: auto;
   display: block;
   user-select: none;
+  object-fit: cover;
 }
 
 .project-overlay {
