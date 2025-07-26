@@ -187,20 +187,6 @@ class ProjectGallery {
 
     this.currentProject = projectIndex;
     
-    // Add expanding animation to clicked project with GSAP
-    if (project.div) {
-      gsap.to(project.div, {
-        scale: 1.05,
-        duration: 0.3,
-        ease: 'power2.out',
-        yoyo: true,
-        repeat: 1,
-        onComplete: () => {
-          gsap.set(project.div, { scale: 1 });
-        }
-      });
-    }
-    
     // Smooth transitions with GSAP
     gsap.to('.close-button, .close-item', {
       opacity: 1,
@@ -231,24 +217,10 @@ class ProjectGallery {
       });
     }
     
-    if (project.title) {
-      gsap.to(project.title, {
-        opacity: 0,
-        duration: 0.2,
-        ease: 'power2.out'
-      });
+    // Hide all projects including the clicked one
+    for (let i = 0; i < this.projects.length; i++) {
+      this.hideProject(i);
     }
-    
-    if (project.img) {
-      gsap.to(project.img, {
-        opacity: 0,
-        scale: 0.95,
-        duration: 0.2,
-        ease: 'power2.out'
-      });
-    }
-
-    this.hideAllProjects(projectIndex);
   }
 
   showProject(projectIndex) {

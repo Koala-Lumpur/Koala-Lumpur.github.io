@@ -191,10 +191,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Floating animation for hero title
-  gsap.to('.hero-title', {
-    y: -10,
-    duration: 2,
+  // Floating animation for hero content (both title and subtitle move together)
+  gsap.to('.hero-content', {
+    y: -8,
+    duration: 3,
     repeat: -1,
     yoyo: true,
     ease: 'power1.inOut'
@@ -254,7 +254,8 @@ document.addEventListener('DOMContentLoaded', function() {
     mutations.forEach((mutation) => {
       if (mutation.target.classList.contains('show')) {
         const carousel = mutation.target.querySelector('.project-carousel');
-        const content = mutation.target.querySelectorAll('h6, p, ul, a');
+        const content = mutation.target.querySelectorAll('h6, p, a');
+        const techItems = mutation.target.querySelectorAll('ul li');
         
         gsap.fromTo(carousel,
           { opacity: 0, y: 30 },
@@ -270,6 +271,20 @@ document.addEventListener('DOMContentLoaded', function() {
             stagger: 0.1,
             ease: 'power2.out',
             delay: 0.3
+          }
+        );
+        
+        // Animate technology badges
+        gsap.fromTo(techItems,
+          { opacity: 0, scale: 0, y: 10 },
+          {
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            duration: 0.4,
+            stagger: 0.05,
+            ease: 'back.out(1.7)',
+            delay: 0.6
           }
         );
       }
