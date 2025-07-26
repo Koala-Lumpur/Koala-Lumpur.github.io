@@ -38,12 +38,12 @@ function initBackgroundAnimation() {
     const opacity = minOpacity + Math.random() * (maxOpacity - minOpacity);
     const speed = baseSpeed + Math.random() * (maxSpeed - baseSpeed);
     
-    // Create color variation (hue shift between blue and purple)
-    const hueVariation = Math.random() * 0.15 - 0.075; // -0.075 to +0.075
+    // Create color variation (subtle hue shift around blue)
+    const hueVariation = Math.random() * 0.06 - 0.03; // -0.03 to +0.03 (reduced from 0.15)
     const baseColor = new paper.Color({
-      hue: 210 + (hueVariation * 360), // Base blue (210°) with variation
-      saturation: 0.7 + Math.random() * 0.3,
-      brightness: 0.8 + Math.random() * 0.2
+      hue: 210 + (hueVariation * 360), // Base blue (210°) with subtle variation
+      saturation: 0.75 + Math.random() * 0.15, // 75-90% saturation (narrower range)
+      brightness: 0.85 + Math.random() * 0.1   // 85-95% brightness (narrower range)
     });
     
     // Create text item with glow
