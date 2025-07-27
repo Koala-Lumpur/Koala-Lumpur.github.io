@@ -504,6 +504,9 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // Removed text scramble effect for headings
+  
+  // Export setupProjectMouseTracking for use in other files
+  window.setupProjectMouseTracking = setupProjectMouseTracking;
 });
 
 // Enhanced project detail animations

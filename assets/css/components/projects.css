@@ -134,7 +134,8 @@
 }
 
 .project-details.active {
-  max-height: 2000px; /* Large enough for content */
+  max-height: none; /* Allow unlimited height */
+  overflow: visible;
   opacity: 1;
   padding: 2rem;
   margin-top: 1rem;

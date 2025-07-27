@@ -63,24 +63,29 @@ class ProjectGallery {
   setupEventListeners() {
     // Click handler for project containers
     document.addEventListener('click', (e) => {
-      const container = e.target.closest('.project-item-container');
-      if (container) {
-        const projectItem = container.querySelector('.project-item');
-        if (projectItem && projectItem.dataset.animationComplete === 'true') {
-          // Find the index of this project
+      // Check if clicked on a project item or its children
+      const projectItem = e.target.closest('.project-item');
+      if (projectItem && projectItem.dataset.animationComplete === 'true') {
+        // Find which project was clicked by checking the parent container
+        const container = projectItem.closest('.project-item-container');
+        if (container) {
           const allContainers = Array.from(document.querySelectorAll('.project-item-container'));
-          const projectId = allContainers.indexOf(container);
-          if (projectId !== -1) {
-            this.expandProject(projectId);
+          const projectIndex = allContainers.indexOf(container);
+          if (projectIndex !== -1) {
+            console.log('Clicked project:', projectIndex);
+            this.expandProject(projectIndex);
           }
         }
       }
     });
 
-    // Close button handler
-    const closeButton = document.querySelector('.close-button, .close-item');
+    // Close button handler - handle multiple selectors properly
+    const closeButton = document.querySelector('.close-button') || document.querySelector('.close-item');
     if (closeButton) {
-      closeButton.addEventListener('click', () => this.showAllProjects());
+      closeButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.showAllProjects();
+      });
     }
   }
 
@@ -243,6 +248,9 @@ class ProjectGallery {
     const project = this.projects[projectIndex];
     if (!project) return;
 
+    // Hide all project descriptions first
+    $('[name="projDesc"]').collapse('hide');
+    
     this.currentProject = projectIndex;
     
     // Smooth transitions with GSAP
@@ -253,32 +261,71 @@ class ProjectGallery {
       ease: 'power2.out'
     });
     
-    // Show the project details container with animation
-    gsap.delayedCall(0.2, () => {
-      $('.project-details').addClass('active');
-    });
-
-    if (project.description) {
-      gsap.delayedCall(0.3, () => {
-        $(project.description).collapse('show');
-        // Smooth scroll using GSAP ScrollTo plugin
-        gsap.delayedCall(0.4, () => {
-          gsap.to(window, {
-            duration: 0.8,
-            scrollTo: {
-              y: $('.project-details').offset().top - 80,
-              autoKill: false
-            },
-            ease: 'power2.inOut'
-          });
-        });
-      });
-    }
+    // Hide all projects first with animation
+    const hideTimeline = gsap.timeline();
     
-    // Hide all projects including the clicked one
-    for (let i = 0; i < this.projects.length; i++) {
-      this.hideProject(i);
-    }
+    this.projects.forEach((proj, i) => {
+      if (proj.div) {
+        // Disable hover during transition
+        proj.div.dataset.animationComplete = 'false';
+        
+        hideTimeline.to(proj.div, {
+          opacity: 0,
+          scale: 0.9,
+          y: 20,
+          duration: 0.3,
+          ease: 'power2.in',
+          onComplete: () => {
+            gsap.set(proj.div, { display: 'none' });
+          }
+        }, i * 0.05); // Stagger the hiding
+      }
+    });
+    
+    // After all projects are hidden, show the details
+    hideTimeline.call(() => {
+      // Show the project details container with GSAP
+      const details = document.querySelector('.project-details');
+      
+      // First make it active to get proper height
+      details.classList.add('active');
+      
+      // Animate it appearing
+      gsap.fromTo(details, 
+        {
+          opacity: 0,
+          y: 20
+        },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          ease: 'power2.out'
+        }
+      );
+      
+      if (project.description) {
+        // Use the correct project description ID
+        const descId = `#proj${projectIndex + 1}Desc`;
+        console.log('Showing description:', descId);
+        $(descId).collapse('show');
+        
+        // Smooth scroll after details are shown
+        gsap.delayedCall(0.6, () => {
+          const detailsOffset = $('.project-details').offset();
+          if (detailsOffset) {
+            gsap.to(window, {
+              duration: 0.8,
+              scrollTo: {
+                y: detailsOffset.top - 80,
+                autoKill: false
+              },
+              ease: 'power2.inOut'
+            });
+          }
+        });
+      }
+    });
   }
 
   showProject(projectIndex) {
@@ -287,6 +334,9 @@ class ProjectGallery {
   }
 
   showAllProjects() {
+    // Hide all project descriptions
+    $('[name="projDesc"]').collapse('hide');
+    
     gsap.to('.close-button, .close-item', {
       opacity: 0,
       duration: 0.2,
@@ -296,37 +346,39 @@ class ProjectGallery {
       }
     });
     
-    // First, set all projects to block but invisible to maintain grid structure
-    this.projects.forEach((project) => {
-      if (project.div) {
-        // Reset animation complete flag
-        project.div.dataset.animationComplete = 'false';
+    // Hide the project details container first
+    gsap.to('.project-details', {
+      opacity: 0,
+      duration: 0.3,
+      ease: 'power2.in',
+      onComplete: () => {
+        $('.project-details').removeClass('active');
         
-        // Clear any existing transforms first
-        gsap.set(project.div, { clearProps: 'all' });
-        
-        // Then set up for animation
-        gsap.set(project.div, {
-          display: 'block',
-          visibility: 'hidden',
-          opacity: 0,
-          scale: 0.5,
-          rotationY: -90,
-          rotationX: 45,
-          z: -200,
-          transformOrigin: '50% 50%'
+        // Reset all projects for animation
+        this.projects.forEach((project) => {
+          if (project.div) {
+            // Reset animation complete flag
+            project.div.dataset.animationComplete = 'false';
+            
+            // Clear any existing transforms first
+            gsap.set(project.div, { clearProps: 'all' });
+            
+            // Then set up for animation
+            gsap.set(project.div, {
+              display: 'block',
+              visibility: 'hidden',
+              opacity: 0,
+              scale: 0.5,
+              rotationY: -90,
+              rotationX: 45,
+              z: -200,
+              transformOrigin: '50% 50%'
+            });
+          }
         });
-      }
-    });
-    
-    // Wait for details to start closing, then show projects
-    gsap.delayedCall(0.2, () => {
-      // Hide the project details container
-      $('.project-details').removeClass('active');
-      
-      // After grid has stabilized, create a timeline for consistent stagger
-      gsap.delayedCall(0.4, () => {
-        const tl = gsap.timeline();
+        
+        // Create timeline for showing projects
+        const tl = gsap.timeline({ delay: 0.2 });
         
         this.projects.forEach((project, i) => {
           if (project.div) {
@@ -347,6 +399,10 @@ class ProjectGallery {
                   clearProps: 'transform,transformOrigin,visibility'
                 });
                 target.dataset.animationComplete = 'true';
+                // Re-setup mouse tracking after animation
+                if (window.setupProjectMouseTracking) {
+                  window.setupProjectMouseTracking(target);
+                }
               }
             }, i * 0.15); // Absolute position in timeline
             
@@ -369,7 +425,7 @@ class ProjectGallery {
             }
           }
         });
-      });
+      }
     });
     
     // Smooth scroll back to projects section
