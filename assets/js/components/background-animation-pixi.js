@@ -54,9 +54,9 @@ function initBackgroundAnimation() {
   // Create skill particles
   const floatingSkills = [];
   
-  // Create blur filter for glow effect
-  const blurFilter = new PIXI.filters.BlurFilter();
-  blurFilter.blur = 8;
+  // Create blur filter for glow effect (using non-deprecated version)
+  const blurFilter = new PIXI.BlurFilter();
+  blurFilter.strength = 8;
   blurFilter.quality = 1;
   
   // Text style template
