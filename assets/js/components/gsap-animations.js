@@ -503,6 +503,66 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
+  // Add elastic effects to carousel and close buttons
+  const addButtonEffects = (button) => {
+    if (!button || button.dataset.effectsAdded) return;
+    
+    button.dataset.effectsAdded = 'true';
+    
+    button.addEventListener('mouseenter', () => {
+      gsap.to(button, {
+        scale: 1.1,
+        rotation: 5,
+        duration: 0.3,
+        ease: 'back.out(1.7)'
+      });
+    });
+    
+    button.addEventListener('mouseleave', () => {
+      gsap.to(button, {
+        scale: 1,
+        rotation: 0,
+        duration: 0.5,
+        ease: 'elastic.out(1, 0.3)'
+      });
+    });
+    
+    button.addEventListener('click', () => {
+      gsap.to(button, {
+        scale: 0.95,
+        duration: 0.1,
+        yoyo: true,
+        repeat: 1,
+        ease: 'power2.inOut'
+      });
+    });
+  };
+  
+  // Use mutation observer to add effects to buttons when they appear
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      mutation.addedNodes.forEach((node) => {
+        if (node.nodeType === 1) { // Element node
+          if (node.matches && (node.matches('.carousel-control-prev, .carousel-control-next, .close-button'))) {
+            addButtonEffects(node);
+          }
+          // Check children too
+          const buttons = node.querySelectorAll('.carousel-control-prev, .carousel-control-next, .close-button');
+          buttons.forEach(addButtonEffects);
+        }
+      });
+    });
+  });
+  
+  // Start observing
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+  
+  // Add effects to existing buttons
+  document.querySelectorAll('.carousel-control-prev, .carousel-control-next, .close-button').forEach(addButtonEffects);
+
   // Removed text scramble effect for headings
   
   // Export setupProjectMouseTracking for use in other files

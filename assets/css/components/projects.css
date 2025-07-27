@@ -163,8 +163,8 @@
 /* Close button inside project details */
 .project-details .close-button {
   position: absolute;
-  top: 2.5rem;
-  right: 2.5rem;
+  top: 40px; /* Same as carousel top + padding */
+  right: 20px; /* Aligned with carousel next button */
   font-size: 1.5rem;
   background: rgba(20, 20, 20, 0.9);
   backdrop-filter: blur(10px);
@@ -190,7 +190,7 @@
 .close-button:hover {
   color: var(--accent-primary);
   background: var(--bg-surface);
-  transform: rotate(90deg);
+  /* Transform handled by GSAP */
   box-shadow: 0 6px 20px rgba(74, 158, 255, 0.4);
   border-color: var(--accent-hover);
 }
@@ -216,19 +216,22 @@
   position: relative;
 }
 
-/* Carousel button styling */
+/* Carousel button styling - matching close button */
 .project-carousel .carousel-control-prev,
 .project-carousel .carousel-control-next {
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(20, 20, 20, 0.8);
+  background: rgba(20, 20, 20, 0.9);
+  backdrop-filter: blur(10px);
+  border: 2px solid var(--accent-primary);
   border-radius: 50%;
-  opacity: 0.7;
-  /* Remove full height */
+  opacity: 1;
+  display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
 }
 
 .project-carousel .carousel-control-prev {
@@ -241,14 +244,28 @@
 
 .project-carousel .carousel-control-prev:hover,
 .project-carousel .carousel-control-next:hover {
-  background: rgba(74, 158, 255, 0.8);
+  background: var(--bg-surface);
   opacity: 1;
+  border-color: var(--accent-hover);
+  /* Transform handled by GSAP */
 }
 
 .project-carousel .carousel-control-prev-icon,
 .project-carousel .carousel-control-next-icon {
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
+  background-size: 100% 100%;
+  margin: 0;
+  filter: brightness(0) invert(1); /* Make icons white */
+}
+
+/* Center the icons properly */
+.project-carousel .carousel-control-prev-icon {
+  margin-right: 2px;
+}
+
+.project-carousel .carousel-control-next-icon {
+  margin-left: 2px;
 }
 
 /* Prevent duplicate animations on collapse content */
