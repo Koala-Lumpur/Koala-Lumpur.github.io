@@ -17,7 +17,7 @@
 .contact-info a {
   color: var(--accent-primary);
   text-decoration: none;
-  transition: color 0.3s ease;
+  /* Removed transition - GSAP will handle animations */
 }
 
 .contact-info a:hover {
@@ -33,7 +33,7 @@
 }
 
 .social-buttons .btn-social-icon {
-  transition: transform 0.3s ease;
+  /* Removed transition - GSAP will handle animations */
 }
 
 .social-buttons .btn-social-icon:hover {

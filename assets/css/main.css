@@ -87,7 +87,7 @@ body {
   padding: 0.5rem 1rem;
   border-radius: 25px;
   font-size: 0.9rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  /* Removed transition - GSAP will handle animations */
   border: 1px solid transparent;
 }
 
@@ -110,7 +110,7 @@ p {
 a {
   color: var(--accent-primary);
   text-decoration: none;
-  transition: color 0.3s ease;
+  /* Removed transition - GSAP will handle animations */
 }
 
 a:hover {

@@ -185,35 +185,15 @@
   border-color: var(--accent-primary);
 }
 
-/* Expanded project animation */
+/* Expanded project animation - removed, GSAP will handle */
 .project-item.expanding {
-  animation: expandProject 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  /* Animation removed - GSAP will handle expanding effect */
 }
 
-@keyframes expandProject {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-/* Hide other projects with fade animation */
+/* Hide other projects - removed animation, GSAP will handle */
 .project-item.hiding {
-  animation: hideProject 0.3s ease-out forwards;
+  /* Animation removed - GSAP will handle hiding effect */
   pointer-events: none;
-}
-
-@keyframes hideProject {
-  to {
-    opacity: 0;
-    transform: scale(0.95);
-    visibility: hidden;
-  }
 }
 
 
@@ -227,7 +207,7 @@
 
 /* Prevent duplicate animations on collapse content */
 .collapse {
-  transition: height 0.35s ease;
+  /* Removed transition - GSAP will handle if needed */
 }
 
 /* Technology badges in project descriptions */
@@ -246,7 +226,7 @@
   padding: 0.4rem 0.8rem;
   border-radius: 20px;
   font-size: 0.85rem;
-  transition: all 0.3s ease;
+  /* Removed transition - GSAP will handle animations */
   cursor: default;
   border: 1px solid transparent;
 }
