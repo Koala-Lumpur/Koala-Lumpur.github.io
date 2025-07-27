@@ -130,6 +130,7 @@
   overflow: hidden;
   opacity: 0;
   padding: 0;
+  position: relative;
   /* Removed transition - will use GSAP if needed */
 }
 
@@ -140,6 +141,7 @@
   padding: 2rem;
   margin-top: 1rem;
 }
+
 
 /* Hide project description content initially */
 .project-details .card-body {
@@ -158,32 +160,39 @@
   object-fit: cover;
 }
 
-.close-button {
+/* Close button inside project details */
+.project-details .close-button {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  font-size: 2rem;
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-color);
+  top: 2.5rem;
+  right: 2.5rem;
+  font-size: 1.5rem;
+  background: rgba(20, 20, 20, 0.9);
+  backdrop-filter: blur(10px);
+  border: 2px solid var(--accent-primary);
   color: var(--text-primary);
   cursor: pointer;
   z-index: 10;
-  width: 3rem;
-  height: 3rem;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 8px var(--shadow-sm);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
   /* Removed transition - GSAP handles animations */
+}
+
+/* Show close button when project details are active */
+.project-details.active .close-button {
+  display: flex;
 }
 
 .close-button:hover {
   color: var(--accent-primary);
   background: var(--bg-surface);
   transform: rotate(90deg);
-  box-shadow: 0 4px 12px var(--shadow-md);
-  border-color: var(--accent-primary);
+  box-shadow: 0 6px 20px rgba(74, 158, 255, 0.4);
+  border-color: var(--accent-hover);
 }
 
 /* Expanded project animation - removed, GSAP will handle */
@@ -204,6 +213,42 @@
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   margin-bottom: 2rem;
+  position: relative;
+}
+
+/* Carousel button styling */
+.project-carousel .carousel-control-prev,
+.project-carousel .carousel-control-next {
+  width: 50px;
+  height: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(20, 20, 20, 0.8);
+  border-radius: 50%;
+  opacity: 0.7;
+  /* Remove full height */
+  align-items: center;
+  justify-content: center;
+}
+
+.project-carousel .carousel-control-prev {
+  left: 20px;
+}
+
+.project-carousel .carousel-control-next {
+  right: 20px;
+}
+
+.project-carousel .carousel-control-prev:hover,
+.project-carousel .carousel-control-next:hover {
+  background: rgba(74, 158, 255, 0.8);
+  opacity: 1;
+}
+
+.project-carousel .carousel-control-prev-icon,
+.project-carousel .carousel-control-next-icon {
+  width: 20px;
+  height: 20px;
 }
 
 /* Prevent duplicate animations on collapse content */

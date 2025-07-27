@@ -262,13 +262,7 @@ class ProjectGallery {
     
     this.currentProject = projectIndex;
     
-    // Smooth transitions with GSAP
-    gsap.to('.close-button, .close-item', {
-      opacity: 1,
-      display: 'block',
-      duration: 0.3,
-      ease: 'power2.out'
-    });
+    // Close button is now shown via CSS when .active class is added
     
     // Hide all projects first with animation
     const hideTimeline = gsap.timeline();
@@ -319,6 +313,7 @@ class ProjectGallery {
         console.log('Showing description:', descId);
         $(descId).collapse('show');
         
+        
         // Smooth scroll after details are shown
         gsap.delayedCall(0.6, () => {
           const detailsOffset = $('.project-details').offset();
@@ -345,15 +340,6 @@ class ProjectGallery {
   showAllProjects() {
     // Hide all project descriptions
     $('[name="projDesc"]').collapse('hide');
-    
-    gsap.to('.close-button, .close-item', {
-      opacity: 0,
-      duration: 0.2,
-      ease: 'power2.out',
-      onComplete: () => {
-        gsap.set('.close-button, .close-item', { display: 'none' });
-      }
-    });
     
     // Hide the project details container first
     gsap.to('.project-details', {
