@@ -206,6 +206,38 @@ section {
 /* Special handling for navbar to prevent layout shift */
 .navbar {
   transform: translateX(-100%);
+  opacity: 0;
+}
+
+/* Navigation underline animation support */
+.nav-link {
+  overflow: hidden;
+}
+
+.nav-underline {
+  pointer-events: none;
+}
+
+/* Enhanced project card styling for 3D effects */
+.project-item {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.project-item * {
+  transform-style: preserve-3d;
+}
+
+/* Skills list hover state preparation */
+.skills-list li {
+  will-change: transform, box-shadow;
+  cursor: pointer;
+}
+
+/* Smooth filter transitions */
+* {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 /* Carousel controls for dark theme */
