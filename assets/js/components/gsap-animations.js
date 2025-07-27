@@ -50,11 +50,13 @@ document.addEventListener('DOMContentLoaded', function() {
       gsap.fromTo('.navbar', 
         {
           x: -100,
-          opacity: 0
+          opacity: 0,
+          visibility: 'visible'
         },
         {
           x: 0,
           opacity: 1,
+          visibility: 'visible',
           duration: 0.8,
           ease: 'elastic.out(1, 0.5)'
         }

@@ -44,6 +44,7 @@ body {
   background-color: var(--bg-primary);
   margin: 0;
   padding: 0;
+  overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 /* Canvas Background */
@@ -205,8 +206,8 @@ section {
 
 /* Special handling for navbar to prevent layout shift */
 .navbar {
-  transform: translateX(-100%);
   opacity: 0;
+  visibility: hidden;
 }
 
 /* Navigation underline animation support */
