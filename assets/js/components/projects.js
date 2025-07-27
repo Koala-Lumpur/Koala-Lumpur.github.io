@@ -285,6 +285,25 @@ class ProjectGallery {
       }
     });
     
+    // Scroll immediately to project grid bottom
+    gsap.delayedCall(0.1, () => {
+      const projectGrid = document.querySelector('.project-grid');
+      if (projectGrid) {
+        const rect = projectGrid.getBoundingClientRect();
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const targetY = rect.bottom + scrollTop - 200; // Adjust for navbar and spacing
+        
+        gsap.to(window, {
+          duration: 0.6,
+          scrollTo: {
+            y: targetY,
+            autoKill: false
+          },
+          ease: 'power2.inOut'
+        });
+      }
+    });
+    
     // After all projects are hidden, show the details
     hideTimeline.call(() => {
       // Show the project details container with GSAP
@@ -312,22 +331,6 @@ class ProjectGallery {
         const descId = `#proj${projectIndex + 1}Desc`;
         console.log('Showing description:', descId);
         $(descId).collapse('show');
-        
-        
-        // Smooth scroll after details are shown
-        gsap.delayedCall(0.6, () => {
-          const detailsOffset = $('.project-details').offset();
-          if (detailsOffset) {
-            gsap.to(window, {
-              duration: 0.8,
-              scrollTo: {
-                y: detailsOffset.top - 80,
-                autoKill: false
-              },
-              ease: 'power2.inOut'
-            });
-          }
-        });
       }
     });
   }
@@ -424,17 +427,7 @@ class ProjectGallery {
       }
     });
     
-    // Smooth scroll back to projects section
-    gsap.delayedCall(0.5, () => {
-      gsap.to(window, {
-        duration: 0.8,
-        scrollTo: {
-          y: '#projects',
-          offsetY: 80
-        },
-        ease: 'power2.inOut'
-      });
-    });
+    // Removed automatic scroll back to projects section
   }
 }
 

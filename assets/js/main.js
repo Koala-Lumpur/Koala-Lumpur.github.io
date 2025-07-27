@@ -15,6 +15,24 @@ document.addEventListener('DOMContentLoaded', function() {
       new bootstrap.Tooltip(tooltipTriggerEl);
     }
   });
+  
+  // Prevent scroll on carousel navigation
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('.carousel-control-prev, .carousel-control-next')) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const button = e.target.closest('.carousel-control-prev, .carousel-control-next');
+      const targetCarousel = button.getAttribute('href');
+      const action = button.classList.contains('carousel-control-prev') ? 'prev' : 'next';
+      
+      if (targetCarousel) {
+        $(targetCarousel).carousel(action);
+      }
+      
+      return false;
+    }
+  }, true);
 });
 
 // Navbar scroll behavior
