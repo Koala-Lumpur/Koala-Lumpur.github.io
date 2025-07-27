@@ -503,12 +503,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Add elastic effects to carousel and close buttons
+  // Add elastic and magnetic effects to carousel and close buttons
   const addButtonEffects = (button) => {
     if (!button || button.dataset.effectsAdded) return;
     
     button.dataset.effectsAdded = 'true';
     
+    // Hover effects
     button.addEventListener('mouseenter', () => {
       gsap.to(button, {
         scale: 1.1,
@@ -522,11 +523,28 @@ document.addEventListener('DOMContentLoaded', function() {
       gsap.to(button, {
         scale: 1,
         rotation: 0,
+        x: 0,
+        y: 0,
         duration: 0.5,
         ease: 'elastic.out(1, 0.3)'
       });
     });
     
+    // Magnetic cursor effect
+    button.addEventListener('mousemove', (e) => {
+      const rect = button.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      
+      gsap.to(button, {
+        x: x * 0.3,
+        y: y * 0.3,
+        duration: 0.3,
+        ease: 'power2.out'
+      });
+    });
+    
+    // Click effect
     button.addEventListener('click', () => {
       gsap.to(button, {
         scale: 0.95,

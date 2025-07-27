@@ -341,6 +341,7 @@ class ProjectGallery {
     // Hide all project descriptions
     $('[name="projDesc"]').collapse('hide');
     
+    
     // Hide the project details container first
     gsap.to('.project-details', {
       opacity: 0,
