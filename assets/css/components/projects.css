@@ -326,7 +326,7 @@
 }
 
 .project-details ul li {
-  background: var(--accent-primary);
+  background: var(--success);
   color: var(--bg-primary);
   padding: 0.4rem 0.8rem;
   border-radius: 20px;
@@ -338,8 +338,8 @@
 
 .project-details ul li:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(74, 158, 255, 0.3);
-  background: var(--accent-hover);
-  border-color: var(--accent-primary);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  background: var(--success-hover);
+  border-color: var(--success);
 }
 

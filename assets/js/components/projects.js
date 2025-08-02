@@ -330,18 +330,57 @@ class ProjectGallery {
               desc.collapse('show');
             }
             
-            // Animate details appearance with exciting GSAP effects
-            gsap.fromTo(details, {
-              opacity: 0,
-              scale: 0.8,
-              y: 50
-            }, {
-              opacity: 1,
-              scale: 1,
-              y: 0,
-              duration: 0.8,
-              ease: 'back.out(1.7)'
-            });
+            // Set initial states for inner content to prevent flashing
+gsap.set(details.querySelectorAll('h2, h6, p, a.btn'), {opacity: 0, y: 20});
+gsap.set(details.querySelector('.carousel'), {opacity: 0, scale: 0.9});
+gsap.set(details.querySelectorAll('.skills-list li'), {
+  opacity: 0,
+  scale: 0,
+  rotation: () => gsap.utils.random(-30, 30),
+  x: () => gsap.utils.random(-50, 50),
+  y: () => gsap.utils.random(-50, 50)
+});
+
+// Animate details appearance with exciting GSAP effects
+gsap.fromTo(details, {
+  opacity: 0,
+  scale: 0.8,
+  y: 50
+}, {
+  opacity: 1,
+  scale: 1,
+  y: 0,
+  duration: 0.8,
+  ease: 'back.out(1.7)',
+  onComplete: () => {
+    // Animate inner content
+    const contentTimeline = gsap.timeline({delay: 0.2});
+    // Carousel first
+    contentTimeline.to(details.querySelector('.carousel'), {opacity: 1, scale: 1, duration: 0.6});
+    // Main title
+    contentTimeline.to(details.querySelector('h2'), {opacity: 1, y: 0, duration: 0.5}, "-=0.3");
+    // Left column: Description header and content
+    contentTimeline.to(details.querySelector('.row .col-md:first-child h6'), {opacity: 1, y: 0, duration: 0.4}, "-=0.2");
+    contentTimeline.to(details.querySelectorAll('.row .col-md:first-child p'), {opacity: 1, y: 0, duration: 0.5, stagger: 0.1}, "-=0.3");
+    // Right column: Technologies header, bubbles, and buttons
+    contentTimeline.to(details.querySelector('.row .col-md:last-child h6'), {opacity: 1, y: 0, duration: 0.4}, "-=0.4");
+    // Animate technologies bubbles
+    const techItems = details.querySelectorAll('.skills-list li');
+    if (techItems.length > 0) {
+      contentTimeline.to(techItems, {
+        duration: 0.8,
+        opacity: 1,
+        scale: 1,
+        rotation: 0,
+        x: 0,
+        y: 0,
+        stagger: 0.1,
+        ease: 'back.out(1.7)'
+      }, "-=0.5");
+    }
+    contentTimeline.to(details.querySelectorAll('a.btn'), {opacity: 1, y: 0, duration: 0.4, stagger: 0.1}, "-=0.3");
+  }
+});
           });
         });
       });
