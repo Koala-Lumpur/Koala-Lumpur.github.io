@@ -143,15 +143,7 @@
 }
 
 
-/* Hide project description content initially */
-.project-details .card-body {
-  opacity: 0;
-  /* Removed transition - content appears with container */
-}
 
-.project-details.active .collapse.show .card-body {
-  opacity: 1;
-}
 
 .project-carousel .carousel-inner > .item > img,
 .project-carousel .carousel-item img {

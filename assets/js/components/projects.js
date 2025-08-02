@@ -256,83 +256,90 @@ class ProjectGallery {
   expandProject(projectIndex) {
     const project = this.projects[projectIndex];
     if (!project) return;
-
+  
     // Hide all project descriptions first
     $('[name="projDesc"]').collapse('hide');
     
     this.currentProject = projectIndex;
     
-    // Close button is now shown via CSS when .active class is added
-    
-    // Hide all projects first with animation
-    const hideTimeline = gsap.timeline();
-    
-    this.projects.forEach((proj, i) => {
+    // Instantly hide all projects
+    this.projects.forEach((proj) => {
       if (proj.div) {
-        // Disable hover during transition
         proj.div.dataset.animationComplete = 'false';
-        
-        hideTimeline.to(proj.div, {
+        gsap.set(proj.div, {
           opacity: 0,
           scale: 0.9,
           y: 20,
-          duration: 0.3,
-          ease: 'power2.in',
-          onComplete: () => {
-            gsap.set(proj.div, { display: 'none' });
-          }
-        }, i * 0.05); // Stagger the hiding
-      }
-    });
-    
-    // Scroll immediately to project grid bottom
-    gsap.delayedCall(0.1, () => {
-      const projectGrid = document.querySelector('.project-grid');
-      if (projectGrid) {
-        const rect = projectGrid.getBoundingClientRect();
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const targetY = rect.bottom + scrollTop - 200; // Adjust for navbar and spacing
-        
-        gsap.to(window, {
-          duration: 0.6,
-          scrollTo: {
-            y: targetY,
-            autoKill: false
-          },
-          ease: 'power2.inOut'
+          display: 'none'
         });
       }
     });
     
-    // After all projects are hidden, show the details
-    hideTimeline.call(() => {
-      // Show the project details container with GSAP
+    // Add minimal delay for DOM reflow
+    setTimeout(() => {
       const details = document.querySelector('.project-details');
-      
-      // First make it active to get proper height
       details.classList.add('active');
       
-      // Animate it appearing
-      gsap.fromTo(details, 
-        {
-          opacity: 0,
-          y: 20
-        },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.5,
-          ease: 'power2.out'
-        }
-      );
-      
-      if (project.description) {
-        // Use the correct project description ID
-        const descId = `#proj${projectIndex + 1}Desc`;
-        console.log('Showing description:', descId);
-        $(descId).collapse('show');
-      }
-    });
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          let desc;
+          let wasHidden = true;
+          let originalTransition;
+          if (project.description) {
+            const descId = `#proj${projectIndex + 1}Desc`;
+            desc = $(descId);
+            wasHidden = !desc.hasClass('show');
+            originalTransition = desc[0].style.transition;
+            desc[0].style.transition = 'none';
+            desc[0].style.visibility = 'hidden';
+            desc.collapse('show');
+            // Force reflow
+            void desc[0].offsetHeight;
+          }
+          
+          requestAnimationFrame(() => {
+            // Calculate target
+            const detailsRect = details.getBoundingClientRect();
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const navbar = document.querySelector('.main-nav');
+            const navbarHeight = navbar ? navbar.offsetHeight : 0;
+            const targetY = detailsRect.top + scrollTop - navbarHeight;
+            
+            // Reset temporary styles
+            if (desc && wasHidden) {
+              desc.collapse('hide');
+              desc[0].style.transition = originalTransition;
+              desc[0].style.visibility = '';
+            }
+            
+            // Set initial state to prevent flash
+            gsap.set(details, { opacity: 0 });
+            
+            // Instant scroll
+            gsap.to(window, {
+              duration: 0,
+              scrollTo: {
+                y: targetY,
+                autoKill: false
+              }
+            });
+
+            // Show description if exists
+            if (desc) {
+              console.log('Showing description:', desc.attr('id'));
+              desc.collapse('show');
+            }
+            
+            // Then animate details appearance
+            gsap.to(details, {
+              opacity: 1,
+              duration: 0.3,
+              ease: 'power2.out'
+            });
+          });
+        });
+      });
+    }, 50);
   }
 
   showProject(projectIndex) {
