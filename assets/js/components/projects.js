@@ -330,11 +330,17 @@ class ProjectGallery {
               desc.collapse('show');
             }
             
-            // Then animate details appearance
-            gsap.to(details, {
+            // Animate details appearance with exciting GSAP effects
+            gsap.fromTo(details, {
+              opacity: 0,
+              scale: 0.8,
+              y: 50
+            }, {
               opacity: 1,
-              duration: 0.3,
-              ease: 'power2.out'
+              scale: 1,
+              y: 0,
+              duration: 0.8,
+              ease: 'back.out(1.7)'
             });
           });
         });
