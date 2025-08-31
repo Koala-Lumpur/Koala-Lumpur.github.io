@@ -265,7 +265,52 @@ class ProjectGallery {
     $('.close-button, .close-item').hide();
   }
 
-  expandProject(projectIndex) {
+  pauseInactiveVideos(carousel) {
+  // Handle native videos
+  const videos = carousel.querySelectorAll('video');
+  videos.forEach(video => {
+    const item = video.closest('.carousel-item');
+    if (item) {
+      if (item.classList.contains('active')) {
+        video.play();
+      } else {
+        video.pause();
+      }
+    }
+  });
+
+  // Handle YouTube iframes
+  const iframes = carousel.querySelectorAll('iframe[src*="youtube.com"]');
+  iframes.forEach(iframe => {
+    const item = iframe.closest('.carousel-item');
+    if (item) {
+      const command = item.classList.contains('active') ? 'playVideo' : 'pauseVideo';
+      iframe.contentWindow.postMessage(JSON.stringify({
+        event: 'command',
+        func: command,
+        args: []
+      }), '*');
+    }
+  });
+}
+
+pauseAllVideosInDesc(desc) {
+  // Pause native videos
+  const videos = desc.querySelectorAll('video');
+  videos.forEach(video => video.pause());
+
+  // Pause YouTube iframes
+  const iframes = desc.querySelectorAll('iframe[src*="youtube.com"]');
+  iframes.forEach(iframe => {
+    iframe.contentWindow.postMessage(JSON.stringify({
+      event: 'command',
+      func: 'pauseVideo',
+      args: []
+    }), '*');
+  });
+}
+
+expandProject(projectIndex) {
     const project = this.projects[projectIndex];
     if (!project) return;
   
@@ -394,6 +439,19 @@ contentTimeline.to(desc[0].querySelectorAll('.row > div:last-of-type a.btn'), {o
 // Clear GSAP transforms on buttons to allow CSS hover effects
 contentTimeline.then(() => {
   gsap.set(desc[0].querySelectorAll('a.btn'), { clearProps: 'transform' });
+
+  // Setup carousel video pausing
+  const carouselEl = desc[0].querySelector('.carousel');
+  if (carouselEl) {
+    $(carouselEl).on('slide.bs.carousel', () => {
+      this.pauseInactiveVideos(carouselEl);
+    });
+    $(carouselEl).on('slid.bs.carousel', () => {
+      this.pauseInactiveVideos(carouselEl);
+    });
+    // Initial setup
+    this.pauseInactiveVideos(carouselEl);
+  }
 });
   }
 });
@@ -409,6 +467,13 @@ contentTimeline.then(() => {
   }
 
   showAllProjects() {
+    // Pause all videos in current project
+    if (this.currentProject !== null) {
+      const currentDesc = document.querySelector(`#proj${this.currentProject + 1}Desc`);
+      if (currentDesc) {
+        this.pauseAllVideosInDesc(currentDesc);
+      }
+    }
     // Hide all project descriptions
     $('[name="projDesc"]').collapse('hide');
     
