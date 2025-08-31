@@ -480,10 +480,13 @@ contentTimeline.then(() => {
     
     // Hide the project details container first
     gsap.to('.project-details', {
-      opacity: 0,
-      duration: 0.3,
-      ease: 'power2.in',
-      onComplete: () => {
+  opacity: 0,
+  scale: 0.8,
+  y: 100,
+  duration: 0.5,
+  ease: 'power3.in',
+  onComplete: () => {
+    gsap.set('.project-details', { clearProps: 'transform' });
         $('.project-details').removeClass('active');
         
         // Reset all projects for animation
