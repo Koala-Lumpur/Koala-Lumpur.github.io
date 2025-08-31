@@ -443,6 +443,9 @@ contentTimeline.then(() => {
   // Setup carousel video pausing
   const carouselEl = desc[0].querySelector('.carousel');
   if (carouselEl) {
+    // Disable automatic sliding
+    $(carouselEl).carousel({ interval: false });
+
     $(carouselEl).on('slide.bs.carousel', () => {
       this.pauseInactiveVideos(carouselEl);
     });
