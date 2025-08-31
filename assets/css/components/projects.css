@@ -343,3 +343,14 @@
   border-color: var(--success);
 }
 
+
+/* Custom hover for long social buttons */
+.project-details .btn-social {
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+
+.project-details .btn-social:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 4px 12px rgba(74, 158, 255, 0.3);
+}
+

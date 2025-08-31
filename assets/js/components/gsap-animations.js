@@ -476,8 +476,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Magnetic effect for all buttons and links
-  const magneticElements = document.querySelectorAll('.btn, a');
+  // Magnetic effect for all buttons and links except social buttons
+  const magneticElements = document.querySelectorAll('.btn:not(.btn-social), a:not(.btn-social)');
   
   magneticElements.forEach(elem => {
     elem.addEventListener('mousemove', (e) => {

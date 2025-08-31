@@ -9,6 +9,18 @@ class ProjectGallery {
   init() {
     this.loadProjects();
     this.setupEventListeners();
+    this.setupEscapeListener();
+  }
+
+  setupEscapeListener() {
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const details = document.querySelector('.project-details');
+        if (details && details.classList.contains('active') && !document.fullscreenElement) {
+          this.showAllProjects();
+        }
+      }
+    });
   }
 
   async loadProjects() {
@@ -331,9 +343,9 @@ class ProjectGallery {
             }
             
             // Set initial states for inner content to prevent flashing
-gsap.set(details.querySelectorAll('h2, h6, p, a.btn'), {opacity: 0, y: 20});
-gsap.set(details.querySelector('.carousel'), {opacity: 0, scale: 0.9});
-gsap.set(details.querySelectorAll('.skills-list li'), {
+gsap.set(desc[0].querySelectorAll('h2, h6, p, a.btn'), {opacity: 0, y: 20});
+gsap.set(desc[0].querySelector('.carousel'), {opacity: 0, scale: 0.9});
+gsap.set(desc[0].querySelectorAll('.skills-list li'), {
   opacity: 0,
   scale: 0,
   rotation: () => gsap.utils.random(-30, 30),
@@ -356,16 +368,16 @@ gsap.fromTo(details, {
     // Animate inner content without delay for earlier start
 const contentTimeline = gsap.timeline({delay: 0});
 // Carousel first
-contentTimeline.to(details.querySelector('.carousel'), {opacity: 1, scale: 1, duration: 0.6});
+contentTimeline.to(desc[0].querySelector('.carousel'), {opacity: 1, scale: 1, duration: 0.6});
 // Main title
-contentTimeline.to(details.querySelector('h2'), {opacity: 1, y: 0, duration: 0.5}, "-=0.3");
+contentTimeline.to(desc[0].querySelector('h2'), {opacity: 1, y: 0, duration: 0.5}, "-=0.3");
 // Left column: Description header and content
-contentTimeline.to(details.querySelector('.row > div:first-of-type h6'), {opacity: 1, y: 0, duration: 0.4}, "-=0.2");
-contentTimeline.to(details.querySelectorAll('.row > div:first-of-type p'), {opacity: 1, y: 0, duration: 0.5, stagger: 0.1}, "-=0.3");
+contentTimeline.to(desc[0].querySelector('.row > div:first-of-type h6'), {opacity: 1, y: 0, duration: 0.4}, "-=0.2");
+contentTimeline.to(desc[0].querySelectorAll('.row > div:first-of-type p'), {opacity: 1, y: 0, duration: 0.5, stagger: 0.1}, "-=0.3");
 // Right column: Technologies header, bubbles, and buttons
-contentTimeline.to(details.querySelector('.row > div:last-of-type h6'), {opacity: 1, y: 0, duration: 0.4}, "-=0.4");
+contentTimeline.to(desc[0].querySelector('.row > div:last-of-type h6'), {opacity: 1, y: 0, duration: 0.4}, "-=0.4");
 // Animate technologies bubbles
-const techItems = details.querySelectorAll('.row > div:last-of-type .skills-list li');
+const techItems = desc[0].querySelectorAll('.row > div:last-of-type .skills-list li');
 if (techItems.length > 0) {
   contentTimeline.to(techItems, {
     duration: 0.8,
@@ -378,7 +390,11 @@ if (techItems.length > 0) {
     ease: 'back.out(1.7)'
   }, "-=0.5");
 }
-contentTimeline.to(details.querySelectorAll('.row > div:last-of-type a.btn'), {opacity: 1, y: 0, duration: 0.4, stagger: 0.1}, "-=0.3");
+contentTimeline.to(desc[0].querySelectorAll('.row > div:last-of-type a.btn'), {opacity: 1, y: 0, duration: 0.4, stagger: 0.1}, "-=0.3");
+// Clear GSAP transforms on buttons to allow CSS hover effects
+contentTimeline.then(() => {
+  gsap.set(desc[0].querySelectorAll('a.btn'), { clearProps: 'transform' });
+});
   }
 });
           });
