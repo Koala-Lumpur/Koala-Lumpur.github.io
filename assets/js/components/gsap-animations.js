@@ -400,23 +400,47 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       );
 
-      // Social buttons with bounce effect
-      gsap.fromTo('.social-buttons a',
-        {
-          opacity: 0,
-          scale: 0,
-          rotation: -180
-        },
-        {
-          opacity: 1,
-          scale: 1,
-          rotation: 0,
-          duration: 0.6,
-          stagger: 0.15,
-          ease: 'back.out(2)',
-          delay: 0.8
-        }
-      );
+      // Social buttons initial animation with sequential fade and scale bounce
+      gsap.utils.toArray('.social-buttons a').forEach((button, index) => {
+        const tl = gsap.timeline({delay: 0.8 + index * 0.2});
+        tl.fromTo(button, 
+          {opacity: 0, scale: 0},
+          {opacity: 1, scale: 0.8, duration: 0.3, ease: 'power1.out'}
+        ).to(button, 
+          {scale: 1, duration: 0.3, ease: 'back.out(1.7)'}
+        );
+      });
+
+      // Social Buttons Hover Animation with enhanced effects and micro-interaction
+      gsap.utils.toArray(".social-buttons a").forEach(button => {
+        button.addEventListener("mouseenter", () => {
+          const hoverTl = gsap.timeline();
+          hoverTl.to(button, {
+            scale: 1.15,
+            duration: 0.1,
+            ease: "power1.inOut"
+          }).to(button, {
+            scale: 1.1,
+            rotation: 10,
+            y: -5,
+            boxShadow: '0 8px 16px var(--shadow-sm)',
+            filter: 'brightness(1.1)',
+            duration: 0.1,
+            ease: "power1.inOut"
+          });
+        });
+        button.addEventListener("mouseleave", () => {
+          gsap.to(button, {
+            scale: 1,
+            rotation: 0,
+            y: 0,
+            boxShadow: 'none',
+            filter: 'brightness(1)',
+            duration: 0.2,
+            ease: "power1.inOut"
+          });
+        });
+      });
     },
     once: true
   });
