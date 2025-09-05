@@ -12,7 +12,6 @@
 
 .hero-content {
   background: rgba(20, 20, 20, 0.7);
-  backdrop-filter: blur(10px);
   pointer-events: none; /* Pass through to canvas */
   padding: 3rem;
   border-radius: 10px;

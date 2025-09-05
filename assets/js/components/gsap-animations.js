@@ -9,9 +9,9 @@ document.addEventListener('DOMContentLoaded', function() {
     defaults: { ease: 'power3.out' }
   });
 
-  // Simple fade animation for hero title (no split text)
+  // Simple fade animation for hero title and subtitle
   heroTimeline
-    .fromTo('.hero-title', 
+    .fromTo(['.hero-title', '.hero-subtitle'], 
       { 
         opacity: 0, 
         y: 50,
@@ -24,24 +24,27 @@ document.addEventListener('DOMContentLoaded', function() {
         duration: 1.2,
         ease: 'expo.out'
       }
-    )
-    .fromTo('.hero-subtitle', 
-      { 
-        opacity: 0, 
-        y: 30,
-        scale: 0.9,
-        filter: 'blur(10px)'
-      },
-      { 
-        opacity: 1, 
-        y: 0,
-        scale: 1,
-        filter: 'blur(0px)',
-        duration: 1,
-        ease: 'power3.out'
-      }, '-=0.5'
     );
     
+});
+
+// Hero Section ScrollTrigger for blur and parallax
+gsap.to('.hero-container', {
+  filter: 'blur(20px)',
+  ease: 'none',
+  scrollTrigger: {
+    trigger: '.hero-container',
+    start: 'top top',
+    end: 'bottom top',
+    scrub: true
+  }
+});
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
   // Enhanced navbar animation with elastic bounce
   ScrollTrigger.create({
     trigger: 'body',
@@ -252,7 +255,6 @@ document.addEventListener('DOMContentLoaded', function() {
             rotationY: () => gsap.utils.random(-180, 180),
             rotationX: () => gsap.utils.random(-30, 30),
             z: -300,
-            transformOrigin: '50% 50%',
             filter: 'blur(20px)'
           },
           {
@@ -431,6 +433,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+
+
   // Smooth scroll with easing
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
@@ -459,22 +463,7 @@ document.addEventListener('DOMContentLoaded', function() {
     ease: 'power1.inOut'
   });
 
-  // Dynamic scroll effects
-  ScrollTrigger.create({
-    trigger: '.hero-container',
-    start: 'top top',
-    end: 'bottom top',
-    scrub: true,
-    onUpdate: self => {
-      const progress = self.progress;
-      gsap.to('.hero-content', {
-        opacity: 1 - progress * 0.5,
-        scale: 1 - progress * 0.15,
-        filter: `blur(${progress * 5}px)`,
-        duration: 0
-      });
-    }
-  });
+  
 
   // Magnetic effect for all buttons and links except social buttons
   const magneticElements = document.querySelectorAll('.btn:not(.btn-social), a:not(.btn-social)');
@@ -584,68 +573,73 @@ document.addEventListener('DOMContentLoaded', function() {
   // Removed text scramble effect for headings
   
   // Export setupProjectMouseTracking for use in other files
-  window.setupProjectMouseTracking = setupProjectMouseTracking;
+  // window.setupProjectMouseTracking = setupProjectMouseTracking;
+
+  // Enhanced project detail animations
+  // function animateProjectDetails(show, projectId) {
+  //   const details = document.querySelector('.project-details');
+  //   const allProjects = document.querySelectorAll('.project-item');
+  //   const targetProject = document.getElementById(projectId);
+
+  //   if (show) {
+  //     // Hide other projects with stagger
+  //     gsap.to(allProjects, {
+  //       opacity: 0,
+  //       scale: 0.8,
+  //       filter: 'blur(10px)',
+  //       duration: 0.5,
+  //       stagger: 0.05,
+  //       ease: 'power2.in',
+  //       onComplete: () => {
+  //         allProjects.forEach(p => {
+  //           if (p.id !== projectId) {
+  //             p.parentElement.style.display = 'none';
+  //           }
+  //         });
+  //       }
+  //     });
+
+  //     // Animate selected project
+  //     gsap.to(targetProject, {
+  //       scale: 1.1,
+  //       duration: 0.5,
+  //       ease: 'power2.out',
+  //       onComplete: () => {
+  //         gsap.to(details, {
+  //           opacity: 1,
+  //           maxHeight: '2000px',
+  //           duration: 0.8,
+  //           ease: 'power3.inOut'
+  //         });
+  //       }
+  //     });
+  //   } else {
+  //     // Reverse animation
+  //     gsap.to(details, {
+  //       opacity: 0,
+  //       maxHeight: 0,
+  //       duration: 0.5,
+  //       ease: 'power3.inOut',
+  //       onComplete: () => {
+  //         allProjects.forEach(p => {
+  //           p.parentElement.style.display = 'block';
+  //         });
+
+  //         gsap.to(allProjects, {
+  //           opacity: 1,
+  //           scale: 1,
+  //           filter: 'blur(0px)',
+  //           duration: 0.5,
+  //           stagger: 0.05,
+  //           ease: 'power2.out'
+  //         });
+  //       }
+  //     });
+  //   }
+  // }
 });
 
-// Enhanced project detail animations
-function animateProjectDetails(show, projectId) {
-  const details = document.querySelector('.project-details');
-  const allProjects = document.querySelectorAll('.project-item');
-  const targetProject = document.getElementById(projectId);
-  
-  if (show) {
-    // Hide other projects with stagger
-    gsap.to(allProjects, {
-      opacity: 0,
-      scale: 0.8,
-      filter: 'blur(10px)',
-      duration: 0.5,
-      stagger: 0.05,
-      ease: 'power2.in',
-      onComplete: () => {
-        allProjects.forEach(p => {
-          if (p.id !== projectId) {
-            p.parentElement.style.display = 'none';
-          }
-        });
-      }
-    });
-    
-    // Animate selected project
-    gsap.to(targetProject, {
-      scale: 1.1,
-      duration: 0.5,
-      ease: 'power2.out',
-      onComplete: () => {
-        gsap.to(details, {
-          opacity: 1,
-          maxHeight: '2000px',
-          duration: 0.8,
-          ease: 'power3.inOut'
-        });
-      }
-    });
-  } else {
-    // Reverse animation
-    gsap.to(details, {
-      opacity: 0,
-      maxHeight: 0,
-      duration: 0.5,
-      ease: 'power3.inOut',
-      onComplete: () => {
-        allProjects.forEach(p => {
-          p.parentElement.style.display = 'block';
-        });
-        
-        gsap.to(allProjects, {
-          opacity: 1,
-          scale: 1,
-          filter: 'blur(0px)',
-          duration: 0.5,
-          stagger: 0.05,
-          ease: 'power2.out'
-        });
-      }
-    });
-  }
-}
+// Ensure all ScrollTriggers are refreshed after full page load
+window.addEventListener('load', () => {
+  ScrollTrigger.refresh();
+});
