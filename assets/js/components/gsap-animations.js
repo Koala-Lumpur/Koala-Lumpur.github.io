@@ -364,7 +364,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Enhanced Contact Section Animations
   ScrollTrigger.create({
     trigger: '#contact',
-    start: 'top 80%',
+    start: 'top bottom',  // Changed from 'top 80%' to start earlier
     onEnter: () => {
       // Title with wave effect
       gsap.fromTo('#contact h2',
@@ -400,47 +400,72 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       );
 
-      // Social buttons initial animation with sequential fade and scale bounce
-      gsap.utils.toArray('.social-buttons a').forEach((button, index) => {
-        const tl = gsap.timeline({delay: 0.8 + index * 0.2});
-        tl.fromTo(button, 
-          {opacity: 0, scale: 0},
-          {opacity: 1, scale: 0.8, duration: 0.3, ease: 'power1.out'}
-        ).to(button, 
-          {scale: 1, duration: 0.3, ease: 'back.out(1.7)'}
-        );
+      // Social buttons entrance: proper fade + bounce, with stagger
+      let initialComplete = false;
+      const buttons = gsap.utils.toArray('.social-buttons a');
+
+      const initialTl = gsap.timeline({
+        onComplete: () => {
+          initialComplete = true;
+          attachHoverListeners();
+        }
       });
 
-      // Social Buttons Hover Animation with enhanced effects and micro-interaction
-      gsap.utils.toArray(".social-buttons a").forEach(button => {
-        button.addEventListener("mouseenter", () => {
-          const hoverTl = gsap.timeline();
-          hoverTl.to(button, {
-            scale: 1.15,
-            duration: 0.1,
-            ease: "power1.inOut"
-          }).to(button, {
-            scale: 1.1,
-            rotation: 10,
-            y: -5,
-            boxShadow: '0 8px 16px var(--shadow-sm)',
-            filter: 'brightness(1.1)',
-            duration: 0.1,
-            ease: "power1.inOut"
+      // FIX: Use fromTo to animate from opacity:0 to opacity:1
+      initialTl.fromTo(buttons,
+        { // from state
+          opacity: 0,
+          scale: 0,
+        },
+        { // to state
+          opacity: 1,
+          scale: 1,
+          duration: 0.8,  // Balanced duration
+          ease: 'back.out(1.7)',
+          stagger: 0.2,   // Slightly increased stagger
+          immediateRender: true  // Force initial render
+        }
+      );
+
+      // Function to attach hover listeners after initial animation
+      function attachHoverListeners() {
+        buttons.forEach(button => {
+          button.addEventListener("mouseenter", () => {
+            if (!initialComplete) return;
+            const hoverTl = gsap.timeline();
+            hoverTl
+              .to(button, {
+                scale: 1.15,
+                duration: 0.1,
+                ease: "power1.inOut",
+                overwrite: 'auto'
+              })
+              .to(button, {
+                scale: 1.1,
+                rotation: 10,
+                y: -5,
+                boxShadow: '0 8px 16px var(--shadow-sm)',
+                filter: 'brightness(1.1)',
+                duration: 0.1,
+                ease: "power1.inOut",
+                overwrite: 'auto'
+              });
+          });
+
+          button.addEventListener("mouseleave", () => {
+            gsap.to(button, {
+              scale: 1,
+              rotation: 0,
+              y: 0,
+              boxShadow: 'none',
+              filter: 'brightness(1)',
+              duration: 0.2,
+              ease: "power1.inOut",
+              overwrite: 'auto'
+            });
           });
         });
-        button.addEventListener("mouseleave", () => {
-          gsap.to(button, {
-            scale: 1,
-            rotation: 0,
-            y: 0,
-            boxShadow: 'none',
-            filter: 'brightness(1)',
-            duration: 0.2,
-            ease: "power1.inOut"
-          });
-        });
-      });
+      }
     },
     once: true
   });
@@ -490,7 +515,13 @@ document.addEventListener('DOMContentLoaded', function() {
   
 
   // Magnetic effect for all buttons and links except social buttons
-  const magneticElements = document.querySelectorAll('.btn:not(.btn-social), a:not(.btn-social)');
+  // FIX: Properly exclude social buttons by filtering candidates
+  const magneticCandidates = document.querySelectorAll('a, .btn');
+  const magneticElements = Array.from(magneticCandidates).filter(elem =>
+    !elem.classList.contains('btn-social') &&
+    !elem.classList.contains('btn-social-icon') &&
+    !elem.closest('.social-buttons')
+  );
   
   magneticElements.forEach(elem => {
     elem.addEventListener('mousemove', (e) => {
