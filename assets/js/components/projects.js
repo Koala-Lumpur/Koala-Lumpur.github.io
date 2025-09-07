@@ -404,13 +404,15 @@ gsap.set(desc[0].querySelectorAll('.skills-list li'), {
 gsap.fromTo(details, {
   opacity: 0,
   scale: 0.8,
-  y: 50
+  y: 50,
+  boxShadow: '0 0 0px 0px rgba(74, 158, 255, 0)'
 }, {
   opacity: 1,
   scale: 1,
   y: 0,
   duration: 0.5,
   ease: 'back.out(1.7)',
+  boxShadow: '0 0 40px -10px rgba(74, 158, 255, 0.7)',
   onComplete: () => {
     // Animate inner content without delay for earlier start
 const contentTimeline = gsap.timeline({delay: 0});
@@ -488,10 +490,11 @@ contentTimeline.then(() => {
   opacity: 0,
   scale: 0.8,
   y: 100,
+  boxShadow: '0 0 0px 0px rgba(74, 158, 255, 0)',
   duration: 0.5,
   ease: 'power3.in',
   onComplete: () => {
-    gsap.set('.project-details', { clearProps: 'transform' });
+    gsap.set('.project-details', { clearProps: 'transform,boxShadow' });
         $('.project-details').removeClass('active');
         
         // Reset all projects for animation

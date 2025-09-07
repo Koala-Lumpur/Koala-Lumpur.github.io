@@ -123,14 +123,14 @@
 /* Project Details */
 .project-details {
   background: var(--bg-surface);
-  border: 1px solid var(--border-color);
   border-radius: 8px;
   margin-top: 0;
   max-height: 0;
   overflow: hidden;
   opacity: 0;
-  padding: 0;
+  padding: 2rem; /* Keep padding for content layout */
   position: relative;
+  will-change: box-shadow, opacity, transform;
   /* Removed transition - will use GSAP if needed */
 }
 
@@ -138,7 +138,6 @@
   max-height: none; /* Allow unlimited height */
   overflow: visible;
   opacity: 1;
-  padding: 2rem;
   margin-top: 1rem;
 }
 
