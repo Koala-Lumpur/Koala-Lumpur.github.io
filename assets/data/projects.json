@@ -1,6 +1,20 @@
 {
   "projects": [
     {
+      "id": "placeholder",
+      "title": "New Important Project",
+      "thumbnail": "assets/img/projects/placeholder/placeholder.jpg",
+      "description": "This is a placeholder for the new most important project. Add your details here.",
+      "fullDescription": "This is a placeholder for the new most important project. Add your details here.",
+      "technologies": ["Technology 1", "Technology 2"],
+      "images": [
+        "assets/img/projects/placeholder/placeholder1.png"
+      ],
+      "links": {
+        "github": "https://github.com/placeholder"
+      }
+    },
+    {
       "id": "tectonicus",
       "title": "Tectonicus: On the Edge of War",
       "thumbnail": "assets/img/projects/tectonicus/Tectonicus_1.jpg",

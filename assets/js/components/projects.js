@@ -50,10 +50,12 @@ class ProjectGallery {
     if (!projectGrid) return;
 
     projectGrid.innerHTML = this.projects.map((project, index) => `
-      <div class="project-item" data-project-id="${index}">
-        <img src="${project.thumbnail}" alt="${project.title}" class="project-image">
-        <div class="project-overlay">
-          <h3 class="project-title">${project.title}</h3>
+      <div class="project-item-container">
+        <div class="project-item" data-project-id="${index}">
+          <img src="${project.thumbnail}" alt="${project.title}" class="project-image">
+          <div class="project-overlay">
+            <h3 class="project-title">${project.title}</h3>
+          </div>
         </div>
       </div>
     `).join('');

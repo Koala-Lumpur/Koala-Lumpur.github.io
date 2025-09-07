@@ -101,6 +101,15 @@
       
       <!-- Project Grid -->
       <div class="project-grid">
+        <!-- Project 0: Placeholder -->
+        <div class="project-item-container">
+          <div name="projectDiv" class="project-item" id="project0">
+            <div class="toggle-item">
+              <img name="projectImg" src="assets/img/projects/placeholder/placeholder.jpg" alt="New Important Project" class="project-image" id="proj0">
+              <p name="projectTitle" class="project-overlay" id="fittext0">New Important Project</p>
+            </div>
+          </div>
+        </div>
         <!-- Project 1: Tectonicus -->
         <div class="project-item-container">
           <div name="projectDiv" class="project-item" id="project1">
@@ -157,6 +166,38 @@
         <button type="button" class="close close-item close-button" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
+        <!-- Placeholder Details -->
+        <div name="projDesc" class="collapse" id="proj0Desc">
+          <div class="card card-body">
+            <div name="projectCarousel" id="proj0Carousel" class="carousel slide project-carousel mb-4">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img class="d-block w-100" src="assets/img/projects/placeholder/placeholder1.png" alt="First slide">
+                </div>
+                // Add more carousel items as needed
+              </div>
+              // Carousel controls...
+            </div>
+            <h2 class="text-center py-4">New Important Project</h2>
+            <div class="row">
+              <div class="col-lg" style="margin-right: 50px; margin-left: 50px">
+                <h6>Description</h6>
+                <p>This is a placeholder for the new most important project. Add your details here.</p>
+              </div>
+              <div class="col-md col-lg" style="margin-right: 50px; margin-left: 50px">
+                <h6>Technologies</h6>
+                <ul class="skills-list">
+                  <li>Technology 1</li>
+                  <li>Technology 2</li>
+                </ul>
+                <a class="btn btn-block btn-social btn-github" style="color:white;" href="https://github.com/placeholder" target="_blank">
+                  <span class="fa fa-github" style="color:white"></span> View source on Github
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Tectonicus Details -->
         <div name="projDesc" class="collapse" id="proj1Desc">
           <div class="card card-body">
