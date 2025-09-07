@@ -345,7 +345,7 @@ expandProject(projectIndex) {
           let wasHidden = true;
           let originalTransition;
           if (project.description) {
-            const descId = `#proj${projectIndex + 1}Desc`;
+            const descId = `#proj${projectIndex}Desc`;
             desc = $(descId);
             wasHidden = !desc.hasClass('show');
             originalTransition = desc[0].style.transition;
@@ -474,7 +474,7 @@ contentTimeline.then(() => {
   showAllProjects() {
     // Pause all videos in current project
     if (this.currentProject !== null) {
-      const currentDesc = document.querySelector(`#proj${this.currentProject + 1}Desc`);
+      const currentDesc = document.querySelector(`#proj${this.currentProject}Desc`);
       if (currentDesc) {
         this.pauseAllVideosInDesc(currentDesc);
       }
