@@ -267,7 +267,7 @@ document.addEventListener('DOMContentLoaded', function() {
             duration: 0.8,
             stagger: {
               each: 0.1,
-              from: 'center',
+              from: 'start',
               grid: 'auto'
             },
             ease: 'expo.out',
