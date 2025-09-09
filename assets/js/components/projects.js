@@ -412,7 +412,7 @@ gsap.fromTo(details, {
   y: 0,
   duration: 0.5,
   ease: 'back.out(1.7)',
-  boxShadow: '0 0 40px -10px rgba(74, 158, 255, 0.7)',
+  boxShadow: '0 0 10px rgba(74, 158, 255, 0.4), 0 0 20px rgba(74, 158, 255, 0.3), 0 0 40px rgba(74, 158, 255, 0.2)',
   onComplete: () => {
     // Animate inner content without delay for earlier start
 const contentTimeline = gsap.timeline({delay: 0});
