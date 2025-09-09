@@ -3,12 +3,12 @@
     {
       "id": "replay-football",
       "title": "Replay Football",
-      "thumbnail": "assets/img/projects/placeholder/placeholder.jpg",
+      "thumbnail": "assets/img/projects/replay-football/replay_1.png",
       "description": "This is a placeholder for the new most important project. Add your details here.",
       "fullDescription": "This is a placeholder for the new most important project. Add your details here.",
-      "technologies": ["Technology 1", "Technology 2"],
+      "technologies": ["Unity", "Blender"],
       "images": [
-        "assets/img/projects/placeholder/placeholder1.png"
+        "replay_1.png"
       ],
       "links": {
         "github": "https://github.com/placeholder"
