@@ -70,14 +70,13 @@ class ProjectGallery {
   setupEventListeners() {
     // Click handler for project containers
     document.addEventListener('click', (e) => {
-      // Check if clicked on a project item or its children
-      const projectItem = e.target.closest('.project-item');
-      if (projectItem && projectItem.dataset.animationComplete === 'true') {
-        // Find which project was clicked by checking the parent container
-        const container = projectItem.closest('.project-item-container');
-        if (container) {
+      // Check if clicked on a project item container or its children
+      const projectContainer = e.target.closest('.project-item-container');
+      if (projectContainer) {
+        const projectItem = projectContainer.querySelector('.project-item');
+        if (projectItem && projectItem.dataset.animationComplete === 'true') {
           const allContainers = Array.from(document.querySelectorAll('.project-item-container'));
-          const projectIndex = allContainers.indexOf(container);
+          const projectIndex = allContainers.indexOf(projectContainer);
           if (projectIndex !== -1) {
             console.log('Clicked project:', projectIndex);
             this.expandProject(projectIndex);

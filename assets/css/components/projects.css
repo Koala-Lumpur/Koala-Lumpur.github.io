@@ -39,8 +39,7 @@
 
 
 /* Inner content optimization for 3D effect */
-.project-item .toggle-item {
-  position: relative;
+.project-item {
   backface-visibility: hidden;
 }
 
