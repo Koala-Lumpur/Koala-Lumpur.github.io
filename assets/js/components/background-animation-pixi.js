@@ -20,15 +20,20 @@ function initBackgroundAnimation() {
   // Skills array
   const skills = [
     'C#', 'C++', 'Java', 'Python', 'JavaScript', 
-    'HTML', 'CSS', 'PHP', 'MATLAB', 
+    'HTML', 'CSS', 'PHP', 'MATLAB', 'TypeScript',
+    'Next.js', 'SQL', 'Azure', 'AWS',
     'Unity', 'Unreal Engine', 'Git', 
     'React', 'Node.js', 'SQL',
-    'Game Development', 'AI/ML', 'VR/AR'
+    'Game Development', 'AI/ML', 'VR/AR',
+    'Scrum', 'LLM', 'Agile', 'Jira', 'Trello',
+    'Notion', 'Figma', 'Photoshop', 'Android',
+    'Photon', 'Netcode for GameObjects', 
+    'Flatbuffers', 'JSON', 'CSV', 'UDP', 'TCP'
   ];
 
   // Configuration
   const config = {
-    skillCount: 60,
+    skillCount: 100,
     minFontSize: 14,
     maxFontSize: 24,
     minOpacity: 0.4,
