@@ -432,24 +432,16 @@ document.addEventListener('DOMContentLoaded', function() {
         buttons.forEach(button => {
           button.addEventListener("mouseenter", () => {
             if (!initialComplete) return;
-            const hoverTl = gsap.timeline();
-            hoverTl
-              .to(button, {
-                scale: 1.15,
-                duration: 0.1,
-                ease: "power1.inOut",
-                overwrite: 'auto'
-              })
-              .to(button, {
-                scale: 1.1,
-                rotation: 10,
-                y: -5,
-                boxShadow: '0 8px 16px var(--shadow-sm)',
-                filter: 'brightness(1.1)',
-                duration: 0.1,
-                ease: "power1.inOut",
-                overwrite: 'auto'
-              });
+            gsap.to(button, {
+              scale: 1.1,
+              rotation: 10,
+              y: -5,
+              boxShadow: '0 8px 16px var(--shadow-sm)',
+              filter: 'brightness(1.1)',
+              duration: 0.2,
+              ease: "power2.out",
+              overwrite: true
+            });
           });
 
           button.addEventListener("mouseleave", () => {
@@ -461,7 +453,7 @@ document.addEventListener('DOMContentLoaded', function() {
               filter: 'brightness(1)',
               duration: 0.2,
               ease: "power1.inOut",
-              overwrite: 'auto'
+              overwrite: true
             });
           });
         });
