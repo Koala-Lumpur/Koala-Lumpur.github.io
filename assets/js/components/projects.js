@@ -24,25 +24,9 @@ class ProjectGallery {
   }
 
   async loadProjects() {
-    // Check if we're running locally (file:// protocol)
-    const isLocal = window.location.protocol === 'file:';
-    
-    // Skip fetch entirely for local files and use existing HTML
-    if (isLocal) {
-      this.setupExistingProjects();
-      return;
-    }
-    
-    try {
-      const response = await fetch('/assets/data/projects.json');
-      const data = await response.json();
-      this.projects = data.projects;
-      this.renderProjects();
-    } catch (error) {
-      console.error('Error loading projects:', error);
-      // Fallback to render projects from existing HTML if JSON fails
-      this.setupExistingProjects();
-    }
+    // Always setup from existing HTML to ensure consistency across environments.
+    // The dynamic loading from JSON was incomplete and causing issues.
+    this.setupExistingProjects();
   }
 
   renderProjects() {
