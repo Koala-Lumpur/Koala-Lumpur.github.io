@@ -24,8 +24,6 @@ class ProjectGallery {
   }
 
   async loadProjects() {
-    // Always setup from existing HTML to ensure consistency across environments.
-    // The dynamic loading from JSON was incomplete and causing issues.
     this.setupExistingProjects();
   }
 

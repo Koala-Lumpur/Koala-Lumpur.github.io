@@ -1,22 +1,24 @@
-/*!	
-* FitText.js 1.0 jQuery free version
+/*!
+* FitText.js 1.0.1 jQuery free version
 *
-* Copyright 2011, Dave Rupert http://daverupert.com 
-* Released under the WTFPL license 
+* Copyright 2011, Dave Rupert http://daverupert.com
+* Released under the WTFPL license
 * http://sam.zoy.org/wtfpl/
 * Modified by Slawomir Kolodziej http://slawekk.info
 *
 * Date: Tue Aug 09 2011 10:45:54 GMT+0200 (CEST)
+*
+* Added robustness for fullscreen changes.
 */
 (function(){
 
   var addEvent = function (el, type, fn) {
     if (el.addEventListener)
       el.addEventListener(type, fn, false);
-		else
-			el.attachEvent('on'+type, fn);
+    else
+      el.attachEvent('on'+type, fn);
   };
-  
+
   var extend = function(obj,ext){
     for(var key in ext)
       if(ext.hasOwnProperty(key))
@@ -27,7 +29,7 @@
   window.fitText = function (el, kompressor, options) {
 
     var settings = extend({
-      'minFontSize' : -1/0,
+      'minFontSize' : 0, // Set a sane default
       'maxFontSize' : 1/0
     },options);
 
@@ -35,17 +37,25 @@
       var compressor = kompressor || 1;
 
       var resizer = function () {
-        el.style.fontSize = Math.max(Math.min(el.clientWidth / (compressor*10), parseFloat(settings.maxFontSize)), parseFloat(settings.minFontSize)) + 'px';
+        // Debounce or delay resizing slightly to wait for layout reflow
+        setTimeout(function() {
+          if (el.clientWidth > 0) {
+            el.style.fontSize = Math.max(Math.min(el.clientWidth / (compressor*10), parseFloat(settings.maxFontSize)), parseFloat(settings.minFontSize)) + 'px';
+          }
+        }, 50); // 50ms delay
       };
 
       // Call once to set.
       resizer();
 
       // Bind events
-      // If you have any js library which support Events, replace this part
-      // and remove addEvent function (or use original jQuery version)
       addEvent(window, 'resize', resizer);
       addEvent(window, 'orientationchange', resizer);
+      // Add fullscreen change event
+      addEvent(document, 'fullscreenchange', resizer);
+      addEvent(document, 'webkitfullscreenchange', resizer);
+      addEvent(document, 'mozfullscreenchange', resizer);
+      addEvent(document, 'MSFullscreenChange', resizer);
     };
 
     if (el.length)
