@@ -17,6 +17,8 @@ function initBackgroundAnimation() {
     forceCanvas: false
   });
 
+  app.renderer.view.style.touchAction = 'auto';
+
   // Skills array
   const skills = [
     'C#', 'C++', 'Java', 'Python', 'JavaScript', 
@@ -333,38 +335,6 @@ function initBackgroundAnimation() {
   app.stage.interactive = true;
   app.stage.hitArea = new PIXI.Rectangle(0, 0, app.screen.width, app.screen.height);
 
-  app.stage.on('pointermove', (event) => {
-    // Get position relative to the canvas
-    const rect = canvas.getBoundingClientRect();
-    const x = event.data.global.x;
-    const y = event.data.global.y;
-    mousePosition = { x, y };
-    
-    if (!mouseDown) {
-      // Reset all scales first
-      floatingSkills.forEach(skill => skill.text.scale.set(1));
-      
-      const nearbySkills = getSkillsNearPoint(mousePosition, 150);
-      nearbySkills.forEach(skill => {
-        const dx = skill.text.x - mousePosition.x;
-        const dy = skill.text.y - mousePosition.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        
-        if (distance > 0) {
-          skill.text.x += (dx / distance) * 8; // Increased repulsion from 5 to 8
-          skill.text.y += (dy / distance) * 8;
-          
-          // Add subtle scale effect on hover
-          skill.text.scale.set(1.1);
-        }
-      });
-    }
-  });
-
-  app.stage.on('pointerdown', () => {
-    mouseDown = true;
-  });
-
   const handlePointerUp = () => {
     if (!mouseDown) return; // Only process if mouse was actually down
     
@@ -392,11 +362,96 @@ function initBackgroundAnimation() {
     });
   };
 
-  app.stage.on('pointerup', handlePointerUp);
-  
-  // Also listen for mouse up on window to catch releases outside canvas
-  window.addEventListener('mouseup', handlePointerUp);
-  window.addEventListener('touchend', handlePointerUp);
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+  if (isMobile) {
+    let touchStartTime = 0;
+    let touchStartPos = { x: 0, y: 0 };
+    let isInteracting = false;
+    let longPressTimeout;
+
+    app.stage.on('touchstart', (event) => {
+      touchStartTime = Date.now();
+      touchStartPos = { x: event.data.global.x, y: event.data.global.y };
+      isInteracting = false;
+
+      longPressTimeout = setTimeout(() => {
+        isInteracting = true;
+        mouseDown = true;
+        mousePosition = { ...touchStartPos }; // Start interaction at the initial touch point
+      }, 150); // 150ms for a long press
+    });
+
+    app.stage.on('touchmove', (event) => {
+      if (longPressTimeout) {
+        const dx = event.data.global.x - touchStartPos.x;
+        const dy = event.data.global.y - touchStartPos.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance > 10) { // If finger moves more than 10px, it's a scroll
+          clearTimeout(longPressTimeout);
+          longPressTimeout = null;
+        }
+      }
+
+      if (isInteracting) {
+        // If in interaction mode, update mouse position
+        mousePosition = { x: event.data.global.x, y: event.data.global.y };
+      }
+    });
+
+    const handleTouchEnd = () => {
+        clearTimeout(longPressTimeout);
+        longPressTimeout = null;
+
+        if (isInteracting) {
+            handlePointerUp();
+            isInteracting = false;
+        }
+    };
+
+    app.stage.on('touchend', handleTouchEnd);
+    app.stage.on('touchendoutside', handleTouchEnd);
+
+  } else {
+    // Original mouse event handlers for desktop
+    app.stage.on('pointermove', (event) => {
+      // Get position relative to the canvas
+      const rect = canvas.getBoundingClientRect();
+      const x = event.data.global.x;
+      const y = event.data.global.y;
+      mousePosition = { x, y };
+      
+      if (!mouseDown) {
+        // Reset all scales first
+        floatingSkills.forEach(skill => skill.text.scale.set(1));
+        
+        const nearbySkills = getSkillsNearPoint(mousePosition, 150);
+        nearbySkills.forEach(skill => {
+          const dx = skill.text.x - mousePosition.x;
+          const dy = skill.text.y - mousePosition.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          
+          if (distance > 0) {
+            skill.text.x += (dx / distance) * 8; // Increased repulsion from 5 to 8
+            skill.text.y += (dy / distance) * 8;
+            
+            // Add subtle scale effect on hover
+            skill.text.scale.set(1.1);
+          }
+        });
+      }
+    });
+
+    app.stage.on('pointerdown', () => {
+      mouseDown = true;
+    });
+
+    app.stage.on('pointerup', handlePointerUp);
+    
+    // Also listen for mouse up on window to catch releases outside canvas
+    window.addEventListener('mouseup', handlePointerUp);
+  }
   
   // Handle mouse leaving the hero area
   const heroContainer = document.querySelector('.hero-container');
