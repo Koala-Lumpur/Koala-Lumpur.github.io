@@ -378,7 +378,8 @@ function initBackgroundAnimation() {
       longPressTimeout = setTimeout(() => {
         isInteracting = true;
         mouseDown = true;
-        mousePosition = { ...touchStartPos }; // Start interaction at the initial touch point
+        mousePosition = { ...touchStartPos };
+        app.renderer.view.style.touchAction = 'none';
       }, 150); // 150ms for a long press
     });
 
@@ -403,6 +404,7 @@ function initBackgroundAnimation() {
     const handleTouchEnd = () => {
         clearTimeout(longPressTimeout);
         longPressTimeout = null;
+        app.renderer.view.style.touchAction = 'auto';
 
         if (isInteracting) {
             handlePointerUp();
