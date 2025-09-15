@@ -365,14 +365,15 @@ function initBackgroundAnimation() {
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
   if (isMobile) {
-    let touchStartTime = 0;
     let touchStartPos = { x: 0, y: 0 };
+    let touchStartTime = 0;
+    let longPressTimeout = null;
     let isInteracting = false;
-    let longPressTimeout;
 
-    app.stage.on('touchstart', (event) => {
+    app.view.addEventListener('touchstart', (e) => {
+      const touch = e.touches[0];
+      touchStartPos = { x: touch.clientX, y: touch.clientY };
       touchStartTime = Date.now();
-      touchStartPos = { x: event.data.global.x, y: event.data.global.y };
       isInteracting = false;
 
       longPressTimeout = setTimeout(() => {
@@ -380,81 +381,76 @@ function initBackgroundAnimation() {
         mouseDown = true;
         mousePosition = { ...touchStartPos };
         app.renderer.view.style.touchAction = 'none';
-      }, 150); // 150ms for a long press
+      }, 200); // 200ms threshold for long press
     });
 
-    app.stage.on('touchmove', (event) => {
-      if (longPressTimeout) {
-        const dx = event.data.global.x - touchStartPos.x;
-        const dy = event.data.global.y - touchStartPos.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-
-        if (distance > 10) { // If finger moves more than 10px, it's a scroll
-          clearTimeout(longPressTimeout);
-          longPressTimeout = null;
-        }
+    app.view.addEventListener('touchmove', (e) => {
+      if (isInteracting) {
+        const touch = e.touches[0];
+        mousePosition = { x: touch.clientX, y: touch.clientY };
+        e.preventDefault();
+        return;
       }
 
-      if (isInteracting) {
-        // If in interaction mode, update mouse position
-        mousePosition = { x: event.data.global.x, y: event.data.global.y };
+      if (!longPressTimeout) {
+        return; // Scrolling or interaction already decided
+      }
+
+      const touch = e.touches[0];
+      const distance = Math.sqrt(
+        Math.pow(touch.clientX - touchStartPos.x, 2) +
+        Math.pow(touch.clientY - touchStartPos.y, 2)
+      );
+
+      if (distance > 10) { // Threshold for scrolling
+        clearTimeout(longPressTimeout);
+        longPressTimeout = null;
       }
     });
 
     const handleTouchEnd = () => {
-        clearTimeout(longPressTimeout);
-        longPressTimeout = null;
-        app.renderer.view.style.touchAction = 'auto';
-
-        if (isInteracting) {
-            handlePointerUp();
-            isInteracting = false;
-        }
+      clearTimeout(longPressTimeout);
+      if (isInteracting) {
+        handlePointerUp();
+        isInteracting = false;
+        mouseDown = false;
+      }
+      app.renderer.view.style.touchAction = 'auto';
     };
 
-    app.stage.on('touchend', handleTouchEnd);
-    app.stage.on('touchendoutside', handleTouchEnd);
+    app.view.addEventListener('touchend', handleTouchEnd);
+    app.view.addEventListener('touchcancel', handleTouchEnd);
 
   } else {
     // Original mouse event handlers for desktop
     app.stage.on('pointermove', (event) => {
-      // Get position relative to the canvas
-      const rect = canvas.getBoundingClientRect();
-      const x = event.data.global.x;
-      const y = event.data.global.y;
-      mousePosition = { x, y };
-      
+      mousePosition = { x: event.data.global.x, y: event.data.global.y };
+
       if (!mouseDown) {
-        // Reset all scales first
         floatingSkills.forEach(skill => skill.text.scale.set(1));
-        
         const nearbySkills = getSkillsNearPoint(mousePosition, 150);
         nearbySkills.forEach(skill => {
           const dx = skill.text.x - mousePosition.x;
           const dy = skill.text.y - mousePosition.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
-          
           if (distance > 0) {
-            skill.text.x += (dx / distance) * 8; // Increased repulsion from 5 to 8
+            skill.text.x += (dx / distance) * 8;
             skill.text.y += (dy / distance) * 8;
-            
-            // Add subtle scale effect on hover
             skill.text.scale.set(1.1);
           }
         });
       }
     });
 
-    app.stage.on('pointerdown', () => {
+    app.stage.on('pointerdown', (event) => {
       mouseDown = true;
+      mousePosition = { x: event.data.global.x, y: event.data.global.y };
     });
 
     app.stage.on('pointerup', handlePointerUp);
-    
-    // Also listen for mouse up on window to catch releases outside canvas
     window.addEventListener('mouseup', handlePointerUp);
   }
-  
+
   // Handle mouse leaving the hero area
   const heroContainer = document.querySelector('.hero-container');
   if (heroContainer) {
@@ -464,7 +460,7 @@ function initBackgroundAnimation() {
       }
     });
   }
-
+  
   // Handle canvas resize
   const resizeObserver = new ResizeObserver(entries => {
     for (let entry of entries) {
