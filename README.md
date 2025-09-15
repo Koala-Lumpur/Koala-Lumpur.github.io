@@ -1,35 +1,17 @@
-# Rasmus Nielsen Portfolio
+# Rasmus Nielsen's Portfolio
 
-Personal portfolio website showcasing my work as a programmer and game developer.
+Welcome to my little corner of the internet! This is my personal portfolio, where I showcase my journey as an interactive experience developer. I love creating engaging and fun user experiences, and this website is a reflection of that passion.
 
-## Structure
-
-```
-/
-├── index.html          # Main portfolio page
-├── assets/             # All static assets
-│   ├── css/           # Stylesheets
-│   │   ├── main.css   # Main styles
-│   │   ├── components/# Component-specific styles
-│   │   └── vendor/    # Third-party CSS
-│   ├── js/            # JavaScript files
-│   │   ├── main.js    # Main script entry
-│   │   ├── components/# Feature-specific scripts
-│   │   └── vendor/    # Third-party scripts
-│   ├── img/           # Images
-│   │   └── projects/  # Project screenshots organized by project
-│   └── data/          # JSON data files
-│       └── projects.json # Project information
-└── Paper/             # Paper.js library files
-```
+This site is built from scratch and is a project in itself, designed to be a living showcase of my skills. Feel free to explore my projects, check out the code, and get in touch!
 
 ## Features
 
-- Interactive particle background animation
-- Responsive project gallery with carousels
-- Smooth scrolling navigation
-- Mobile-friendly design
-- Organized, modular code structure
+- Interactive background animation with floating skills powered by Pixi.js.
+- Advanced animations and effects using GSAP (GreenSock Animation Platform).
+- A responsive project gallery with 3D tilt effects on project cards.
+- Detailed project view with image/video carousels.
+- Smooth scrolling and a sticky navigation bar.
+- Fully responsive and mobile-friendly design.
 
 ## Technologies Used
 
@@ -37,15 +19,6 @@ Personal portfolio website showcasing my work as a programmer and game developer
 - CSS3
 - JavaScript (ES6)
 - Bootstrap 4
-- Paper.js for animations
-- jQuery for DOM manipulation
-
-## Local Development
-
-1. Clone the repository
-2. Open `index.html` in a web browser
-3. For the JSON data loading to work properly, serve the files through a local web server
-
-## Deployment
-
-This site is designed to work with GitHub Pages. Simply push to the main branch and the site will be available at `https://[username].github.io`.
+- Pixi.js for the interactive background
+- GSAP for page animations
+- A touch of jQuery for Bootstrap components
