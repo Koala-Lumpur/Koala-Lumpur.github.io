@@ -61,6 +61,7 @@ body {
   transform: none !important; /* Prevent any transform inheritance */
   backface-visibility: hidden; /* Prevent rendering issues */
   z-index: 0; /* Base layer */
+  touch-action: pan-y; /* Allow vertical scrolling on touch devices */
 }
 
 /* Utility Classes */

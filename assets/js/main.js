@@ -46,3 +46,23 @@ window.addEventListener('scroll', function() {
     }
   }
 });
+
+// Handle canvas interaction during scroll
+let isScrolling;
+window.addEventListener('scroll', function() {
+  const canvas = document.getElementById('canvas');
+  if (canvas) {
+    // Disable pointer events on the canvas while scrolling
+    canvas.style.pointerEvents = 'none';
+  }
+  
+  // Clear the timeout if scrolling continues
+  window.clearTimeout(isScrolling);
+  
+  // Set a timeout to re-enable pointer events after scrolling has stopped
+  isScrolling = setTimeout(function() {
+    if (canvas) {
+      canvas.style.pointerEvents = 'auto';
+    }
+  }, 200); // 200ms delay after the last scroll event
+}, false);
