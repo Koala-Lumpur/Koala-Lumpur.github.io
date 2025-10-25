@@ -30,7 +30,10 @@ function initBackgroundAnimation() {
     'Scrum', 'LLM', 'Agile', 'Jira', 'Trello',
     'Notion', 'Figma', 'Photoshop', 'Android',
     'Photon', 'Netcode for GameObjects', 
-    'Flatbuffers', 'JSON', 'CSV', 'UDP', 'TCP'
+    'Flatbuffers', 'JSON', 'CSV', 'UDP', 'TCP',
+    'Expo', 'React Native', 'Docker', 'Tailwind',
+    'Leadership', 'Collaboration', 'Independence',
+    'AI', 'Machine Learning', 'Claude Code'
   ];
 
   // Configuration
